@@ -1,4 +1,5 @@
 ﻿using K_haku.Core.Movie.GetAll.Cuevana;
+using K_haku.Core.Movie.GetVideos.Cuevana;
 using System;
 
 namespace Test
@@ -8,7 +9,9 @@ namespace Test
         static void Main(string[] args)
         {
             CuevanaGetAllMovies cuevana = new();
-            cuevana.MovieList();
+            //cuevana.MovieList();
+            CuevanaGetAllVideos cuevanaVid = new();
+            cuevanaVid.MovieVideos("https://ww1.cuevana3.me/75/whiplash");
         }
     }
 }

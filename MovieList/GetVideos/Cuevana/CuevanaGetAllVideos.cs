@@ -1,4 +1,5 @@
-﻿using PuppeteerSharp;
+﻿using K_haku.Core.Application.ViewModels.Cuevana;
+using PuppeteerSharp;
 using ScrapySharp.Html;
 using ScrapySharp.Network;
 using System;
@@ -18,7 +19,7 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
         /// <param name="movieLinks"></param>
         /// <returns>Languages and Movie Links</returns>
 
-        public string[,] MovieVideos(string movieLink)
+        public List<CuevanaVideoViewModel> MovieVideos(string movieLink)
         {
             ScrapingBrowser browser = new ScrapingBrowser();
             List<string> language = new();
@@ -27,9 +28,24 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
 
             WebPage webPage = browser.NavigateToPage(new Uri(movieLink));
             var moviePage = webPage.Find("div", By.Class("video")).FirstOrDefault();
+            var languageList = moviePage.SelectNodes("//li[@class='open_submenu']/div[2]/ul/li");
 
+            List<CuevanaVideoViewModel> vm = languageList.Select(iLanguage => new CuevanaVideoViewModel
+            {
+                Language = iLanguage.SelectSingleNode("./span/span").InnerText.Substring(3),
+                Link = iLanguage.SelectSingleNode($"//div[@id='{iLanguage.SelectSingleNode(".").Attributes["data-tplayernv"].Value}']/iframe").Attributes["data-src"].Value,
+                Type = iLanguage.SelectSingleNode("./span/div").InnerText,
+            }).ToList();
+
+            CuevanaVideoViewModel trailer = new();
+            trailer.Language= "Unknow";
+            trailer.Link = moviePage.SelectSingleNode($"//div[@id='OptY']/iframe").Attributes["data-src"].Value;
+            trailer.Type = "Trailer";
+            vm.Add(trailer);
+
+            return vm;
             ///Get Languages
-            var languageList = moviePage.SelectNodes("//div[@class='_3CT5n_0 L6v6v_0']");
+            /*var languageList = moviePage.SelectNodes("//div[@class='_3CT5n_0 L6v6v_0']");
             foreach (var iLanguage in languageList)
             {
                 language.Add(iLanguage.InnerText);
@@ -64,7 +80,7 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
                 movieVideos[i, 1] = movieLinks[i];
                 o++;
             }
-            return movieVideos;
+            return movieVideos;*/
         }
 
         public async Task<List<string>> getSource(List<string> uri)
