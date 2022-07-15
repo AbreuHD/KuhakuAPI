@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movie.GetVideos.Cuevana
+namespace K_haku.Core.Movie.GetVideos.Cuevana
 {
+    //https://ww1.cuevana3.me/peliculas
     public class CuevanaGetAllVideos
     {
         /// <summary>

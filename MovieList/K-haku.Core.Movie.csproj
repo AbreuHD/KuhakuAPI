@@ -9,4 +9,8 @@
     <PackageReference Include="ScrapySharp" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\K-haku.Core.Application\K-haku.Core.Application.csproj" />
+  </ItemGroup>
+
 </Project>

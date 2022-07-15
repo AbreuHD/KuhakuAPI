@@ -1,4 +1,6 @@
-﻿using PuppeteerSharp;
+﻿using HtmlAgilityPack;
+using K_haku.Core.Application.ViewModels;
+using PuppeteerSharp;
 using ScrapySharp.Html;
 using ScrapySharp.Network;
 using System;
@@ -7,15 +9,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movie.GetAll.Cuevana
+namespace K_haku.Core.Movie.GetAll.Cuevana
 {
+    //https://ww1.cuevana3.me/peliculas
     public class CuevanaGetAllMovies
     {
         /// <summary>
-        /// Function to get all Movies of a single movie page of cuevana3.me
+        /// Function to get all Movies in cuevana3.me
         /// </summary>
-        /// <returns>Return all Movies</returns>
-        public List<string> MovieList()
+        /// <returns>Return MovieViewModel whit all Movies</returns>
+        public List<MovieViewModel> MovieList()
         {
             List<string> movieLinks = new();
             ScrapingBrowser browser = new ScrapingBrowser();
@@ -24,16 +27,35 @@ namespace Movie.GetAll.Cuevana
             //browser.UseDefaultCookiesParser = false;
 
             WebPage webPage = browser.NavigateToPage(new Uri("https://ww1.cuevana3.me/peliculas"));
-
-            var movieFather = webPage.Find("ul", By.Class("MovieList")).FirstOrDefault();
-            var movieList = movieFather.SelectNodes("//li[@class='xxx TPostMv']");
-            foreach (var movie in movieList)
+            var webPageCount = webPage.Find("nav", By.Class("navigation")).FirstOrDefault();
+            var movieWebPageCount = webPageCount.SelectSingleNode("//div/a[@class='page-link'][4]").InnerText;
+            
+            int i = 0;
+            List<HtmlNodeCollection> movieList = new();
+            while (i < Convert.ToInt16(movieWebPageCount))
             {
-                var Tittle = movie.SelectSingleNode("./div/a/h2");
-                var Links = movie.SelectSingleNode("./div/a/@href").Attributes["href"].Value;
-                movieLinks.Add(Links);
+                i++;
+                Console.WriteLine($"Cuevana Page {i}");
+                webPage = browser.NavigateToPage(new Uri("https://ww1.cuevana3.me/peliculas/page/" + i));
+                var movieFather = webPage.Find("ul", By.Class("MovieList")).FirstOrDefault();
+                movieList.Add(movieFather.SelectNodes("//li[@class='xxx TPostMv']"));
             }
-            return movieLinks;
+            
+            i = 0;
+            List<MovieViewModel> vm = new();
+            foreach (var moviePage in movieList)
+            {
+                i++;
+                Console.WriteLine($"Movie number {i} get");
+                vm.AddRange(moviePage.Select(movie => new MovieViewModel
+                {
+                    Title = movie.SelectSingleNode("./div/a/h2").InnerText,
+                    Photo = movie.SelectSingleNode("./div/a/div/figure/img/@src").Attributes["data-src"].Value,
+                    Link = movie.SelectSingleNode("./div/a/@href").Attributes["href"].Value,
+                    Age = movie.SelectSingleNode("./div/a/div/span").InnerText,
+                }).ToList());
+            }
+            return vm;
         }
     }
 }

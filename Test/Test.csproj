@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MovieList\Movie.csproj" />
+    <ProjectReference Include="..\MovieList\K-haku.Core.Movie.csproj" />
   </ItemGroup>
 
 </Project>
