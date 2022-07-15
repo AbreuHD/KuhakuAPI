@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using ScrapySharp.Extensions;
+using ScrapySharp.Html.Forms;
+using K_haku.Core.Application.Helpers;
 
 namespace K_haku.Core.Movie.GetVideos.Cuevana
 {
@@ -44,75 +48,40 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
             vm.Add(trailer);
 
             return vm;
-            ///Get Languages
-            /*var languageList = moviePage.SelectNodes("//div[@class='_3CT5n_0 L6v6v_0']");
-            foreach (var iLanguage in languageList)
-            {
-                language.Add(iLanguage.InnerText);
-            }
-
-            ///Get LanguagesInt
-            var languageIntList = moviePage.SelectNodes("//li[@class='open_submenu']/div[2]/ul");
-            foreach (var iLangueInt in languageIntList)
-            {
-                languageInt.Add(iLangueInt.ChildNodes.Count());
-            }
-
-            ///Get Movie Links
-            var movieList = moviePage.SelectNodes("//div[@class='TPlayerTb']");
-            foreach (var iMovies in movieList)
-            {
-                movieLinks.Add(iMovies.SelectSingleNode("./iframe").Attributes["data-src"].Value);
-            }
-
-            string[,] movieVideos = new string[movieLinks.Count, 2];
-
-            int indexLanguage = 0;
-            int o = 0;
-            for (int i = 0; i < movieLinks.Count; i++)
-            {
-                if (o >= languageInt[indexLanguage])
-                {
-                    o = 0;
-                    indexLanguage += 1;
-                }
-                movieVideos[i, 0] = language[indexLanguage];
-                movieVideos[i, 1] = movieLinks[i];
-                o++;
-            }
-            return movieVideos;*/
         }
 
-        public async Task<List<string>> getSource(List<string> uri)
+        public async Task<string> GetSource(CuevanaVideoViewModel vm)
         {
-            List<string> urls = new();
-            foreach (var item in uri)
+            if (vm.Type != null || vm.Type != "" || vm.Type != "Trailer")
             {
-                try
+
+                ScrapingBrowser browser = new ScrapingBrowser();
+                WebPage webPage = browser.NavigateToPage(new Uri($"https:{vm.Link}"));
+                var vid = webPage.Html;
+                var link = vid.SelectSingleNode("//a/@href").Attributes["href"].Value;
+                var videoStartPage = await browser.NavigateToPageAsync(new Uri($"https://apialfa.tomatomatela.com/ir/{link}"));
+                var form = videoStartPage.Find("form", By.Id("FbAns")).FirstOrDefault();
+
+                SendFormCuevana formCN = new();
+                HtmlDocument doc = new HtmlDocument();
+
+                int i = 0;
+                string dataFirst = "";
+                while (i != 1)
                 {
-                    ScrapingBrowser browser = new ScrapingBrowser();
-                    WebPage webPage = browser.NavigateToPage(new Uri(item));
-                    var vid = webPage.Html;
-                    var link = vid.SelectSingleNode("//a/@href").Attributes["href"].Value;
-                    //var bro = browser.NavigateToPage(new Uri($"https://apialfa.tomatomatela.com/ir/{link}"));
-
-                    using var browserFetcher = new BrowserFetcher();
-                    await browserFetcher.DownloadAsync();
-                    await using var browserHead = await Puppeteer.LaunchAsync(
-                        new LaunchOptions { Headless = true });
-
-                    await using var page = await browserHead.NewPageAsync();
-                    await page.GoToAsync($"https://apialfa.tomatomatela.com/ir/{link}");
-                    await page.WaitForNavigationAsync();
-                    await page.WaitForNavigationAsync();
-                    urls.Add(page.Url);
+                    var action = form.SelectSingleNode("//form").Attributes["action"].Value;
+                    var formData = form.SelectSingleNode("//form/input").Attributes["value"].Value;
+                    dataFirst = formCN.Send($"https://apialfa.tomatomatela.com/ir/{action}", $"{formData}");
+                    if (!(dataFirst.ToString()).Contains("!DOCTYPE")){
+                        i++;
+                    }
+                    doc.LoadHtml(dataFirst);
+                    form = doc.DocumentNode;
                 }
-                catch
-                {
-
-                }
+                return $"https://tomatomatela.com/details.php?v={dataFirst.Substring(1)}";
             }
-            return urls;
+
+            return "VIDEO ERROR";
         }
     }
 }
