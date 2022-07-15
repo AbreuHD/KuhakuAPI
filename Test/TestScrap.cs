@@ -14,17 +14,20 @@ namespace Test
             CuevanaGetAllMovies cuevana = new();
             //cuevana.MovieList();
             CuevanaGetAllVideos cuevanaVid = new();
-            List<CuevanaVideoViewModel> videolink = cuevanaVid.MovieVideos("https://ww1.cuevana3.me/58842/lightyear");
+            Console.WriteLine("Ingrese la url de la pelicula");
+            var url = Console.ReadLine();
+            List <CuevanaVideoViewModel> videolink = cuevanaVid.MovieVideos(url);
 
             foreach (CuevanaVideoViewModel video in videolink)
             {
-                if(video.Type.Length != 0 || video.Language != "Unknow")
+                try
                 {
                     string vidFinal = await cuevanaVid.GetSource(video);
                     Console.WriteLine(vidFinal);
                     Console.WriteLine("-----------------------------------------------------");
                     Console.WriteLine("");
                 }
+                catch (Exception ex) { }
             }
         }
     }

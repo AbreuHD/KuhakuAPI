@@ -52,7 +52,11 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
 
         public async Task<string> GetSource(CuevanaVideoViewModel vm)
         {
-            if (vm.Type != null || vm.Type != "" || vm.Type != "Trailer")
+            if (vm.Type == null || vm.Type == "" || vm.Type == "Trailer")
+            {
+            
+            }
+            else
             {
 
                 ScrapingBrowser browser = new ScrapingBrowser();
@@ -81,7 +85,7 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
                 return $"https://tomatomatela.com/details.php?v={dataFirst.Substring(1)}";
             }
 
-            return "VIDEO ERROR";
+            return "VIDEO NOT SUPPORTED";
         }
     }
 }
