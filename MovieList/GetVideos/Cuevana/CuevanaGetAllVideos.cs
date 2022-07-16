@@ -11,6 +11,7 @@ using HtmlAgilityPack;
 using ScrapySharp.Extensions;
 using ScrapySharp.Html.Forms;
 using K_haku.Core.Application.Helpers;
+using Newtonsoft.Json.Linq;
 
 namespace K_haku.Core.Movie.GetVideos.Cuevana
 {
@@ -61,13 +62,29 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
 
                 ScrapingBrowser browser = new ScrapingBrowser();
                 WebPage webPage = browser.NavigateToPage(new Uri($"https:{vm.Link}"));
+                SendFormCuevana formCN = new();
+                HtmlDocument doc = new HtmlDocument();
+
                 var vid = webPage.Html;
+                if (vm.Link.Contains("fembed"))
+                {
+                    var plater = (vid.SelectSingleNode("//div[@id='player1']").Attributes["onclick"].Value).Replace("location.href='", "").Replace("';", "");
+                    var fembed = await browser.NavigateToPageAsync(new Uri($"https://api.cuevana3.me/fembed/{plater}"));
+                    var getFunction = fembed.Html;
+                    var getF = getFunction.SelectSingleNode("//html/body/script").InnerText;
+                    var codeAPI = getF.Substring(getF.IndexOf(":"), getF.IndexOf("}")- (getF.IndexOf(":"))).Replace("\"", "").Replace(":","").Trim();
+                    string sendFembed = formCN.Send("https://api.cuevana3.me/fembed/api.php", codeAPI, "h");
+                    JObject json = JObject.Parse(sendFembed);
+                    Fembed fb = new();
+                    var returnData = fb.GetSource(json.Value<string>("url"));
+                    return returnData;
+                }
+
                 var link = vid.SelectSingleNode("//a/@href").Attributes["href"].Value;
                 var videoStartPage = await browser.NavigateToPageAsync(new Uri($"https://apialfa.tomatomatela.com/ir/{link}"));
                 var form = videoStartPage.Find("form", By.Id("FbAns")).FirstOrDefault();
 
-                SendFormCuevana formCN = new();
-                HtmlDocument doc = new HtmlDocument();
+
 
                 int i = 0;
                 string dataFirst = "";
@@ -75,7 +92,7 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
                 {
                     var action = form.SelectSingleNode("//form").Attributes["action"].Value;
                     var formData = form.SelectSingleNode("//form/input").Attributes["value"].Value;
-                    dataFirst = formCN.Send($"https://apialfa.tomatomatela.com/ir/{action}", $"{formData}");
+                    dataFirst = formCN.Send($"https://apialfa.tomatomatela.com/ir/{action}", $"{formData}&=", "url");
                     if (!(dataFirst.ToString()).Contains("!DOCTYPE")){
                         i++;
                     }
@@ -85,7 +102,7 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
                 return $"https://tomatomatela.com/details.php?v={dataFirst.Substring(1)}";
             }
 
-            return "VIDEO NOT SUPPORTED";
+            return $"VIDEO NOT SUPPORTED: {vm.Link}";
         }
     }
 }

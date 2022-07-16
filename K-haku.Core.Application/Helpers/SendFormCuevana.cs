@@ -11,14 +11,14 @@ namespace K_haku.Core.Application.Helpers
 {
     public class SendFormCuevana
     {
-        public string Send(string _url, string _code)
+        public string Send(string _url, string _code, string var)
         {
             var httpRequest = (HttpWebRequest)WebRequest.Create(_url);
             httpRequest.Method = "POST";
 
             httpRequest.ContentType = "application/x-www-form-urlencoded";
 
-            var data = $"url={_code}&=";
+            var data = $"{var}={_code}";
 
             using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
             {
