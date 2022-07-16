@@ -99,7 +99,9 @@ namespace K_haku.Core.Movie.GetVideos.Cuevana
                     doc.LoadHtml(dataFirst);
                     form = doc.DocumentNode;
                 }
-                return $"https://tomatomatela.com/details.php?v={dataFirst.Substring(1)}";
+                string doneGet = webPage.Browser.NavigateToPage(new Uri($"https://tomatomatela.com/details.php?v={dataFirst.Substring(1)}"));
+                JObject jsonR = JObject.Parse(doneGet);
+                return jsonR.Value<string>("file");
             }
 
             return $"VIDEO NOT SUPPORTED: {vm.Link}";
