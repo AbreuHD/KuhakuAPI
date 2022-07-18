@@ -5,9 +5,4 @@
     <RootNamespace>K_haku.Core.Domain</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Settings\" />
-  </ItemGroup>
-
 </Project>

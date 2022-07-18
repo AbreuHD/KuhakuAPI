@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SocialNetwork.Domain.Common
+namespace K_haku.Domain.Common
 {
     public class AuditableBaseEntity
     {
