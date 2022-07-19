@@ -1,34 +1,80 @@
-﻿@{
+﻿@model List<K_haku.Core.Application.ViewModels.ScrapPages.ScrapPagesInfoViewModel>
+@{
     ViewData["Title"] = "Web Scrapers";
 }
 
 <div class="container">
       <div class="offset-sm-11 offset-10 mb-4">
-        <button type="button" class="btn btn-lg btn-outline-success">Add</button>
+        <button type="button" class="btn btn-lg btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add</button>
       </div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          @if(Model.Any()){
+            @foreach (var page in Model) {
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                          <img src="@(page.Img)" width="100%" height="100%" class="rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">@(page.Title)</h5>
+                            <p class="card-text">@(page.Info)</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                </div>
+                                <small class="text-muted">@(page.LastScrap)</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              }
+          }
+      </div>
 
-        <div class="card mb-3" style="max-width: 540px;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="https://cloudfront-us-east-1.images.arcpublishing.com/gruporepublica/W3VZUXT72BCQNO3KPF72FXPHDI.jpg" width="100%" height="100%" class="rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Cuevana</h5>
-                <p class="card-text">Cuevana Movie Page</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                </div>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add Movie Scrap Page</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
+              <div class="modal-body">
+                <form method="post" asp-controller="Scrapers" asp-action="Add">
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" name="Title" placeholder="Movie Page Title">
+                      <label>Movie Page Title</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" name="Info" placeholder="Movie Page Info">
+                      <label>Movie Page Info</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="url" class="form-control" name="Img" placeholder="Movie Image">
+                      <label>Movie Page Image</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="url" class="form-control" name="PageUrl" placeholder="Movie Page URL">
+                      <label>Movie Page URL</label>
+                    </div>
+                    <div class="form-check mb-4">
+                      <input class="form-check-input" name="isOn" type="checkbox" value="" id="flexCheckChecked" checked>
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Is Online?
+                      </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+              </div>
+
             </div>
           </div>
         </div>
-      </div>
 </div>
 
 

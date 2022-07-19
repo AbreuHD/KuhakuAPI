@@ -1,11 +1,9 @@
 ﻿
 using AutoMapper;
 using K_haku.Core.Application.Interface.Repositories;
-using K_haku.Core.Application.Interface.Services.Cuevana;
-using K_haku.Core.Application.ViewModels;
+using K_haku.Core.Application.Interface.Services;
 using K_haku.Core.Application.ViewModels.ScrapPages;
 using K_haku.Core.Domain.Entities;
-using K_haku.Core.Domain.Entities.Cuevana;
 using System;
 using System.Collections.Generic;
 using System.Linq;

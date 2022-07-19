@@ -8,6 +8,7 @@ namespace K_haku.Core.Application.ViewModels.ScrapPages
 {
     public class ScrapPagesViewModel
     {
+        public int ID { get; set; }
         public string Title { get; set; }
         public string Info { get; set; }
         public string Img { get; set; }
