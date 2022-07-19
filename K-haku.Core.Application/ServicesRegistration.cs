@@ -17,6 +17,7 @@ namespace SocialNetwork.Core.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<ICuevanaMoviesService, CuevanaMoviesService>();
+            services.AddTransient<IScrapPagesService, ScrapPagesMoviesService>();
         }
 
     }

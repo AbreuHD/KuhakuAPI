@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using K_haku.Core.Domain.Entities;
 
 namespace K_haku.Infraestructure.Persistence.Contexts
 {
@@ -15,7 +16,8 @@ namespace K_haku.Infraestructure.Persistence.Contexts
         public K_hakuContext(DbContextOptions<K_hakuContext> options) : base(options) { }
 
         public DbSet<CuevanaMovies> cuevanaMovies { get; set; }
-
+        public DbSet<ScrapPages> scrapPages { get; set; }
+        
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach(var entry in ChangeTracker.Entries<AuditableBaseEntity>())
@@ -38,15 +40,23 @@ namespace K_haku.Infraestructure.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CuevanaMovies>().ToTable("CuevanaMovies");
-
+            modelBuilder.Entity<ScrapPages>().ToTable("ScrapPages");
 
             modelBuilder.Entity<CuevanaMovies>().HasKey(cMV => cMV.ID);
-
+            modelBuilder.Entity<ScrapPages>().HasKey(sP => sP.ID);
 
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Title).IsRequired();
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Photo).IsRequired();
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Link).IsRequired();
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Age).IsRequired();
+
+            modelBuilder.Entity<ScrapPages>().Property(s => s.Title).IsRequired();
+            modelBuilder.Entity<ScrapPages>().Property(s => s.Info).IsRequired();
+            modelBuilder.Entity<ScrapPages>().Property(s => s.Img).IsRequired();
+            modelBuilder.Entity<ScrapPages>().Property(s => s.PageUrl).IsRequired();
+            modelBuilder.Entity<ScrapPages>().Property(s => s.isOn).IsRequired();
+            modelBuilder.Entity<ScrapPages>().Property(s => s.LastScrap).IsRequired();
+
         }
     }
 }

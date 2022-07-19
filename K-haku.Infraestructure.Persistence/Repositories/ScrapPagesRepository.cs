@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace K_haku.Infraestructure.Persistence.Repositories
 {
-    public class CuevanaMoviesRepository : GenericRepository<CuevanaMovies>, ICuevanaMoviesRepository
+    public class ScrapPagesRepository : GenericRepository<ScrapPages>, IScrapPagesRepository
     {
         private readonly K_hakuContext _dbContext;
 
-        public CuevanaMoviesRepository(K_hakuContext dbContext) : base(dbContext)
+        public ScrapPagesRepository(K_hakuContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }

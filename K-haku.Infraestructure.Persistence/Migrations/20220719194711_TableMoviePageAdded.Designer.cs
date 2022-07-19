@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace K_haku.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(K_hakuContext))]
-    [Migration("20220718015539_init")]
-    partial class init
+    [Migration("20220719194711_TableMoviePageAdded")]
+    partial class TableMoviePageAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,6 +59,53 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("CuevanaMovies");
+                });
+
+            modelBuilder.Entity("K_haku.Core.Domain.Entities.ScrapPages", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Img")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Info")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedby")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastScrap")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("isOn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ScrapPages");
                 });
 #pragma warning restore 612, 618
         }
