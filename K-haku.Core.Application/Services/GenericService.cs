@@ -30,6 +30,13 @@ namespace K_haku.Core.Application.Services
             return SaveVM;
         }
 
+        public virtual async Task<List<SaveViewModel>> AddAllAsync(List<SaveViewModel> vm)
+        {
+            var entity = _mapper.Map<List<Entity>>(vm);
+            var entityList = await _repository.AddAllAsync(entity);
+            return _mapper.Map<List<SaveViewModel>>(entityList);
+        }
+
         public virtual async Task Delete(int id)
         {
             var entity = await _repository.GetByIdAsync(id);

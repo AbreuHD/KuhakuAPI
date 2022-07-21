@@ -1,6 +1,6 @@
 ﻿using K_haku.Core.Application.ViewModels.Cuevana;
-using K_haku.Core.Movie.GetAll.Cuevana;
-using K_haku.Core.Movie.GetVideos.Cuevana;
+using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
+using K_haku.Core.Application.WebsScrapers.GetVideos.Cuevana;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

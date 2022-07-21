@@ -1,6 +1,7 @@
 ﻿using K_haku.Core.Application.Interface.Services;
 using K_haku.Core.Application.Interface.Services.Cuevana;
 using K_haku.Core.Application.Services.Cuevana;
+using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -19,6 +20,7 @@ namespace SocialNetwork.Core.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<ICuevanaMoviesService, CuevanaMoviesService>();
             services.AddTransient<IScrapPagesService, ScrapPagesMoviesService>();
+            services.AddTransient<CuevanaGetAllMovies, CuevanaGetAllMovies>();
         }
 
     }

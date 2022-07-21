@@ -16,6 +16,7 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="PuppeteerSharp" Version="7.1.0" />
+    <PackageReference Include="ScrapySharp" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

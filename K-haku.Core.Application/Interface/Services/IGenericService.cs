@@ -15,6 +15,7 @@ namespace K_haku.Core.Application.Interface.Service
         Task<SaveViewModel> Add(SaveViewModel vm);
         Task Update(SaveViewModel vm, int ID);
         Task<SaveViewModel> GetById(int Id);
+        Task<List<SaveViewModel>> AddAllAsync(List<SaveViewModel> SaveViewModel);
         Task Delete(int id);
     }
 }

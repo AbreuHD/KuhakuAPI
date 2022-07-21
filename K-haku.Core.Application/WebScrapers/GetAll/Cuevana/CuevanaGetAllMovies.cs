@@ -18,7 +18,7 @@ namespace K_haku.Core.Application.WebsScrapers.GetAll.Cuevana
         /// Function to get all Movies in cuevana3.me
         /// </summary>
         /// <returns>Return MovieViewModel whit all Movies</returns>
-        public List<MovieViewModel> MovieList()
+        public async Task<List<MovieViewModel>> MovieList()
         {
             List<string> movieLinks = new();
             ScrapingBrowser browser = new ScrapingBrowser();
@@ -32,7 +32,7 @@ namespace K_haku.Core.Application.WebsScrapers.GetAll.Cuevana
             
             int i = 0;
             List<HtmlNodeCollection> movieList = new();
-            while (i < Convert.ToInt16(movieWebPageCount))
+            while (i < 3) //Convert.ToInt16(movieWebPageCount)
             {
                 i++;
                 Console.WriteLine($"Cuevana Page {i}");

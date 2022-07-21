@@ -14,5 +14,6 @@ namespace K_haku.Core.Application.Interface.Repositories
         Task<List<Entity>> GetAllAsync();
         Task<Entity> GetByIdAsync(int Id);
         Task<List<Entity>> GetAllWhitIncludes(List<String> properties);
+        Task<List<Entity>> AddAllAsync(List<Entity> entity);
     }
 }

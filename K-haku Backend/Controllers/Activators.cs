@@ -1,5 +1,5 @@
 ﻿using K_haku.Core.Application.Interface.Services.Cuevana;
-using K_haku.Core.Movie.GetAll.Cuevana;
+using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -17,12 +17,7 @@ namespace K_haku_Backend.Controllers
 
         public async Task<IActionResult> CuevanaMovie()
         {
-            var MoviesList = _cuevanaGetAllMovies.MovieList();
-            foreach(var movie in MoviesList)
-            {
-            await _cuevanaMoviesService.Add(movie);
-
-            }
+            await _cuevanaMoviesService.AddAllAsync(await _cuevanaGetAllMovies.MovieList());
             return RedirectToRoute(new { controller = "Scrapers", action = "Index" });
         }
     }
