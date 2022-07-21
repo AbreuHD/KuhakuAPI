@@ -9,8 +9,4 @@
     <PackageReference Include="PuppeteerSharp" Version="7.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MovieList\K-haku.Core.Movie.csproj" />
-  </ItemGroup>
-
 </Project>

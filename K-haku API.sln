@@ -5,8 +5,6 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku API", "K-haku API\K-haku API.csproj", "{828AAE23-2229-469B-AE2E-B122C4559F3C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Core.Movie", "MovieList\K-haku.Core.Movie.csproj", "{443745E6-3058-4A4D-93F7-281C0727033A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{00F03F41-2DF1-40CA-B8B5-756679E657E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{FBA99BCD-8E67-44AC-8136-81F3F384EACF}"
@@ -25,11 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{6CA6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku Backend", "K-haku Backend\K-haku Backend.csproj", "{31B89FA4-C85E-4A2D-B611-8004B5D2AB1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K-haku.Core.Domain", "K-haku.Core.Domain\K-haku.Core.Domain.csproj", "{2239F896-4DC5-41F0-9DA0-B8F9345A171D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Core.Domain", "K-haku.Core.Domain\K-haku.Core.Domain.csproj", "{2239F896-4DC5-41F0-9DA0-B8F9345A171D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K-haku.Infraestructure.Persistence", "K-haku.Infraestructure.Persistence\K-haku.Infraestructure.Persistence.csproj", "{D1B41ABA-4829-4A28-8D6E-51208DA067DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Infraestructure.Persistence", "K-haku.Infraestructure.Persistence\K-haku.Infraestructure.Persistence.csproj", "{D1B41ABA-4829-4A28-8D6E-51208DA067DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K-haku.Infraestructure.Shared", "K-haku.Infraestructure.Shared\K-haku.Infraestructure.Shared.csproj", "{7C05879D-0F55-4607-BC53-A05F89DAB28F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Infraestructure.Shared", "K-haku.Infraestructure.Shared\K-haku.Infraestructure.Shared.csproj", "{7C05879D-0F55-4607-BC53-A05F89DAB28F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{828AAE23-2229-469B-AE2E-B122C4559F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{828AAE23-2229-469B-AE2E-B122C4559F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{828AAE23-2229-469B-AE2E-B122C4559F3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{443745E6-3058-4A4D-93F7-281C0727033A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{443745E6-3058-4A4D-93F7-281C0727033A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{443745E6-3058-4A4D-93F7-281C0727033A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{443745E6-3058-4A4D-93F7-281C0727033A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00F03F41-2DF1-40CA-B8B5-756679E657E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00F03F41-2DF1-40CA-B8B5-756679E657E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00F03F41-2DF1-40CA-B8B5-756679E657E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,7 +69,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{828AAE23-2229-469B-AE2E-B122C4559F3C} = {BE0FA808-F09C-4FE3-9E58-C757C4755057}
-		{443745E6-3058-4A4D-93F7-281C0727033A} = {36C354AF-0ADB-4338-93E6-89A79BF24E65}
 		{36C354AF-0ADB-4338-93E6-89A79BF24E65} = {FBA99BCD-8E67-44AC-8136-81F3F384EACF}
 		{225F687F-68C6-4A8C-AC38-33656CCADF1A} = {36C354AF-0ADB-4338-93E6-89A79BF24E65}
 		{EFC17502-BB8A-4673-ABB9-06059780B6DF} = {FBA99BCD-8E67-44AC-8136-81F3F384EACF}
