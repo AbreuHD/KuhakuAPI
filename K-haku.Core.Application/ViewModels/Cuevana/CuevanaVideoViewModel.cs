@@ -8,7 +8,6 @@ namespace K_haku.Core.Application.ViewModels.Cuevana
 {
     public class CuevanaVideoViewModel
     {
-
         public string Language { get; set; }
         public string Link { get; set; }
         public string Type { get; set; }

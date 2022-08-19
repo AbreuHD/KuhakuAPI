@@ -36,9 +36,6 @@ namespace K_haku.Core.Movie.GetVideos
                 var dataR = json.GetValue("data");
                 return dataR[1].Value<string>("file");
             }
-
-            
-            return null;
         }
     }
 }
