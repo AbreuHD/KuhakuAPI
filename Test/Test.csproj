@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MovieList\K-haku.Core.Movie.csproj" />
+    <ProjectReference Include="..\K-haku.Core.Application\K-haku.Core.Application.csproj" />
   </ItemGroup>
 
 </Project>
