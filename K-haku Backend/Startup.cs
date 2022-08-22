@@ -1,5 +1,6 @@
 using K_haku.Infraestructure.Persistence;
 using K_haku.Infrastructure.Identity;
+using K_haku.WebApp.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,24 +19,27 @@ namespace K_haku_Backend
 {
     public class Startup
     {
-        public IConfiguration _config { get; }
-        
         public Startup(IConfiguration configuration)
         {
-            _config = configuration;
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSession();  
-            services.AddIdentityInfrastructure(_config);
-            services.AddPersistenceInfraestructure(_config);
-            services.AddK_hakuLayer(_config);
-            services.AddSharedInfraestructure(_config);
             services.AddControllersWithViews();
+            services.AddIdentityInfrastructure(Configuration);
+            services.AddPersistenceInfraestructure(Configuration);
+            services.AddSharedInfraestructure(Configuration);
+            services.AddK_hakuLayer(Configuration);
+
+            services.AddSession();
+            services.AddScoped<LoginAuthorize>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddTransient<ValidateUserSession, ValidateUserSession>();
+            services.AddTransient<ValidateUser, ValidateUser>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,12 +55,13 @@ namespace K_haku_Backend
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
