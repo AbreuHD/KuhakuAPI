@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Infraestructure.Pers
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Infraestructure.Shared", "K-haku.Infraestructure.Shared\K-haku.Infraestructure.Shared.csproj", "{7C05879D-0F55-4607-BC53-A05F89DAB28F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K-haku.Infraestructure.Identity", "K-haku.Infraestructure.Identity\K-haku.Infraestructure.Identity.csproj", "{A90E7B8C-CDB7-458D-9263-BF5233D9D1F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Infraestructure.Identity", "K-haku.Infraestructure.Identity\K-haku.Infraestructure.Identity.csproj", "{A90E7B8C-CDB7-458D-9263-BF5233D9D1F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
