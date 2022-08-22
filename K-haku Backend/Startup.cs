@@ -1,4 +1,5 @@
 using K_haku.Infraestructure.Persistence;
+using K_haku.Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,8 @@ namespace K_haku_Backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSession();
+            services.AddSession();  
+            services.AddIdentityInfrastructure(_config);
             services.AddPersistenceInfraestructure(_config);
             services.AddK_hakuLayer(_config);
             services.AddSharedInfraestructure(_config);

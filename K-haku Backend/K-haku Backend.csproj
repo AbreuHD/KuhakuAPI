@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\K-haku.Core.Application\K-haku.Core.Application.csproj" />
+    <ProjectReference Include="..\K-haku.Infraestructure.Identity\K-haku.Infraestructure.Identity.csproj" />
     <ProjectReference Include="..\K-haku.Infraestructure.Persistence\K-haku.Infraestructure.Persistence.csproj" />
     <ProjectReference Include="..\K-haku.Infraestructure.Shared\K-haku.Infraestructure.Shared.csproj" />
   </ItemGroup>
