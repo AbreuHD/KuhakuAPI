@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Infraestructure.Pers
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Infraestructure.Shared", "K-haku.Infraestructure.Shared\K-haku.Infraestructure.Shared.csproj", "{7C05879D-0F55-4607-BC53-A05F89DAB28F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K-haku.Infraestructure.Identity", "K-haku.Infraestructure.Identity\K-haku.Infraestructure.Identity.csproj", "{A90E7B8C-CDB7-458D-9263-BF5233D9D1F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{7C05879D-0F55-4607-BC53-A05F89DAB28F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C05879D-0F55-4607-BC53-A05F89DAB28F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C05879D-0F55-4607-BC53-A05F89DAB28F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A90E7B8C-CDB7-458D-9263-BF5233D9D1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A90E7B8C-CDB7-458D-9263-BF5233D9D1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A90E7B8C-CDB7-458D-9263-BF5233D9D1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A90E7B8C-CDB7-458D-9263-BF5233D9D1F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{2239F896-4DC5-41F0-9DA0-B8F9345A171D} = {36C354AF-0ADB-4338-93E6-89A79BF24E65}
 		{D1B41ABA-4829-4A28-8D6E-51208DA067DD} = {EFC17502-BB8A-4673-ABB9-06059780B6DF}
 		{7C05879D-0F55-4607-BC53-A05F89DAB28F} = {EFC17502-BB8A-4673-ABB9-06059780B6DF}
+		{A90E7B8C-CDB7-458D-9263-BF5233D9D1F1} = {EFC17502-BB8A-4673-ABB9-06059780B6DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3725E006-B0B4-4683-88D5-B0677CC91E0F}

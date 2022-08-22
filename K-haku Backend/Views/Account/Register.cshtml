@@ -1,0 +1,52 @@
+﻿@using K_haku.Core.Application.ViewModels.User
+@using K_haku.Core.Application.Enum
+@model UserSaveViewModel
+
+@section Styles{
+    <link href="~/css/User.css" rel="stylesheet" />
+}
+
+<div class="loginContainer">
+    <div class="formLogin">
+        <header>
+            Register
+        </header>
+        @Html.ValidationSummary(false, "", new { @class = "error" })
+        @if (Model.HasError)
+        {
+            <div class="alert alert-danger alert-dismissible fade show " role="alert">
+                <p>@Model.Error</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    <form method="post" enctype="multipart/form-data" asp-controller="Account" asp-action="Register">
+        <div class="field">
+            <input asp-for="Name" placeholder="Ingrese su nombre" />
+        </div>
+        <div class="field">
+            <input asp-for="LastName" placeholder="Ingrese su apellido" />
+        </div>
+        <div class="field">
+            <input asp-for="Phone" placeholder="Ingrese su numero de telefono" />
+        </div>
+
+        <div class="field">
+            <input asp-for="UserName" placeholder="Ingrese su nombre de usuario" />
+        </div>
+        <div class="field">
+            <input asp-for="Email" placeholder="Ingrese su correo electronico" />
+        </div>
+        <div class="field">
+            <input asp-for="Password" placeholder="Ingrese contraseña" />
+        </div>
+        <div class="field">
+            <input asp-for="ConfirmPassword" placeholder="Confirmar contraseña" />
+        </div>
+        <div class="buttons">
+            <button>Registrar</button>
+            <a asp-controller="Account" asp-action="Index" class="btn btn-outline-warning">Atras</a>
+
+        </div>
+    </form>
+    </div>
+</div>
