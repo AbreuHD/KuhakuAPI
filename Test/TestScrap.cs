@@ -37,7 +37,7 @@ namespace Test
             }*/
 
             var tittle = "Titanic";
-            var TMDBApiKey = "36cee641d339360aa1ae3c7ad657efaf";
+            var TMDBApiKey = "a";
             string TMDBData = new WebClient().DownloadString($"https://api.themoviedb.org/3/search/movie?api_key={TMDBApiKey}&query={tittle}");
             TMDBResponse Movies = JsonConvert.DeserializeObject<TMDBResponse>(TMDBData);
             Console.WriteLine(Movies.results.FirstOrDefault().id.ToString());
