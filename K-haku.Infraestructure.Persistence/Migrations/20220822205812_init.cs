@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace K_haku.Infraestructure.Persistence.Migrations
 {
-    public partial class TableMoviePageAdded : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,8 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                     Photo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TMDB = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Confirmed = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedby = table.Column<string>(type: "nvarchar(max)", nullable: true),

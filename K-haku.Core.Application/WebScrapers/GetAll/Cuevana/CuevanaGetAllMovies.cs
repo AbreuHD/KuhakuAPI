@@ -32,7 +32,7 @@ namespace K_haku.Core.Application.WebsScrapers.GetAll.Cuevana
             
             int i = 0;
             List<HtmlNodeCollection> movieList = new();
-            while (i < 3) //Convert.ToInt16(movieWebPageCount)
+            while (i < Convert.ToInt16(movieWebPageCount)) //Convert.ToInt16(movieWebPageCount)
             {
                 i++;
                 Console.WriteLine($"Cuevana Page {i}");
@@ -49,13 +49,19 @@ namespace K_haku.Core.Application.WebsScrapers.GetAll.Cuevana
                 Console.WriteLine($"Movie number {i} get");
                 vm.AddRange(moviePage.Select(movie => new MovieViewModel
                 {
-                    Title = movie.SelectSingleNode("./div/a/h2").InnerText,
+                    Title = ToUTF8(movie.SelectSingleNode("./div/a/h2").InnerText),
                     Photo = movie.SelectSingleNode("./div/a/div/figure/img/@src").Attributes["data-src"].Value,
                     Link = movie.SelectSingleNode("./div/a/@href").Attributes["href"].Value,
                     Age = movie.SelectSingleNode("./div/a/div/span").InnerText,
                 }).ToList());
             }
             return vm;
+        }
+        
+        public string ToUTF8(string Data)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(Data);
+            return Encoding.UTF8.GetString(bytes);
         }
     }
 }
