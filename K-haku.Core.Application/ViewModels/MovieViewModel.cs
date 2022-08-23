@@ -12,5 +12,7 @@ namespace K_haku.Core.Application.ViewModels
         public string Photo { get; set; }
         public string Link { get; set; }
         public string Age { get; set; }
+        public string TMDB { get; set; }
+        public bool Confirmed { get; set; }
     }
 }

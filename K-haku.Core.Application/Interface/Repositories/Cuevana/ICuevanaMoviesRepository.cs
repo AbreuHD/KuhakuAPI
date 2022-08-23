@@ -10,6 +10,7 @@ namespace K_haku.Core.Application.Interface.Repositories.Cuevana
 {
     public interface ICuevanaMoviesRepository : IGenericRepository<CuevanaMovies>
     {
-        
+        Task<bool> Exist(CuevanaMovies movie);
+
     }
 }

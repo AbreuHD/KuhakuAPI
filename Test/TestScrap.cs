@@ -1,8 +1,13 @@
-﻿using K_haku.Core.Application.ViewModels.Cuevana;
+﻿using K_haku.Core.Application.Dtos.TMDB;
+using K_haku.Core.Application.Helpers;
+using K_haku.Core.Application.ViewModels.Cuevana;
 using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
 using K_haku.Core.Application.WebsScrapers.GetVideos.Cuevana;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Test
@@ -11,7 +16,7 @@ namespace Test
     {
         static async Task Main(string[] args)
         {
-            CuevanaGetAllMovies cuevana = new();
+            /*CuevanaGetAllMovies cuevana = new();
             //cuevana.MovieList();
             CuevanaGetAllVideos cuevanaVid = new();
             Console.WriteLine("Ingrese la url de la pelicula");
@@ -29,7 +34,13 @@ namespace Test
                     Console.WriteLine("");
                 }
                 catch (Exception ex) { }
-            }
+            }*/
+
+            var tittle = "Titanic";
+            var TMDBApiKey = "a";
+            string TMDBData = new WebClient().DownloadString($"https://api.themoviedb.org/3/search/movie?api_key={TMDBApiKey}&query={tittle}");
+            TMDBResponse Movies = JsonConvert.DeserializeObject<TMDBResponse>(TMDBData);
+            Console.WriteLine(Movies.results.FirstOrDefault().id.ToString());
         }
     }
 }

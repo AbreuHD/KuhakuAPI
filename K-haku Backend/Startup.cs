@@ -39,7 +39,6 @@ namespace K_haku_Backend
             services.AddScoped<LoginAuthorize>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ValidateUser, ValidateUser>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

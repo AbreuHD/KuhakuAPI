@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace K_haku.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(K_hakuContext))]
-    [Migration("20220719194711_TableMoviePageAdded")]
-    partial class TableMoviePageAdded
+    [Migration("20220822205812_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,9 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Confirmed")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -50,6 +53,9 @@ namespace K_haku.Infraestructure.Persistence.Migrations
 
                     b.Property<string>("Photo")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TMDB")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
