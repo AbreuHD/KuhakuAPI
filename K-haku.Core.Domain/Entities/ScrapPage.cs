@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace K_haku.Core.Domain.Entities
 {
-    public class ScrapPages : AuditableBaseEntity
+    public class ScrapPage : AuditableBaseEntity
     {
         public string Title { get; set; }
         public string Info { get; set; }

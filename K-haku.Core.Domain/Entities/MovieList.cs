@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace K_haku.Core.Domain.Entities
 {
-    public class MovieList : AuditableBaseEntity
+    public class MovieList
     {
         public string ID { get; set; }
         public bool adult { get; set; }

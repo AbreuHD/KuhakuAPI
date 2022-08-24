@@ -16,8 +16,8 @@ namespace K_haku_Backend.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IHttpContextAccessor _httpContext;
-        private readonly AuthenticationResponse user;
+        //private readonly IHttpContextAccessor _httpContext;
+        //private readonly AuthenticationResponse user;
 
         public AccountController(IUserService userService)
         {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using K_haku.Core.Application.Dtos.TMDB;
 using K_haku.Core.Application.DTOS.Account;
+using K_haku.Core.Application.Features.ScrapPages.Commands.CreateScrapPages;
 using K_haku.Core.Application.ViewModels;
 using K_haku.Core.Application.ViewModels.Cuevana;
 using K_haku.Core.Application.ViewModels.ScrapPages;
@@ -26,6 +27,14 @@ namespace K_haku.Core.Application.Mappings
                             .ForMember(dest => dest.LastModified, opt => opt.Ignore())
                                 .ForMember(dest => dest.Created, opt => opt.Ignore());
 
+            CreateMap<ScrapPage, CreateScrapPagesCommand>()
+                .ReverseMap()
+                    .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                        .ForMember(dest => dest.LastModifiedby, opt => opt.Ignore())
+                            .ForMember(dest => dest.LastModified, opt => opt.Ignore())
+                                .ForMember(dest => dest.Created, opt => opt.Ignore());
+
+
             CreateMap<CuevanaMovies, CuevanaInfoViewModel>()
                 .ForMember(dest => dest.Seen, opt => opt.Ignore())
                 .ReverseMap()
@@ -34,7 +43,7 @@ namespace K_haku.Core.Application.Mappings
                             .ForMember(dest => dest.LastModified, opt => opt.Ignore())
                                 .ForMember(dest => dest.Created, opt => opt.Ignore());
 
-            CreateMap<ScrapPages, ScrapPagesViewModel>()
+            CreateMap<ScrapPage, ScrapPagesViewModel>()
                 .ReverseMap()
                     .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                         .ForMember(dest => dest.LastModifiedby, opt => opt.Ignore())
@@ -53,7 +62,7 @@ namespace K_haku.Core.Application.Mappings
             CreateMap<Genre, GenreResponse>()
                 .ReverseMap();
 
-            CreateMap<ScrapPages, ScrapPagesInfoViewModel>()
+            CreateMap<ScrapPage, ScrapPagesInfoViewModel>()
                 .ReverseMap()
                     .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                         .ForMember(dest => dest.LastModifiedby, opt => opt.Ignore())
