@@ -27,16 +27,6 @@ namespace K_haku.Infraestructure.Persistence.Repositories
 
         public virtual async Task<List<Entity>> AddAllAsync(List<Entity> entity)
         {
-            var data =await GetAllAsync();
-            try
-            {
-                foreach(var item in entity)
-                {
-                    entity.Remove(item);
-                }
-            }
-            catch (Exception e) { Console.WriteLine(e); }
-            
             _dbcontext.Set<Entity>().AddRange(entity);
             await _dbcontext.SaveChangesAsync();
             return entity;

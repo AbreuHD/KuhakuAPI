@@ -13,7 +13,9 @@ namespace K_haku.Core.Domain.Entities.Cuevana
         public string Photo { get; set; }
         public string Link { get; set; }
         public string Age { get; set; }
-        public string TMDB { get; set; }
         public bool Confirmed { get; set; }
+        
+        public string TMDBId { get; set; }
+        public MovieList Movie { get; set; }
     }
 }

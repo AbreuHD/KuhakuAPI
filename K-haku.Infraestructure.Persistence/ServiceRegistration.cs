@@ -32,6 +32,7 @@ namespace K_haku.Infraestructure.Persistence
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IScrapPagesRepository, ScrapPagesRepository>();
             services.AddTransient<ICuevanaMoviesRepository, CuevanaMoviesRepository>();
+            services.AddTransient<IMovieListRepository, MovieListRepository>();
         }
     }
 }

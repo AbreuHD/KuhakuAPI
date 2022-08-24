@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using K_haku.Core.Application.Dtos.TMDB;
 using K_haku.Core.Application.DTOS.Account;
 using K_haku.Core.Application.ViewModels;
 using K_haku.Core.Application.ViewModels.Cuevana;
@@ -39,6 +40,18 @@ namespace K_haku.Core.Application.Mappings
                         .ForMember(dest => dest.LastModifiedby, opt => opt.Ignore())
                             .ForMember(dest => dest.LastModified, opt => opt.Ignore())
                                 .ForMember(dest => dest.Created, opt => opt.Ignore());
+
+            CreateMap<MovieList, TMDBResult>()
+                .ForMember(dest => dest.genre_ids, opt => opt.Ignore())
+                .ReverseMap()
+                    .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                        .ForMember(dest => dest.LastModifiedby, opt => opt.Ignore())
+                            .ForMember(dest => dest.LastModified, opt => opt.Ignore())
+                                .ForMember(dest => dest.Created, opt => opt.Ignore())
+                                    .ForMember(dest => dest.genre_ids, opt => opt.Ignore());
+
+            CreateMap<Genre, GenreResponse>()
+                .ReverseMap();
 
             CreateMap<ScrapPages, ScrapPagesInfoViewModel>()
                 .ReverseMap()
