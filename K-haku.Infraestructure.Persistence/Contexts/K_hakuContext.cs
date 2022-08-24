@@ -17,7 +17,8 @@ namespace K_haku.Infraestructure.Persistence.Contexts
 
         public DbSet<CuevanaMovies> cuevanaMovies { get; set; }
         public DbSet<ScrapPages> scrapPages { get; set; }
-        
+        public DbSet<MovieList> movieList { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach(var entry in ChangeTracker.Entries<AuditableBaseEntity>())
@@ -41,9 +42,11 @@ namespace K_haku.Infraestructure.Persistence.Contexts
         {
             modelBuilder.Entity<CuevanaMovies>().ToTable("CuevanaMovies");
             modelBuilder.Entity<ScrapPages>().ToTable("ScrapPages");
+            modelBuilder.Entity<MovieList>().ToTable("MovieList");
 
             modelBuilder.Entity<CuevanaMovies>().HasKey(cMV => cMV.ID);
             modelBuilder.Entity<ScrapPages>().HasKey(sP => sP.ID);
+            modelBuilder.Entity<MovieList>().HasKey(mL => mL.ID);
 
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Title).IsRequired();
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Photo).IsRequired();
@@ -57,6 +60,9 @@ namespace K_haku.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<ScrapPages>().Property(s => s.isOn).IsRequired();
             modelBuilder.Entity<ScrapPages>().Property(s => s.LastScrap).IsRequired();
 
+
+            modelBuilder.Entity<MovieList>().HasMany<CuevanaMovies>(x => x.Cuevana).WithOne(x => x.Movie).HasForeignKey(x => x.TMDBId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

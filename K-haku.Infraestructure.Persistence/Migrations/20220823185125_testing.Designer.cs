@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace K_haku.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(K_hakuContext))]
-    [Migration("20220822205812_init")]
-    partial class init
+    [Migration("20220823185125_testing")]
+    partial class testing
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,8 +55,8 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TMDB")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("TMDBId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -64,7 +64,87 @@ namespace K_haku.Infraestructure.Persistence.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("TMDBId");
+
                     b.ToTable("CuevanaMovies");
+                });
+
+            modelBuilder.Entity("K_haku.Core.Domain.Entities.Genre", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MovieListID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("MovieListID");
+
+                    b.ToTable("Genre");
+                });
+
+            modelBuilder.Entity("K_haku.Core.Domain.Entities.MovieList", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedby")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("adult")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("backdrop_path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("original_language")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("original_title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("overview")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("popularity")
+                        .HasColumnType("float");
+
+                    b.Property<string>("poster_path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("release_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("video")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("vote_average")
+                        .HasColumnType("float");
+
+                    b.Property<int>("vote_count")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("MovieList");
                 });
 
             modelBuilder.Entity("K_haku.Core.Domain.Entities.ScrapPages", b =>
@@ -112,6 +192,30 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ScrapPages");
+                });
+
+            modelBuilder.Entity("K_haku.Core.Domain.Entities.Cuevana.CuevanaMovies", b =>
+                {
+                    b.HasOne("K_haku.Core.Domain.Entities.MovieList", "Movie")
+                        .WithMany("Cuevana")
+                        .HasForeignKey("TMDBId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("K_haku.Core.Domain.Entities.Genre", b =>
+                {
+                    b.HasOne("K_haku.Core.Domain.Entities.MovieList", null)
+                        .WithMany("genre_ids")
+                        .HasForeignKey("MovieListID");
+                });
+
+            modelBuilder.Entity("K_haku.Core.Domain.Entities.MovieList", b =>
+                {
+                    b.Navigation("Cuevana");
+
+                    b.Navigation("genre_ids");
                 });
 #pragma warning restore 612, 618
         }

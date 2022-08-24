@@ -42,7 +42,7 @@ namespace K_haku_Backend.Controllers
             if(user != null && !user.HasError)
             {
                 HttpContext.Session.Set<AuthenticationResponse>("user",user);
-                return RedirectToRoute(new { controller = "General", action = "Index" });
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
             login.HasError = user.HasError;
             login.Error = user.Error;

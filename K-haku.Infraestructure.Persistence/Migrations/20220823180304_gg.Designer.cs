@@ -4,14 +4,16 @@ using K_haku.Infraestructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace K_haku.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(K_hakuContext))]
-    partial class K_hakuContextModelSnapshot : ModelSnapshot
+    [Migration("20220823180304_gg")]
+    partial class gg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,7 +199,7 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                     b.HasOne("K_haku.Core.Domain.Entities.MovieList", "Movie")
                         .WithMany("Cuevana")
                         .HasForeignKey("TMDBId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Movie");
                 });
