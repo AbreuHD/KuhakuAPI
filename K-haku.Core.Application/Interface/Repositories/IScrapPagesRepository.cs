@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace K_haku.Core.Application.Interface.Repositories
 {
-    public interface IScrapPagesRepository : IGenericRepository<ScrapPages>
+    public interface IScrapPagesRepository : IGenericRepository<ScrapPage>
     {
         
     }

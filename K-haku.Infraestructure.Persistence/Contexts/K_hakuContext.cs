@@ -16,7 +16,7 @@ namespace K_haku.Infraestructure.Persistence.Contexts
         public K_hakuContext(DbContextOptions<K_hakuContext> options) : base(options) { }
 
         public DbSet<CuevanaMovies> cuevanaMovies { get; set; }
-        public DbSet<ScrapPages> scrapPages { get; set; }
+        public DbSet<ScrapPage> scrapPages { get; set; }
         public DbSet<MovieList> movieList { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -41,11 +41,11 @@ namespace K_haku.Infraestructure.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CuevanaMovies>().ToTable("CuevanaMovies");
-            modelBuilder.Entity<ScrapPages>().ToTable("ScrapPages");
+            modelBuilder.Entity<ScrapPage>().ToTable("ScrapPages");
             modelBuilder.Entity<MovieList>().ToTable("MovieList");
 
             modelBuilder.Entity<CuevanaMovies>().HasKey(cMV => cMV.ID);
-            modelBuilder.Entity<ScrapPages>().HasKey(sP => sP.ID);
+            modelBuilder.Entity<ScrapPage>().HasKey(sP => sP.ID);
             modelBuilder.Entity<MovieList>().HasKey(mL => mL.ID);
 
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Title).IsRequired();
@@ -53,12 +53,12 @@ namespace K_haku.Infraestructure.Persistence.Contexts
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Link).IsRequired();
             modelBuilder.Entity<CuevanaMovies>().Property(c => c.Age).IsRequired();
 
-            modelBuilder.Entity<ScrapPages>().Property(s => s.Title).IsRequired();
-            modelBuilder.Entity<ScrapPages>().Property(s => s.Info).IsRequired();
-            modelBuilder.Entity<ScrapPages>().Property(s => s.Img).IsRequired();
-            modelBuilder.Entity<ScrapPages>().Property(s => s.PageUrl).IsRequired();
-            modelBuilder.Entity<ScrapPages>().Property(s => s.isOn).IsRequired();
-            modelBuilder.Entity<ScrapPages>().Property(s => s.LastScrap).IsRequired();
+            modelBuilder.Entity<ScrapPage>().Property(s => s.Title).IsRequired();
+            modelBuilder.Entity<ScrapPage>().Property(s => s.Info).IsRequired();
+            modelBuilder.Entity<ScrapPage>().Property(s => s.Img).IsRequired();
+            modelBuilder.Entity<ScrapPage>().Property(s => s.PageUrl).IsRequired();
+            modelBuilder.Entity<ScrapPage>().Property(s => s.isOn).IsRequired();
+            modelBuilder.Entity<ScrapPage>().Property(s => s.LastScrap).IsRequired();
 
 
             modelBuilder.Entity<MovieList>().HasMany<CuevanaMovies>(x => x.Cuevana).WithOne(x => x.Movie).HasForeignKey(x => x.TMDBId)

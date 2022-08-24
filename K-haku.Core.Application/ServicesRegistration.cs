@@ -1,9 +1,7 @@
 ﻿using K_haku.Core.Application.Helpers;
 using K_haku.Core.Application.Inferfaces.Service;
 using K_haku.Core.Application.Interface.Services;
-using K_haku.Core.Application.Interface.Services.Cuevana;
 using K_haku.Core.Application.Services;
-using K_haku.Core.Application.Services.Cuevana;
 using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
 using MediatR;
 using Microsoft.Extensions.Configuration;

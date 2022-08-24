@@ -1,5 +1,4 @@
 ﻿using K_haku.Core.Application.Features.Cuevana.Commands.GetCuevanaMovies;
-using K_haku.Core.Application.Interface.Services.Cuevana;
 using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +10,8 @@ namespace K_haku_Backend.Controllers
 {
     public class Activators : Controller
     {
-        public readonly ICuevanaMoviesService _cuevanaMoviesService;
-        public readonly CuevanaGetAllMovies _cuevanaGetAllMovies;
+        //public readonly ICuevanaMoviesService _cuevanaMoviesService;
+        //public readonly CuevanaGetAllMovies _cuevanaGetAllMovies;
 
         private IMediator _mediator;
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();

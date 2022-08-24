@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace K_haku.Infraestructure.Persistence.Repositories
 {
-    public class ScrapPagesRepository : GenericRepository<ScrapPages>, IScrapPagesRepository
+    public class ScrapPagesRepository : GenericRepository<ScrapPage>, IScrapPagesRepository
     {
         private readonly K_hakuContext _dbContext;
 
