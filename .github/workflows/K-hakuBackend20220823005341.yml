@@ -2,7 +2,7 @@ name: Build and deploy .NET Core app to Windows WebApp K-hakuBackend202208230053
 on:
   push:
     branches:
-    - FixingToCQRS
+    - master
 env:
   AZURE_WEBAPP_NAME: K-hakuBackend20220823005341
   AZURE_WEBAPP_PACKAGE_PATH: K-haku Backend/publish
