@@ -64,6 +64,7 @@ namespace K_haku.Core.Application.Features.Cuevana.Commands.GetCuevanaMovies
                             tmdb.Created = DateTime.Now;
                             try
                             {
+                                //NewTMDB.Add(tmdb);
                                 await _movieListRepository.AddAsync(tmdb);
                             }
                             catch (Exception ex)
@@ -81,6 +82,7 @@ namespace K_haku.Core.Application.Features.Cuevana.Commands.GetCuevanaMovies
                     }
                     try
                     {
+                        //NewMovies.Add(convert);
                         await _cuevanaMoviesRepository.AddAsync(convert);
                     }
                     catch (Exception ex)
