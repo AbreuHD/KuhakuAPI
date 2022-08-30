@@ -30,14 +30,14 @@ jobs:
       uses: sebastianpopp/ftp-action@v2.0.0
       with:
         # FTP host
-        host: ftp://198.37.116.29
+        host: ${{ secrets.HOST }}
         # FTP user
         user: AbreuHD
         # FTP password
-        password: Ismaelabreu27/
+        password: ${{ secrets.PASSWORD }}
         # Force SSL encryption
         forceSsl: false
         # Local directory
         localDir: .
         # Remote directory
-        remoteDir: www.kuhatest.somee.com
+        remoteDir: ${{ secrets.NAME }}
