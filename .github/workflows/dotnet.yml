@@ -36,8 +36,8 @@ jobs:
         # FTP account password
         password: ${{ secrets.PASSWORD }}
         # Protocol used to deploy (ftp or sftp)
-        method: # optional, default is ftp
+        method: ftp
         # The local folder to copy, defaults to root project folder
         local_dir: # optional, default is .
         # The remote folder to copy to, deafults to root FTP folder
-        remote_dir: # optional, default is .
+        remote_dir: ${{ secrets.NAME }}
