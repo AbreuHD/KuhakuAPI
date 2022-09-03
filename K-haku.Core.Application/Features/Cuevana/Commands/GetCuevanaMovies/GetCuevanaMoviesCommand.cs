@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using K_haku.Core.Application.Interface.Repositories.Cuevana;
-using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
+using K_haku.Core.Application.WebsScrapers.GetAllMovies.Cuevana;
 using K_haku.Core.Domain.Entities.Cuevana;
 using MediatR;
 using System;

@@ -1,5 +1,5 @@
 ﻿using K_haku.Core.Application.Features.Cuevana.Commands.GetCuevanaMovies;
-using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
+using K_haku.Core.Application.WebsScrapers.GetAllMovies.Cuevana;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;

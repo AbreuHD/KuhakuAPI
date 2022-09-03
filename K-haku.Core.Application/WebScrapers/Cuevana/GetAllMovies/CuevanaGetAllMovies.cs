@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace K_haku.Core.Application.WebsScrapers.GetAll.Cuevana
+namespace K_haku.Core.Application.WebsScrapers.GetAllMovies.Cuevana
 {
     //https://ww1.cuevana3.me/peliculas
     public class CuevanaGetAllMovies

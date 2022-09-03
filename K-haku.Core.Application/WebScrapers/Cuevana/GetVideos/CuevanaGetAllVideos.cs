@@ -12,17 +12,17 @@ using ScrapySharp.Extensions;
 using ScrapySharp.Html.Forms;
 using K_haku.Core.Application.Helpers;
 using Newtonsoft.Json.Linq;
+using K_haku.Core.Application.WebScrapers.Common;
 
 namespace K_haku.Core.Application.WebsScrapers.GetVideos.Cuevana
 {
-    //https://ww1.cuevana3.me/peliculas
     public class CuevanaGetAllVideos
     {
         /// <summary>
         /// To get All links of movies and languages
         /// </summary>
         /// <param name="movieLinks"></param>
-        /// <returns>Languages and Movie Links</returns>
+        /// <returns>Languages and Movie Links https://ww1.cuevana3.me/peliculas</returns>
 
         public List<CuevanaVideoViewModel> MovieVideos(string movieLink)
         {

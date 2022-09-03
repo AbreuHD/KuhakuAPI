@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace K_haku.Core.Application.WebsScrapers.GetVideos
+namespace K_haku.Core.Application.WebScrapers.Common
 {
     public class Fembed
     {

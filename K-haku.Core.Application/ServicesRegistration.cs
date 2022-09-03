@@ -2,7 +2,7 @@
 using K_haku.Core.Application.Inferfaces.Service;
 using K_haku.Core.Application.Interface.Services;
 using K_haku.Core.Application.Services;
-using K_haku.Core.Application.WebsScrapers.GetAll.Cuevana;
+using K_haku.Core.Application.WebsScrapers.GetAllMovies.Cuevana;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
