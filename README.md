@@ -17,7 +17,6 @@ Es un sitio web que toma datos de diferentes páginas de películas y series, y 
 
 **WebApi:** C#, .Net, Solid, Identity
 
-**Backend:** C#, .Net, Solid, Identity
 
 
 ## Authors
