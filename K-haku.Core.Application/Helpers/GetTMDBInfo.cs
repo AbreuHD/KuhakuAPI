@@ -28,7 +28,7 @@ namespace K_haku.Core.Application.Helpers
             try
             {
                 var TMDBApiKey = _configuration.GetValue<string>("TMDBAPIKey");
-                string TMDBData = new WebClient().DownloadString($"https://api.themoviedb.org/3/search/movie?api_key={TMDBApiKey}&query={tittle}");
+                string TMDBData = new WebClient().DownloadString($"https://api.themoviedb.org/3/search/movie?api_key={TMDBApiKey}&language=es-MX&query={tittle}&include_adult=true");
                 var result = JsonConvert.DeserializeObject<TMDBResponse>(TMDBData);
                 TMDBResult tmdb = result.results.FirstOrDefault();
                 return _mapper.Map<MovieList>(tmdb);

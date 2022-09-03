@@ -50,6 +50,8 @@ namespace K_haku.Infraestructure.Persistence.Repositories
             return await _dbcontext.Set<Entity>().ToListAsync();
         }
 
+
+
         public virtual async Task<List<Entity>> GetAllWhitIncludes(List<string> properties)
         {
             var query = _dbcontext.Set<Entity>().AsQueryable();
