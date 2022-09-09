@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,11 @@ namespace K_haku.Core.Application.DTOS.Account
         public List<string> Roles { get; set; }
         public bool IsVerified { get; set; }
         public bool HasError { get; set; } = false;
-        public string Error { get; set; } 
+        public string Error { get; set; }
+
+        public string JWToken { get; set; }
+        [JsonIgnore]
+        public string RefreshToken { get; set; }
 
     }
 }

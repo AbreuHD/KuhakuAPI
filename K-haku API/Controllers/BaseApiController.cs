@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace K_haku_API.Controllers
 {
         [ApiController]
-        [Route("api/v{version:apiVersion}/[controller]")]
+        [Route("v{version:apiVersion}/[controller]")]
         public abstract class BaseApiController : ControllerBase
         {
             private IMediator _mediator;

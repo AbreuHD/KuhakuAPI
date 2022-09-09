@@ -17,7 +17,6 @@ namespace K_haku.Core.Application.Features.Cuevana.Commands.GetCuevanaMovies
 {
     public class GetCuevanaMoviesCommand : IRequest<bool> 
     {
-        public bool Start { get; set; }
     }
     public class GetCuevanaMoviesCommandHandler : IRequestHandler<GetCuevanaMoviesCommand, bool>
     {

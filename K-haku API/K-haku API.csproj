@@ -24,8 +24,4 @@
     <ProjectReference Include="..\K-haku.Infraestructure.Shared\K-haku.Infraestructure.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>
