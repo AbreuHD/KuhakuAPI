@@ -11,7 +11,7 @@ namespace K_haku.Core.Application.Interface.Repositories
         Task<Entity> AddAsync(Entity entity);
         Task UpdateAsync(Entity entity, int ID);
         Task DeleteAsync(Entity entity);
-        Task<List<Entity>> GetAllAsync();
+        Task<List<Entity>> GetAllAsync(int skip = 0, bool useSkip = false);
         Task<Entity> GetByIdAsync(int Id);
         Task<List<Entity>> GetAllWhitIncludes(List<String> properties);
         Task<List<Entity>> AddAllAsync(List<Entity> entity);

@@ -10,5 +10,6 @@ namespace K_haku.Core.Application.Features.MovieList.Queries.GetAll
     {
         public DateTime? ReleaseDate { get; set; }
         public string? MovieName { get; set; }
+        public int? Skip { get; set; }
     }
 }
