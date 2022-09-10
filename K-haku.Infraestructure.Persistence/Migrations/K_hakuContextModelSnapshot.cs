@@ -145,7 +145,7 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                     b.ToTable("MovieList");
                 });
 
-            modelBuilder.Entity("K_haku.Core.Domain.Entities.ScrapPages", b =>
+            modelBuilder.Entity("K_haku.Core.Domain.Entities.ScrapPage", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()

@@ -23,7 +23,7 @@ namespace K_haku_Backend.Controllers
 
         public async Task<IActionResult> CuevanaMovie(GetCuevanaMoviesCommand command)
         {
-            command.Start =true;
+            //command.Start =true;
             //await _cuevanaMoviesService.AddAllAsync(await _cuevanaGetAllMovies.MovieList());
             await Mediator.Send(command);
             return RedirectToRoute(new { controller = "Scrapers", action = "Index" });
