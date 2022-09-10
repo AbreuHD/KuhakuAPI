@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace K_haku.Core.Application.Dtos.Movie
+namespace K_haku.Core.Application.Features.MovieInfo.Queries.GetVideoSource
 {
-    public class MovieVideoResponse
+    public class GetVideoSourceParameters
     {
-        public string Language { get; set; }
-        public string Link { get; set; }
+        public string MovieLink { get; set; }
         public string Type { get; set; }
-
     }
 }

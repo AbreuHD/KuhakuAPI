@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace K_haku.Core.Application.Dtos.Movie
+namespace K_haku.Core.Application.ViewModels.Cuevana
 {
     public class MovieVideoResponse
     {

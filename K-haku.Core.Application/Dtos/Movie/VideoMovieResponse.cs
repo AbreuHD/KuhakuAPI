@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace K_haku.Core.Application.Dtos.Movie
 {
-    public class MovieVideoResponse
+    public class VideoMovieResponse
     {
-        public string Language { get; set; }
         public string Link { get; set; }
         public string Type { get; set; }
 
