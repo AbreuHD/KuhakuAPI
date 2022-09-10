@@ -51,7 +51,10 @@ namespace K_haku.Core.Application.Features.MovieList.Queries.GetAll
 
                 if (parameters.MovieName != null)
                 {
-                    movies = movies.Where(x => x.title.ToLower().Contains(parameters.MovieName.ToLower())).ToList();
+                    movies = movies.Where(x =>
+                        x.title.ToLower().Contains(parameters.MovieName.ToLower()) ||
+                        x.original_title.ToLower().Contains(parameters.MovieName.ToLower())
+                        ).ToList();
                 }
 
                 if (parameters.ReleaseDate != null)

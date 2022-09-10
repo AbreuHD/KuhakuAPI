@@ -61,6 +61,12 @@ namespace K_haku.Core.Application.Mappings
                 .ForMember(dest => dest.Created, opt => opt.Ignore())
                 .ForMember(dest => dest.genre_ids, opt => opt.Ignore());
 
+            CreateMap<MovieInfoResponse, MovieList>()
+                .ReverseMap();
+
+            CreateMap<MovieResponse, CuevanaMovies>()
+                .ReverseMap();
+
             CreateMap<Genre, GenreResponse>()
                 .ReverseMap();
 

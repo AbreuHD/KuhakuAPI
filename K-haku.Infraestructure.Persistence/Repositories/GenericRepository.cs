@@ -70,5 +70,9 @@ namespace K_haku.Infraestructure.Persistence.Repositories
         {
             return await _dbcontext.Set<Entity>().FindAsync(Id);
         }
+        public virtual async Task<Entity> GetByStringIdAsync(string Id)
+        {
+            return await _dbcontext.Set<Entity>().FindAsync(Id);
+        }
     }
 }

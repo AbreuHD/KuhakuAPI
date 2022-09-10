@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace K_haku.Infraestructure.Persistence.Migrations
 {
-    public partial class gg : Migration
+    public partial class fixingdata : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -80,8 +80,7 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                         name: "FK_CuevanaMovies_MovieList_TMDBId",
                         column: x => x.TMDBId,
                         principalTable: "MovieList",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(

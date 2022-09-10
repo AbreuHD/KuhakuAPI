@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace K_haku.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(K_hakuContext))]
-    [Migration("20220823185125_testing")]
-    partial class testing
+    [Migration("20220910024746_fixingdata")]
+    partial class fixingdata
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,7 +147,7 @@ namespace K_haku.Infraestructure.Persistence.Migrations
                     b.ToTable("MovieList");
                 });
 
-            modelBuilder.Entity("K_haku.Core.Domain.Entities.ScrapPages", b =>
+            modelBuilder.Entity("K_haku.Core.Domain.Entities.ScrapPage", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
