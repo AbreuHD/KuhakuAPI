@@ -14,7 +14,8 @@ using K_haku.Core.Application.Helpers;
 using Newtonsoft.Json.Linq;
 using K_haku.Core.Application.WebScrapers.Common;
 using K_haku.Core.Application.Dtos.Movie;
-using MovieVideoResponse = K_haku.Core.Application.Dtos.Movie.MovieVideoResponse;
+using System.Net.NetworkInformation;
+using AutoMapper.Internal;
 
 namespace K_haku.Core.Application.WebsScrapers.GetVideos.Cuevana
 {
@@ -29,29 +30,74 @@ namespace K_haku.Core.Application.WebsScrapers.GetVideos.Cuevana
         public async Task<List<MovieVideoResponse>> MovieVideos(string movieLink)
         {
             ScrapingBrowser browser = new ScrapingBrowser();
-            List<string> language = new();
-            List<int> languageInt = new();
-            List<string> movieLinks = new();
 
-            WebPage webPage = browser.NavigateToPage(new Uri(movieLink));
-            var moviePage = webPage.Find("div", By.Class("video")).FirstOrDefault();
-            var languageList = moviePage.SelectNodes("//li[@class='open_submenu']/div[2]/ul/li");
+            //WebPage webPage = await browser.NavigateToPageAsync(new Uri(movieLink));
+            HtmlWeb web = new();
+            HtmlDocument webPage = web.Load(movieLink);
+            
+            /*HtmlNode moviePage = webPage.Find("div", By.Id("top-single")).FirstOrDefault();
+            HtmlNodeCollection movieData = moviePage.SelectNodes("//div[2]/ul/li/div/ul/li");*/
+            var movieData = webPage.DocumentNode.SelectNodes("//div[2]/ul/li/div/ul/li");
 
-            List<MovieVideoResponse> response = languageList.Select(iLanguage => new MovieVideoResponse
+
+            List<MovieVideoResponse> response = movieData.Select(data => new MovieVideoResponse
             {
-                Language = iLanguage.SelectSingleNode("./span/span").InnerText.Substring(3),
-                Link = iLanguage.SelectSingleNode($"//div[@id='{iLanguage.SelectSingleNode(".").Attributes["data-tplayernv"].Value}']/iframe").Attributes["data-src"].Value,
-                Type = iLanguage.SelectSingleNode("./span/div").InnerText,
+                Language = ServerLang(data.Attributes["data-lang"].Value).Result,
+                Link = ServerLink(webPage, data.Attributes["data-tplayernv"].Value).Result,
+                Type = ServerType(data.Attributes["data-server"].Value).Result,
             }).ToList();
 
-            MovieVideoResponse trailer = new();
-            trailer.Language = "Unknow";
-            trailer.Link = moviePage.SelectSingleNode($"//div[@id='OptY']/iframe").Attributes["data-src"].Value;
-            trailer.Type = "Trailer";
-            response.Add(trailer);
+           
+             MovieVideoResponse trailer = new();
+             trailer.Language = "Unknow";
+             trailer.Link = webPage.DocumentNode.SelectSingleNode($"//div[@id='OptY']/iframe").Attributes["data-src"].Value;
+             trailer.Type = "Trailer";
+             response.Add(trailer);
 
             return response;
 
         }
+
+        public async Task<string> ServerLink(HtmlDocument page, string opt)
+        {
+            return page.DocumentNode.SelectSingleNode($"//div[@id='{opt}']/iframe").Attributes["data-src"].Value;
+        }
+        public async Task<string> ServerType(string datos)
+        {
+            int data = Convert.ToInt32(datos);
+            if (data == 55625)
+            {
+                return "Google";
+            }
+            if (data == 54846)
+            {
+                return "Streamtape";
+            }
+            if (data == 28190)
+            {
+                return "Fembed";
+            }
+
+            return "No Identificado";
+        }
+        public async Task<string> ServerLang(string dato)
+        {
+            int data = Convert.ToInt32(dato);
+            if (data == 48)
+            {
+                return "Latino";
+            }
+            if (data == 210)
+            {
+                return "Castellano";
+            }
+            if (data == 51)
+            {
+                return "Subtitulado";
+            }
+
+            return "No Identificado";
+        }
+
     }
 }
