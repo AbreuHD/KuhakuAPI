@@ -1,5 +1,4 @@
 ﻿using K_haku.Core.Application.ViewModels.Cuevana;
-using PuppeteerSharp;
 using ScrapySharp.Html;
 using ScrapySharp.Network;
 using System;
@@ -16,6 +15,8 @@ using K_haku.Core.Application.WebScrapers.Common;
 using K_haku.Core.Application.Dtos.Movie;
 using System.Net.NetworkInformation;
 using AutoMapper.Internal;
+using K_haku.Core.Application.Interface.Repositories;
+using K_haku.Core.Domain.Entities;
 
 namespace K_haku.Core.Application.WebsScrapers.GetVideos.Cuevana
 {
@@ -27,41 +28,54 @@ namespace K_haku.Core.Application.WebsScrapers.GetVideos.Cuevana
         /// <param name="movieLinks"></param>
         /// <returns>Languages and Movie Links https://ww1.cuevana3.me/peliculas</returns>
 
-        public async Task<List<MovieVideoResponse>> MovieVideos(string movieLink)
+        public async Task<List<MovieVideoResponse>> MovieVideos(string movieLink)//Task<List<MovieVideoResponse>>
         {
+
+            /*var config = Configuration.Default.WithDefaultLoader();
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(movieLink);
+            await document.WaitForReadyAsync();
+            var data = document.QuerySelectorAll("#top-single li.clili.L6v6v_0");*/
+
+            //Request the web page.
+            #region scrapping
             ScrapingBrowser browser = new ScrapingBrowser();
 
-            //WebPage webPage = await browser.NavigateToPageAsync(new Uri(movieLink));
-            HtmlWeb web = new();
-            HtmlDocument webPage = web.Load(movieLink);
-            
-            /*HtmlNode moviePage = webPage.Find("div", By.Id("top-single")).FirstOrDefault();
-            HtmlNodeCollection movieData = moviePage.SelectNodes("//div[2]/ul/li/div/ul/li");*/
-            var movieData = webPage.DocumentNode.SelectNodes("//div[2]/ul/li/div/ul/li");
+            WebPage webPage = await browser.NavigateToPageAsync(new Uri(movieLink));
+
+
+
+            //var webPage = new HtmlDocument();
+            //webPage.LoadHtml(webPage);
+
+            HtmlNode moviePage = webPage.Find("div", By.Id("top-single")).FirstOrDefault();
+            HtmlNodeCollection movieData = moviePage.SelectNodes("//div[2]/ul/li/div/ul/li");
+            //var movieData = webPage..SelectNodes("//div[2]/ul/li/div/ul/li");
+
+            #endregion
+
 
 
             List<MovieVideoResponse> response = movieData.Select(data => new MovieVideoResponse
             {
                 Language = ServerLang(data.Attributes["data-lang"].Value).Result,
-                Link = ServerLink(webPage, data.Attributes["data-tplayernv"].Value).Result,
+                Link = moviePage.SelectSingleNode($"//div[@id='{data.Attributes["data-tplayernv"].Value}']/iframe").Attributes["data-src"].Value,
                 Type = ServerType(data.Attributes["data-server"].Value).Result,
             }).ToList();
-
-           
-             MovieVideoResponse trailer = new();
-             trailer.Language = "Unknow";
-             trailer.Link = webPage.DocumentNode.SelectSingleNode($"//div[@id='OptY']/iframe").Attributes["data-src"].Value;
-             trailer.Type = "Trailer";
-             response.Add(trailer);
+            
+            MovieVideoResponse trailer = new();
+            trailer.Language = "Unknow";
+            trailer.Link = moviePage.SelectSingleNode($"//div[@id='OptY']/iframe").Attributes["data-src"].Value;
+            trailer.Type = "Trailer";
+            response.Add(trailer);
 
             return response;
-
         }
 
-        public async Task<string> ServerLink(HtmlDocument page, string opt)
+        /*public async Task<string> ServerLink(HtmlNode page, string opt)
         {
-            return page.DocumentNode.SelectSingleNode($"//div[@id='{opt}']/iframe").Attributes["data-src"].Value;
-        }
+            return page.SelectSingleNode($"//div[@id='{opt}']/iframe").Attributes["data-src"].Value;
+        }*/
         public async Task<string> ServerType(string datos)
         {
             int data = Convert.ToInt32(datos);

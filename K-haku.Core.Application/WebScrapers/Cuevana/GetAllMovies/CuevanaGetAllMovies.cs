@@ -1,6 +1,5 @@
 ﻿using HtmlAgilityPack;
 using K_haku.Core.Application.ViewModels;
-using PuppeteerSharp;
 using ScrapySharp.Html;
 using ScrapySharp.Network;
 using System;
