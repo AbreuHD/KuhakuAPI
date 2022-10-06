@@ -89,8 +89,8 @@ namespace K_haku.Core.Application.Mappings
                 .ReverseMap();
 
             CreateMap<AuthenticationRequest, LoginViewModel>()
-               .ForMember(x => x.HasError, opt => opt.Ignore())
-               .ForMember(x => x.Error, opt => opt.Ignore())
+//               .ForMember(x => x.HasError, opt => opt.Ignore())
+//               .ForMember(x => x.Error, opt => opt.Ignore())
                .ReverseMap();
             
             CreateMap<RegisterRequest, UserSaveViewModel>()

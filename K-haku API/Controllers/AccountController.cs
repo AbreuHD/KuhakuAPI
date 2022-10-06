@@ -34,44 +34,5 @@ namespace K_haku_Backend.Controllers
         {
             return Ok(await _userService.Login(request));
         }
-
-        [HttpPost("ChangePassWord")]
-        public async Task<IActionResult> Register(string Id, UserSaveViewModel newPassword)
-        {
-            await _userService.UpdateUser(Id, newPassword);
-            return Ok();
-        }
-
-        /*[HttpPost("Register")]
-        public async Task<IActionResult> Register(UserSaveViewModel userSaveView)
-        {
-            var origin = Request.Headers["origin"];
-            RegisterResponse response = await _userService.Regiter(userSaveView, origin);
-            return Ok(response);
-        }
-
-        [HttpPost("EmailConfirm")]
-        public async Task<IActionResult> Register(string userId, string token)
-        {
-            string response = await _userService.EmailConfirm(userId, token);
-            return Ok(response);
-        }
-
-        [HttpPost("ForgotPassword")]
-        [ServiceFilter(typeof(LoginResponse))]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgot)
-        {
-            var origin = Request.Headers["origin"];
-            GenericResponse response = await _userService.ForgotPassword(forgot, origin);
-            return Ok(response);
-        }
-
-        [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel reset)
-        {
-            GenericResponse response = await _userService.ResetPassword(reset);
-            return Ok(response);
-        }*/
-
     }
 }

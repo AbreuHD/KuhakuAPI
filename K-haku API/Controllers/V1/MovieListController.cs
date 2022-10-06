@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 namespace K_haku_API.Controllers.V1
 {
     [SwaggerTag("Movie List from Database")]
+    [Authorize(Roles = "Owner, User")]
     public class MovieListController : BaseESApiController
     {
-        [Authorize(Roles = "Owner")]
         [HttpGet("GetMovieList")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MovieListResponse>))]
@@ -25,7 +25,7 @@ namespace K_haku_API.Controllers.V1
             Summary = "Movie List",
             Description = "Get All Movie List from Database"
             )]
-        public async Task<IActionResult> Get([FromQuery] GetAllMovieListParameters parameters, string Bearer)
+        public async Task<IActionResult> Get([FromQuery] GetAllMovieListParameters parameters)
         {
             var movieList = await Mediator.Send(new GetAllMovieListQuery
             {

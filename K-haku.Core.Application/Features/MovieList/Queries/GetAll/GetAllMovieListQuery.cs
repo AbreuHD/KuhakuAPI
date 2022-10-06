@@ -64,27 +64,24 @@ namespace K_haku.Core.Application.Features.MovieList.Queries.GetAll
             {
                 parameters.Skip = 30;
             }
+            
+            movies = await _movieListRepository.GetAllAsync(parameters.Skip.Value, true);
 
-            if(parameters.MovieName != null || parameters.ReleaseDate != null)
+            if (parameters.MovieName != null)
             {
-                movies = await _movieListRepository.GetAllAsync(parameters.Skip.Value, true);
-
-                if (parameters.MovieName != null)
-                {
-                    movies = movies.Where(x =>
-                        x.title.ToLower().Contains(parameters.MovieName.ToLower()) ||
-                        x.original_title.ToLower().Contains(parameters.MovieName.ToLower())
-                        ).ToList();
-                }
-
-                if (parameters.ReleaseDate != null)
-                {
-                    movies = movies.Where(x => x.release_date.Year == parameters.ReleaseDate.Value.Year).ToList();
-                }
-
-                return _mapper.Map<List<MovieListResponse>>(movies);
+                movies = movies.Where(x =>
+                    x.title.ToLower().Contains(parameters.MovieName.ToLower()) ||
+                    x.original_title.ToLower().Contains(parameters.MovieName.ToLower())
+                ).ToList();
             }
-            return null;
+
+            if (parameters.ReleaseDate != null)
+            {
+                movies = movies.Where(x => x.release_date.Year == parameters.ReleaseDate.Value.Year).ToList();
+            }
+
+            return _mapper.Map<List<MovieListResponse>>(movies);
+
         }
     }
 
