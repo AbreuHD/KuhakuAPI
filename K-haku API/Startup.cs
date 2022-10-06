@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using SocialNetwork.Core.Application;
 using SocialNetwork.Infraestructure.Shared;
@@ -32,14 +33,21 @@ namespace K_haku_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
             services.AddIdentityInfrastructure(Configuration);
             services.AddPersistenceInfraestructure(Configuration);
             services.AddSharedInfraestructure(Configuration);
             services.AddK_hakuLayer(Configuration);
 
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new ProducesAttribute("application/json"));
+            }).ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressInferBindingSourcesForParameters = true;
+                options.SuppressMapClientErrors = false;
+            });
             services.AddHealthChecks();
             services.AddApiVersioningExtension();
             services.AddSwaggerExtension();

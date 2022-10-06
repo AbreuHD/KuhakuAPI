@@ -2,6 +2,7 @@
 using K_haku.Core.Application.Dtos.Movie;
 using K_haku.Core.Application.Interface.Repositories.Cuevana;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,22 @@ namespace K_haku.Core.Application.Features.MovieList.Queries.GetAll
 {
     public class GetAllMovieListQuery : IRequest<List<MovieListResponse>>
     {
+        /// <example>
+        /// 10/06/2022
+        /// </example>
+        [SwaggerParameter(Description = "Movie Release Date")]
         public DateTime? ReleaseDate { get; set; }
+
+        /// <example>
+        /// Avengers
+        /// </example>
+        [SwaggerParameter(Description = "Movie Name")]
         public string? MovieName { get; set; }
+
+        /// <example>
+        /// 1
+        /// </example>
+        [SwaggerParameter(Description = "Movie List Page")]
         public int? Skip { get; set; }
     }
 

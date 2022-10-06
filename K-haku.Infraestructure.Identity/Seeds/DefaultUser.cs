@@ -29,7 +29,7 @@ namespace K_haku.Infrastructure.Identity.Seeds
                 var userEmail = await userManager.FindByEmailAsync(user.Email);
                 if (userEmail == null)
                 {
-                    await userManager.CreateAsync(user,"123Pa$$word!");
+                    await userManager.CreateAsync(user, "123Pa$$word!");
                     await userManager.AddToRoleAsync(user,Roles.User.ToString());
                  }
 

@@ -14,6 +14,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using K_haku.Core.Application.Dtos.Account;
+using K_haku.Core.Application.Services;
 
 namespace K_haku.Infrastructure.Identity
 {
@@ -95,7 +96,7 @@ namespace K_haku.Infrastructure.Identity
 
 
             services.AddTransient<IAccountService,AccountService>();
-
+            services.AddTransient<IUserService, UserService>();
         }
     }
 }
