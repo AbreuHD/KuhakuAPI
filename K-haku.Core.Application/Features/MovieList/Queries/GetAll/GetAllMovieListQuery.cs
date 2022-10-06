@@ -57,8 +57,7 @@ namespace K_haku.Core.Application.Features.MovieList.Queries.GetAll
             if (parameters.Skip != null)
             {
                 parameters.Skip = parameters.Skip * 30;
-                //movies = await _movieListRepository.GetAllAsync(parameters.Skip.Value, true);
-                //return _mapper.Map<List<MovieListResponse>>(movies);
+
             }
             if(parameters.Skip == null)
             {
