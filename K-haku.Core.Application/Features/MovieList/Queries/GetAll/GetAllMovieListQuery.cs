@@ -5,6 +5,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,13 +42,17 @@ namespace K_haku.Core.Application.Features.MovieList.Queries.GetAll
             if (parameters.Skip != null)
             {
                 parameters.Skip = parameters.Skip * 30;
-                movies = await _movieListRepository.GetAllAsync(parameters.Skip.Value, true);
-                return _mapper.Map<List<MovieListResponse>>(movies);
+                //movies = await _movieListRepository.GetAllAsync(parameters.Skip.Value, true);
+                //return _mapper.Map<List<MovieListResponse>>(movies);
+            }
+            if(parameters.Skip == null)
+            {
+                parameters.Skip = 30;
             }
 
             if(parameters.MovieName != null || parameters.ReleaseDate != null)
             {
-                movies = await _movieListRepository.GetAllAsync();
+                movies = await _movieListRepository.GetAllAsync(parameters.Skip.Value, true);
 
                 if (parameters.MovieName != null)
                 {

@@ -22,7 +22,7 @@ namespace K_haku_API.Controllers.V1
                 Skip = parameters.Skip
             });
 
-            if(movieList.Count == 0 || movieList == null)
+            if(movieList == null || movieList.Count == 0)
             {
                 return NotFound();
             }
