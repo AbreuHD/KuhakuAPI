@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace K_haku_API.Controllers.V1
 {
-    public class MovieController : BaseApiController
+    public class MovieController : BaseESApiController
     {
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieInfoResponse))]

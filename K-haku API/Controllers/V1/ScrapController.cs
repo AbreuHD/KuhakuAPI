@@ -1,5 +1,7 @@
 ﻿using K_haku.Core.Application.Dtos.Movie;
+using K_haku.Core.Application.Enum;
 using K_haku.Core.Application.Features.Cuevana.Commands.GetCuevanaMovies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -7,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace K_haku_API.Controllers.V1
 {
-    public class ScrapController : BaseApiController
+    [Authorize(Roles = "Owner")]
+    public class ScrapController : BaseGeneralApiController
     {
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]

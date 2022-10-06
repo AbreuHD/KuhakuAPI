@@ -62,7 +62,7 @@ namespace K_haku.Infrastructure.Identity.Services
             .Union(roleClaims);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
-            var signCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.Aes128CbcHmacSha256);
+            var signCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
             var jwtSecurityToken = new JwtSecurityToken
             (
                 issuer: _jwtSettings.Issuer,
