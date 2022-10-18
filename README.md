@@ -15,9 +15,9 @@ Es un sitio web que toma datos de diferentes páginas de películas y series, y 
 
 ## Tech Stack
 
-**WebApi:** C#, .Net, Solid, Identity
+**WebApi:** C#, .Net, Solid, Identity, Handlers, Swagger
 
-
+**Desktop App :** https://github.com/AbreuHD/Kuhaku
 
 ## Authors
 
