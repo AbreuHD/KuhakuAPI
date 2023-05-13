@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  k-hakuapi:
+    container_name: KuhakuAPI
+    image: ${DOCKER_REGISTRY-}khakuapi
+    build:
+      context: .
+      dockerfile: K-haku API/Dockerfile

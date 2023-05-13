@@ -25,7 +25,7 @@ namespace K_haku.Core.Application.WebsScrapers.GetAllMovies.Cuevana
             //set UseDefaultCookiesParser as false if a website returns invalid cookies format
             //browser.UseDefaultCookiesParser = false;
 
-            WebPage webPage = browser.NavigateToPage(new Uri("https://ww1.cuevana3.me/peliculas"));
+            WebPage webPage = browser.NavigateToPage(new Uri("https://w4.cuevana3.ai/peliculas"));
             var webPageCount = webPage.Find("nav", By.Class("navigation")).FirstOrDefault();
             var movieWebPageCount = webPageCount.SelectSingleNode("//div/a[@class='page-link'][4]").InnerText;
             
@@ -35,7 +35,7 @@ namespace K_haku.Core.Application.WebsScrapers.GetAllMovies.Cuevana
             {
                 i++;
                 Console.WriteLine($"Cuevana Page {i}");
-                webPage = browser.NavigateToPage(new Uri("https://ww1.cuevana3.me/peliculas/page/" + i));
+                webPage = browser.NavigateToPage(new Uri("https://w4.cuevana3.ai/peliculas/page/" + i));
                 var movieFather = webPage.Find("ul", By.Class("MovieList")).FirstOrDefault();
                 movieList.Add(movieFather.SelectNodes("//li[@class='xxx TPostMv']"));
             }

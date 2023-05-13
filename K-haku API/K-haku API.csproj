@@ -5,6 +5,7 @@
     <RootNamespace>K_haku_API</RootNamespace>
     <UserSecretsId>12e8714e-dfb6-4bdb-99d9-9e861e99410d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
