@@ -47,11 +47,11 @@ namespace K_haku.Core.Application.WebsScrapers.GetVideos.Cuevana
             }).ToList();
 
 
-            MovieVideoResponse trailer = new();
+            /*MovieVideoResponse trailer = new();
             trailer.Language = "Unknow";
             trailer.Link = webPage.DocumentNode.SelectSingleNode($"//div[@id='OptY']/iframe").Attributes["data-src"].Value;
             trailer.Type = "Trailer";
-            response.Add(trailer);
+            response.Add(trailer);*/
 
             return response;
 

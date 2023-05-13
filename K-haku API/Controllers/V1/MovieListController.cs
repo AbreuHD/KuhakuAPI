@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace K_haku_API.Controllers.V1
 {
     [SwaggerTag("Movie List from Database")]
-    [Authorize(Roles = "Owner, User")]
+    //[Authorize(Roles = "Owner, User")]
     public class MovieListController : BaseESApiController
     {
         [HttpGet("GetMovieList")]

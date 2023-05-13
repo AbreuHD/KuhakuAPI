@@ -13,14 +13,14 @@ namespace K_haku_API.Controllers.V1
     [Authorize(Roles = "Owner, User")]
     public class VideosController : BaseESApiController
     {
-        /*[HttpGet]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetVideoListParamaeters))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetVideos([FromQuery] GetVideoListParamaeters parameters)
         {
             return Ok(await Mediator.Send(new GetVideoListQuery() { MovieLink = parameters.MovieLink }));
-        }*/
+        }
 
         [HttpPost("GetVideoSource")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetVideoSourceParameters))]

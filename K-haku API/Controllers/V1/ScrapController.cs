@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace K_haku_API.Controllers.V1
 {
-    [Authorize(Roles = "Owner")]
+    //[Authorize(Roles = "Owner")]
     public class ScrapController : BaseGeneralApiController
     {
         [HttpGet]
