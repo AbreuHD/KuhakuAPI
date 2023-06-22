@@ -3,12 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>K_haku_API</RootNamespace>
-<<<<<<< HEAD
-    <UserSecretsId>12e8714e-dfb6-4bdb-99d9-9e861e99410d</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-=======
->>>>>>> parent of 160c5e0 (DockerFile)
   </PropertyGroup>
 
   <ItemGroup>
