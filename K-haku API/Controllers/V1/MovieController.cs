@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace K_haku_API.Controllers.V1
 {
     [SwaggerTag("Movie")]
-    [Authorize(Roles = "Owner, User")]
+    //[Authorize(Roles = "Owner, User")]
     public class MovieController : BaseESApiController
     {
         [HttpGet]

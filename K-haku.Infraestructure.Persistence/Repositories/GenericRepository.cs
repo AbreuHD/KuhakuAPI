@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,12 +46,15 @@ namespace K_haku.Infraestructure.Persistence.Repositories
             await _dbcontext.SaveChangesAsync();
         }
 
+
+
+
         public virtual async Task<List<Entity>> GetAllAsync(int skip = 0, bool useSkip = false)
         {
             if(useSkip == true)
-            {
-                return await _dbcontext.Set<Entity>().Skip(skip).Take(30).ToListAsync();
-            }
+        {
+            return await _dbcontext.Set<Entity>().Skip(skip).Take(30).ToListAsync();
+        }
             return await _dbcontext.Set<Entity>().ToListAsync();
         }
 

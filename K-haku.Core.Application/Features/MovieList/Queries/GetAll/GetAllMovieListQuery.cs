@@ -63,16 +63,8 @@ namespace K_haku.Core.Application.Features.MovieList.Queries.GetAll
             {
                 parameters.Skip = 30;
             }
-            
-            movies = await _movieListRepository.GetAllAsync(parameters.Skip.Value, true);
+            movies = await _movieListRepository.GetAllMoviListWithNames(parameters.Skip.Value, parameters.MovieName);
 
-            if (parameters.MovieName != null)
-            {
-                movies = movies.Where(x =>
-                    x.title.ToLower().Contains(parameters.MovieName.ToLower()) ||
-                    x.original_title.ToLower().Contains(parameters.MovieName.ToLower())
-                ).ToList();
-            }
 
             if (parameters.ReleaseDate != null)
             {

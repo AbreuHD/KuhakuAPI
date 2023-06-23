@@ -21,6 +21,23 @@ namespace K_haku.Infraestructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<List<MovieList>> GetAllMoviListWithNames(int skip, String title)
+        {
+            IQueryable<MovieList> query = _dbContext.Set<MovieList>();
+            if(title == null)
+            {
+                query = query.Skip(skip).Take(30).OrderBy(movie => movie.title);
+
+            }
+            else
+            {
+                query = query.Where(movie => 
+                    movie.title.Contains(title) || movie.original_title.Contains(title)).Skip(skip).Take(30);
+            }
+            return await query.ToListAsync();
+        }
+
+
         public async Task<bool> Exist(string tmdbid)
         {
             var TMDB = await _dbContext.Set<MovieList>().ToListAsync();

@@ -11,6 +11,6 @@ namespace K_haku.Core.Application.Interface.Repositories.Cuevana
     public interface IMovieListRepository : IGenericRepository<MovieList>
     {
         Task<bool> Exist(string tmdbid);
-
+        Task<List<MovieList>> GetAllMoviListWithNames(int skip, String title);
     }
 }
