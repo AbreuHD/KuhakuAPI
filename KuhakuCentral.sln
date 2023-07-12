@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KuhakuCentral", "KuhakuCentral.csproj", "{40258EF8-D203-487C-858F-0C18E670D334}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.KuhakuCentral", ".\Presentation.KuhakuCentral\KuhakuCentral.csproj", "{40258EF8-D203-487C-858F-0C18E670D334}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0DC8D7A5-116E-4D3A-9558-7117E04259E4}"
 EndProject
@@ -11,15 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{6EF67B05-6C19-4B71-BB1E-D12AF39BC73E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "..\Core.Application\Core.Application.csproj", "{9F830846-1037-4CD5-AC15-9C37247722A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", ".\Core.Application\Core.Application.csproj", "{9F830846-1037-4CD5-AC15-9C37247722A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", "..\Core.Domain\Core.Domain.csproj", "{18406F0A-BCBA-4EC1-AD59-BBD433876AD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", ".\Core.Domain\Core.Domain.csproj", "{18406F0A-BCBA-4EC1-AD59-BBD433876AD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infraestructure.Identity", "..\Infraestructure.Identity\Infraestructure.Identity.csproj", "{32C0EF57-7AA5-4AFE-98A3-3DD27CC18E72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infraestructure.Identity", ".\Infraestructure.Identity\Infraestructure.Identity.csproj", "{32C0EF57-7AA5-4AFE-98A3-3DD27CC18E72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infraestructure.Persistence", "..\Infraestructure.Persistence\Infraestructure.Persistence.csproj", "{634F6CB7-783B-4D7D-8AA6-9EEACAE82D5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infraestructure.Persistence", ".\Infraestructure.Persistence\Infraestructure.Persistence.csproj", "{634F6CB7-783B-4D7D-8AA6-9EEACAE82D5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infraestructure.Shared", "..\Infraestructure.Shared\Infraestructure.Shared.csproj", "{5DA4A59A-4831-4416-97D6-8A9F764FC3E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infraestructure.Shared", ".\Infraestructure.Shared\Infraestructure.Shared.csproj", "{5DA4A59A-4831-4416-97D6-8A9F764FC3E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
