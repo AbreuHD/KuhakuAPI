@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.DTOs.Account;
+using Core.Application.DTOs.General;
 using Core.Application.Interface.Services;
 using MediatR;
 using System;
@@ -20,16 +21,16 @@ namespace Core.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<AuthenticationResponse> Login(AuthenticationRequest request)
+        public async Task<GenericApiResponse<AuthenticationResponse>> Login(AuthenticationRequest request)
         {
-            AuthenticationResponse response = await _accountService.Authentication(request);
+            GenericApiResponse<AuthenticationResponse> response = await _accountService.Authentication(request);
             return response;
         }
         public async Task SignOut()
         {
             await _accountService.SignOut();
         }
-        public async Task<RegisterResponse> Register(RegisterRequest request, string origin)
+        public async Task<GenericApiResponse<RegisterResponse>> Register(RegisterRequest request, string origin)
         {
             var response = await _accountService.Register(request, origin);
             return response;
@@ -43,11 +44,11 @@ namespace Core.Application.Services
         {
             return await _accountService.ConfirmEmail(userId, token);
         }
-        public async Task<GenericResponse> ForgotPassword(ForgotPasswordRequest request, string origin)
+        public async Task<GenericApiResponse<String>> ForgotPassword(ForgotPasswordRequest request, string origin)
         {
             return await _accountService.ForgotPassword(request, origin);
         }
-        public async Task<GenericResponse> ResetPassword(ResetPasswordRequest request)
+        public async Task<GenericApiResponse<String>> ResetPassword(ResetPasswordRequest request)
         {
             return await _accountService.ResetPassword(request);
         }

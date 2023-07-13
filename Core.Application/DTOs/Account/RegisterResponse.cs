@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Application.DTOs.Account
 {
-    public class RegisterResponse : GenericResponse
+    public class RegisterResponse
     {
         public string Id { get; set; }
     }

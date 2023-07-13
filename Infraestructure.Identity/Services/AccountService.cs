@@ -1,5 +1,6 @@
 ﻿using Core.Application.DTOs.Account;
 using Core.Application.DTOs.Email;
+using Core.Application.DTOs.General;
 using Core.Application.Enum;
 using Core.Application.Interface.Services;
 using Core.Domain.Settings;
@@ -86,54 +87,58 @@ namespace Infrastructure.Identity.Services
             };
         }
 
-        public async Task<AuthenticationResponse> Authentication(AuthenticationRequest request)
+        public async Task<GenericApiResponse<AuthenticationResponse>> Authentication(AuthenticationRequest request)
         {
-            var response = new AuthenticationResponse();
+            var response = new GenericApiResponse<AuthenticationResponse>();
             var User = await _userManager.FindByNameAsync(request.UserName);
             if (User == null)
             {
-                response.HasError = true;
-                response.Error = $"No Account Register with {request.UserName}";
+                response.Success = false;
+                response.Message = $"No Account Register with {request.UserName}";
+                response.Statuscode = 402;
                 return response;
             }
             var result = await _signInManager.PasswordSignInAsync(User.UserName, request.Password, false, lockoutOnFailure: false);
             if (!result.Succeeded)
             {
-                response.HasError = true;
-                response.Error = $"Invalid Password";
+                response.Success = false;
+                response.Message = $"Invalid Password";
+                response.Statuscode = 409;
                 return response;
             }
             if (!User.EmailConfirmed)
             {
-                response.HasError = true;
-                response.Error = $"Account not confirm for {request.UserName}";
+                response.Success = false;
+                response.Message = $"Account not confirm for {request.UserName}";
+                response.Statuscode = 400;
                 return response;
             }
 
             JwtSecurityToken jwtSecurityToken = await GenerateJWToken(User);
-
-            response.Id = User.Id;
-            response.Name = User.Name;
-            response.LastName = User.LastName;
-            response.Email = User.Email;
-            response.IsVerified = User.EmailConfirmed;
+            response.Payload = new AuthenticationResponse();
+            response.Payload.Id = User.Id;
+            response.Payload.Name = User.Name;
+            response.Payload.LastName = User.LastName;
+            response.Payload.Email = User.Email;
+            response.Payload.IsVerified = User.EmailConfirmed;
             var roles = await _userManager.GetRolesAsync(User).ConfigureAwait(false);
-            response.Roles = roles.ToList();
-            response.IsVerified = User.EmailConfirmed;
-            response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            response.RefreshToken = GenerateRefreshToken().Token;
+            response.Payload.Roles = roles.ToList();
+            response.Payload.IsVerified = User.EmailConfirmed;
+            response.Payload.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            response.Payload.RefreshToken = GenerateRefreshToken().Token;
 
             return response;
         }
 
-        public async Task<RegisterResponse> Register(RegisterRequest request, string origin)
+        public async Task<GenericApiResponse<RegisterResponse>> Register(RegisterRequest request, string origin)
         {
-            var response = new RegisterResponse();
+            var response = new GenericApiResponse<RegisterResponse>();
             var UserNameExist = await _userManager.FindByNameAsync(request.UserName);
             if (UserNameExist != null)
             {
-                response.HasError = true;
-                response.Error = $"Username {request.UserName} is already taken";
+                response.Success = false;
+                response.Message = $"Username {request.UserName} is already taken";
+                response.Statuscode = 406;
                 return response;
             }
 
@@ -141,8 +146,9 @@ namespace Infrastructure.Identity.Services
 
             if (EmailExist != null)
             {
-                response.HasError = true;
-                response.Error = $"Email {request.Email} is already registered";
+                response.Success = false;
+                response.Message = $"Email {request.Email} is already registered";
+                response.Statuscode = 406;
                 return response;
             }
             var user = new ApplicationUser
@@ -157,13 +163,14 @@ namespace Infrastructure.Identity.Services
             var result = await _userManager.CreateAsync(user, request.Password);
             if (!result.Succeeded)
             {
-                response.HasError = true;
-                response.Error = "A error occurred trying to register the user.";
+                response.Success = false;
+                response.Message = "A error occurred trying to register the user.";
+                response.Statuscode = 400;
                 return response;
 
             }
             var regiteredUser = await _userManager.FindByEmailAsync(user.Email);
-            response.Id = regiteredUser.Id;
+            response.Payload.Id = regiteredUser.Id;
             await _userManager.AddToRoleAsync(user, Roles.User.ToString());
             var verificationUrl = await SendVerificationEMailUrl(user, origin);
             await _emailService.SendAsync(new EmailRequest()
@@ -175,15 +182,16 @@ namespace Infrastructure.Identity.Services
             return response;
         }
 
-        public async Task<GenericResponse> UpdateUser(string userId, RegisterRequest request)
+        public async Task<GenericApiResponse<String>> UpdateUser(string userId, RegisterRequest request)
         {
-            var response = new RegisterResponse();
+            var response = new GenericApiResponse<String>();
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
-                response.HasError = true;
-                response.Error = "A error occurred trying to register the user.";
+                response.Success = false;
+                response.Message = "A error occurred trying to register the user.";
+                response.Statuscode = 400;
                 return response;
 
             }
@@ -232,14 +240,15 @@ namespace Infrastructure.Identity.Services
             return verificationUrl;
         }
 
-        public async Task<GenericResponse> ForgotPassword(ForgotPasswordRequest request, string origin)
+        public async Task<GenericApiResponse<String>> ForgotPassword(ForgotPasswordRequest request, string origin)
         {
-            var response = new GenericResponse();
+            var response = new GenericApiResponse<String>();
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
             {
-                response.HasError = true;
-                response.Error = $"No account registered with {request.Email}";
+                response.Success = false;
+                response.Message = $"No account registered with {request.Email}";
+                response.Statuscode = 401;
                 return response;
             }
             var verificationUrl = await SendForgotPasswordUrl(user, origin);
@@ -253,22 +262,24 @@ namespace Infrastructure.Identity.Services
             return response;
         }
 
-        public async Task<GenericResponse> ResetPassword(ResetPasswordRequest request)
+        public async Task<GenericApiResponse<String>> ResetPassword(ResetPasswordRequest request)
         {
-            var response = new GenericResponse();
+            var response = new GenericApiResponse<String>();
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
             {
-                response.HasError = true;
-                response.Error = $"No account registered with {request.Email}";
+                response.Success = false;
+                response.Message = $"No account registered with {request.Email}";
+                response.Statuscode = 401;
                 return response;
             }
             request.Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Token));
             var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
             if (!result.Succeeded)
             {
-                response.HasError = true;
-                response.Error = $"An error occurred while reset password";
+                response.Success = false;
+                response.Message = $"An error occurred while reset password";
+                response.Statuscode = 500;
                 return response;
             }
 

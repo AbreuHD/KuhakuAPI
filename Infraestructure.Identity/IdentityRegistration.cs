@@ -74,14 +74,22 @@ namespace Infrastructure.Identity
                         c.HandleResponse();
                         c.Response.StatusCode = 401;
                         c.Response.ContentType = "application/json";
-                        var result = JsonConvert.SerializeObject(new JWTResponse { Error = "You're Not Authorized", HasError = true });
+                        var result = JsonConvert.SerializeObject(new JWTResponse { 
+                            Message = "You're Not Authorized", 
+                            Success = false,
+                            Statuscode = 401
+                        });
                         return c.Response.WriteAsync(result);
                     },
                     OnForbidden = c =>
                     {
                         c.Response.StatusCode = 404;
                         c.Response.ContentType = "application/json";
-                        var result = JsonConvert.SerializeObject(new JWTResponse { Error = "You're Not Authorized to access to this resource", HasError = true });
+                        var result = JsonConvert.SerializeObject(new JWTResponse { 
+                            Message = "You're Not Authorized to access to this resource", 
+                            Success = false,
+                            Statuscode = 404
+                        });
                         return c.Response.WriteAsync(result);
                     }
 
