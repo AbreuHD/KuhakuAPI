@@ -11,14 +11,15 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Application\Core.Application.csproj" />
     <ProjectReference Include="..\Core.Domain\Core.Domain.csproj" />
-    <ProjectReference Include="..\Infraestructure.Identity\Infraestructure.Identity.csproj" />
-    <ProjectReference Include="..\Infraestructure.Persistence\Infraestructure.Persistence.csproj" />
-    <ProjectReference Include="..\Infraestructure.Shared\Infraestructure.Shared.csproj" />
+    <ProjectReference Include="..\Infraestructure.Identity\Infrastructure.Identity.csproj" />
+    <ProjectReference Include="..\Infraestructure.Persistence\Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\Infraestructure.Shared\Infrastructure.Shared.csproj" />
   </ItemGroup>
 
 </Project>
