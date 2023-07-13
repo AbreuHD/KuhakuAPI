@@ -5,6 +5,9 @@ using Infraestructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using KuhakuCentral.Extensions;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Infrastructure.Identity.Entities;
+using Infrastructure.Identity.Seeds;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +39,23 @@ builder.Services.AddApiVersioningExtension();
 builder.Services.AddSwaggerExtension();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
+        await DefaultRoles.Seed(userManager, roleManager);
+        await DefaultOwner.Seed(userManager, roleManager);
+        await DefaultUser.Seed(userManager, roleManager);
+    }
+    catch (Exception ex)
+    {
+
+    }
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
