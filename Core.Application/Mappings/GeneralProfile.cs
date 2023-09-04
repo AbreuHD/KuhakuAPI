@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.DTOs.Account;
+using Core.Application.DTOs.Movies;
 using Core.Application.DTOs.Relations;
 using Core.Application.DTOs.Scraping;
 using Core.Application.DTOs.TMDB;
@@ -29,6 +30,9 @@ namespace Core.Application.Mappings
                 .ForMember(x => x.TMDBTempID, opt => opt.Ignore());
 
             CreateMap<Movie_MovieWeb, Movie_MovieWebDTO>()
+                .ReverseMap();
+
+            CreateMap<Movie, PreviewSearchMovieDTO>()
                 .ReverseMap();
         }
     }

@@ -1,5 +1,5 @@
 ﻿using Core.Application.DTOs.General;
-using Core.Application.Features.PelisPlusLat.Commands.GetPelisPlusLatMovies;
+using Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusLatMovies;
 using KuhakuCentral.Controllers.V1.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -50,5 +50,23 @@ namespace Infraestructure.Persistence.Repositories
             return allMovies;
         }
 
+        public async Task<(List<Movie>, List<Genre>)> SearchMovies(string Title, List<int> Value = null)
+        {
+            var searchKeywords = Title.ToLower().Split(' ');
+            var responseGenres = new List<Genre>();
+            //var responseMovies = await _dbContext.Set<Movie>().Where(x => x.Title.ToLower().Contains(Title.ToLower())).ToListAsync();
+            var responseMovies = new List<Movie>();
+            foreach (var keyword in searchKeywords)
+            {
+                var moviesMatchingKeyword = await _dbContext.Set<Movie>()
+                    .Where(x => x.Title.ToLower().Contains(keyword))
+                    .ToListAsync();
+
+                responseMovies.AddRange(moviesMatchingKeyword);
+            }
+            responseMovies = responseMovies.Distinct().ToList();
+
+            return (responseMovies, responseGenres);
+        }
     }
 }

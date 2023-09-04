@@ -7,5 +7,6 @@ namespace Core.Application.Interface.Repositories
     {
         Task<List<Movie>> Exist(List<Movie> movie);
         Task<List<Movie_MovieWeb>> GetId(List<Movie_MovieWeb> movie);
+        Task<(List<Movie>, List<Genre>)> SearchMovies(string Title, List<int> Value = null);
     }
 }
