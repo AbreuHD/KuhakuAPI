@@ -1,6 +1,10 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Relations;
+using Core.Domain.Entities.WebScraping;
 using Infraestructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Infraestructure.Persistence.Repositories
 {
@@ -12,5 +16,39 @@ namespace Infraestructure.Persistence.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public async Task<List<Movie>> Exist(List<Movie> movies)
+        {
+            List<Movie> allMovies = new List<Movie>();
+            foreach (var movie in movies)
+            {
+                var exists = await _dbContext.Set<Movie>()
+                    .AnyAsync(x => x.TMDBID == movie.TMDBID);
+                if (exists == false)
+                {
+                    allMovies.Add(movie);
+                }
+            }
+            return allMovies;
+
+        }
+
+        public async Task<List<Movie_MovieWeb>> GetId(List<Movie_MovieWeb> movies)
+        {
+            List<Movie_MovieWeb> allMovies = new List<Movie_MovieWeb>();
+            foreach (var movie in movies)
+            {
+                var movieId = await _dbContext.Set<Movie>()
+                        .Where(m => m.TMDBID == movie.MovieID)
+                        .Select(m => m.ID)
+                        .FirstOrDefaultAsync();
+
+                movie.MovieID = movieId;
+                allMovies.Add(movie);
+            }
+            
+            return allMovies;
+        }
+
     }
 }

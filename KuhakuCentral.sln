@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Persistence"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Shared", "Infraestructure.Shared\Infrastructure.Shared.csproj", "{5DA4A59A-4831-4416-97D6-8A9F764FC3E5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing Scraping", "Testing Scraping", "{512629F5-2E4E-4745-B822-0FEBE9944F81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebScrapingTesting", "WebScrapingTesting\WebScrapingTesting.csproj", "{6F652130-A97A-434D-B1CC-466612A8DE5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,10 @@ Global
 		{5DA4A59A-4831-4416-97D6-8A9F764FC3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DA4A59A-4831-4416-97D6-8A9F764FC3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DA4A59A-4831-4416-97D6-8A9F764FC3E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F652130-A97A-434D-B1CC-466612A8DE5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F652130-A97A-434D-B1CC-466612A8DE5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F652130-A97A-434D-B1CC-466612A8DE5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F652130-A97A-434D-B1CC-466612A8DE5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +70,7 @@ Global
 		{32C0EF57-7AA5-4AFE-98A3-3DD27CC18E72} = {53B76375-560E-4877-ADCB-AC8867D2C154}
 		{634F6CB7-783B-4D7D-8AA6-9EEACAE82D5A} = {53B76375-560E-4877-ADCB-AC8867D2C154}
 		{5DA4A59A-4831-4416-97D6-8A9F764FC3E5} = {53B76375-560E-4877-ADCB-AC8867D2C154}
+		{6F652130-A97A-434D-B1CC-466612A8DE5F} = {512629F5-2E4E-4745-B822-0FEBE9944F81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA615552-1A61-42A1-A8DB-FBCE8C10103C}

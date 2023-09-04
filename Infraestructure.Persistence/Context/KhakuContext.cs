@@ -5,6 +5,7 @@ using Core.Domain.Entities.GeneralMovie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
 using Core.Domain.Entities.WebScraping;
+using Core.Domain.Entities.User;
 
 namespace Infraestructure.Persistence.Context
 {
@@ -21,6 +22,7 @@ namespace Infraestructure.Persistence.Context
         public DbSet<Recents> Recents { get; set; }
         public DbSet<MovieWeb> MovieWeb { get; set; }
         public DbSet<ScrapPage> ScrapPage { get; set; }
+        public DbSet<UserEntity> UserEntity { get; set; }
 
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -32,6 +34,8 @@ namespace Infraestructure.Persistence.Context
                     case EntityState.Added:
                         entry.Entity.Created = DateTime.Now;
                         entry.Entity.CreatedBy = "System";
+                        entry.Entity.LastModified = DateTime.Now;
+                        entry.Entity.LastModifiedby = "System";
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModified = DateTime.Now;
@@ -57,6 +61,7 @@ namespace Infraestructure.Persistence.Context
 
             modelBuilder.Entity<MovieWeb>().ToTable("MovieWeb");
             modelBuilder.Entity<ScrapPage>().ToTable("ScrapPage");
+            modelBuilder.Entity<UserEntity>().ToTable("UserEntity");
             #endregion
 
             #region PK's
@@ -73,6 +78,7 @@ namespace Infraestructure.Persistence.Context
 
             modelBuilder.Entity<MovieWeb>().HasKey(x => x.ID);
             modelBuilder.Entity<ScrapPage>().HasKey(x => x.ID);
+            modelBuilder.Entity<UserEntity>().HasKey(x => x.ID);
             #endregion
 
             //modelBuilder.Entity<CuevanaMovies>().Property(c => c.Title).IsRequired();
@@ -100,6 +106,12 @@ namespace Infraestructure.Persistence.Context
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<MovieList>().HasMany<MovieList_Movie>(x => x.MovieList_Movie).WithOne(x => x.MovieList).HasForeignKey(x => x.MovieListID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserEntity>().HasMany<Recents>(x => x.Recents).WithOne(x => x.UserEntity).HasForeignKey(x => x.UserEntityID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserEntity>().HasMany<MovieList>(x => x.MovieLists).WithOne(x => x.UserEntity).HasForeignKey(x => x.UserEntityID)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 

@@ -2,7 +2,9 @@
 using Core.Application.DTOs.Email;
 using Core.Application.DTOs.General;
 using Core.Application.Enum;
+using Core.Application.Interface.Repositories;
 using Core.Application.Interface.Services;
+using Core.Domain.Entities.User;
 using Core.Domain.Settings;
 using Infrastructure.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -19,21 +21,25 @@ namespace Infrastructure.Identity.Services
 {
     public class AccountService : IAccountService
     {
+        private readonly IUserEntityRepository _userEntityRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly JWTSettings _jwtSettings;
 
+
         public AccountService(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailService emailService,
-            IOptions<JWTSettings> jwtSettings)
+            IOptions<JWTSettings> jwtSettings,
+            IUserEntityRepository userEntityRepository)
         {
             _signInManager = signInManager;
             _emailService = emailService;
             _userManager = userManager;
             _jwtSettings = jwtSettings.Value;
+            _userEntityRepository = userEntityRepository;
         }
 
         private async Task<JwtSecurityToken> GenerateJWToken(ApplicationUser user)
@@ -133,6 +139,7 @@ namespace Infrastructure.Identity.Services
         public async Task<GenericApiResponse<RegisterResponse>> Register(RegisterRequest request, string origin)
         {
             var response = new GenericApiResponse<RegisterResponse>();
+            response.Payload = new RegisterResponse();
             var UserNameExist = await _userManager.FindByNameAsync(request.UserName);
             if (UserNameExist != null)
             {
@@ -158,6 +165,7 @@ namespace Infrastructure.Identity.Services
                 LastName = request.LastName,
                 UserName = request.UserName,
                 PhoneNumber = request.Phone,
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -179,6 +187,13 @@ namespace Infrastructure.Identity.Services
                 Body = $"Please confirm your account visiting this URL {verificationUrl}",
                 Subject = "Confirm registration"
             });
+
+            await _userEntityRepository.AddAsync(new UserEntity()
+            {
+                Name = request.Name,
+                UserID = response.Payload.Id
+            });
+
             return response;
         }
 

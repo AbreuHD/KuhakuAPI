@@ -1,11 +1,12 @@
 ﻿using Core.Application.DTOs.Account;
 using Core.Application.Enum;
+using KuhakuCentral.Controllers.V1.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 
-namespace KuhakuCentral.Controllers.V1
+namespace KuhakuCentral.Controllers.V1.Movie
 {
     public class MovieController : BaseAPI
     {

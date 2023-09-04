@@ -1,0 +1,33 @@
+﻿using Core.Application.DTOs.General;
+using Core.Application.Features.PelisPlusLat.Commands.GetPelisPlusLatMovies;
+using KuhakuCentral.Controllers.V1.General;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
+
+namespace KuhakuCentral.Controllers.V1.WebScraping
+{
+    public class ScrapingController : BaseAPI
+    {
+
+        [HttpGet("Pelisplushd.lat")]
+        [Authorize(Roles = "Owner")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Web Scraping at PelisPlus.lat",
+            Description = "Get all movies from PelisPlus.lat and send them to the Database"
+        )]
+        public async Task<IActionResult> ScrapPelisPlusLat()
+        {
+            await Mediator.Send(new GetPelisPlusLatMoviesCommand());
+            return Ok(new GenericApiResponse<String>{
+                Message = "Done",
+                Statuscode = 200,
+                Success = true
+            });
+        }
+    }
+}

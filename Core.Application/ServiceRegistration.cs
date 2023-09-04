@@ -1,4 +1,5 @@
-﻿using Core.Application.Interface.Services;
+﻿using Core.Application.Helpers.TMDB;
+using Core.Application.Interface.Services;
 using Core.Application.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ namespace Core.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<GetTMDBData, GetTMDBData>();
         }
     }
 }

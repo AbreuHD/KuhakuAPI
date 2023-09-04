@@ -26,6 +26,7 @@ namespace Infraestructure.Persistence
             services.AddTransient<IMovieWebRepository, MovieWebRepository>();
             services.AddTransient<IRecentsRepository, RecentsRepository>();
             services.AddTransient<IScrapPageRepository, ScrapPageRepository>();
+            services.AddTransient<IUserEntityRepository, UserEntityRepository>();
         }
     }
 }
