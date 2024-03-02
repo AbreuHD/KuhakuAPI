@@ -8,6 +8,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using Infrastructure.Identity.Entities;
 using Infrastructure.Identity.Seeds;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,7 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseHttpsRedirection();
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Kuhaku API");
@@ -67,7 +69,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+//app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 

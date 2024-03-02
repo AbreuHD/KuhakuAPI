@@ -12,7 +12,7 @@ namespace Infrastructure.Identity.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("Identity");
+            //modelBuilder.HasDefaultSchema("Identity");
             modelBuilder.Entity<ApplicationUser>(entity => entity.ToTable("Users"));
             modelBuilder.Entity<IdentityRole>(entity => entity.ToTable("Roles"));
             modelBuilder.Entity<IdentityUserRole<string>>(entity => entity.ToTable("UserRoles"));

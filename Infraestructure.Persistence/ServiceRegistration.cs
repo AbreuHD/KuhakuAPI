@@ -4,6 +4,7 @@ using Infraestructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Infraestructure.Persistence
 {
@@ -12,8 +13,8 @@ namespace Infraestructure.Persistence
         public static void AddPersistenceInfraestructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<KhakuContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), m =>
-                    m.MigrationsAssembly(typeof(KhakuContext).Assembly.FullName)));
+                options.UseMySql(configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(10,6,16)), m =>
+                    m.MigrationsAssembly(typeof(KhakuContext).Assembly.FullName).SchemaBehavior(MySqlSchemaBehavior.Ignore)));
 
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IScrapPageRepository, ScrapPageRepository>();

@@ -2,31 +2,36 @@
 using Core.Application.DTOs.Scraping;
 using HtmlAgilityPack;
 using System;
-String ORIGINAL_URI = "https://www12.pelisplushd.lat";
-int DB_WEB_ID = 1;
 
-GetPelisplushd("https://www12.pelisplushd.lat/peliculas/estrenos");
+int DB_WEB_ID = 0;
+string ORIGINAL_URI = "https://cuevana3.ch";
+
+GetCuevana3Pagination();
 
 
-List<MovieWebDTO> GetPelisplushd(String uri)
+async Task<int> GetCuevana3Pagination()
 {
+    string uri = "/peliculas?page=1000";
+    HtmlWeb web = new HtmlWeb();
+    var htmlDoc = web.Load(ORIGINAL_URI + uri);
+    return (int)Convert.ToInt64(htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"aa-wp\"]/div/div[2]/main/section/nav/div/a[7]").InnerText);
+}
+
+async Task<List<MovieWebDTO>> GetCuevana3(int i)
+{
+    string uri = "/peliculas";
     List<MovieWebDTO> movieList = new List<MovieWebDTO>();
 
     HtmlWeb web = new HtmlWeb();
-    var htmlDoc = web.Load(uri);
+    var htmlDoc = web.Load($"{ORIGINAL_URI + uri}?page={i}");
 
-    var elements = htmlDoc.DocumentNode.SelectNodes("//*[@id='default-tab-1']/div/a");
-    int pagination = (int)Convert.ToInt64(htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"default-tab-1\"]/nav/ul/li[15]").InnerText);
-    int i = 1;
-
-    while(i <= pagination){
-        foreach (var node in elements)
-        {
-            movieList.Add(GetMovieInfo(node));
-        }
-        i++;
-        htmlDoc = web.Load($"{uri}?page={i}");
-        elements = htmlDoc.DocumentNode.SelectNodes("//*[@id='default-tab-1']/div//a");
+    var elements = htmlDoc.DocumentNode.SelectNodes("//li[@class='xxx TPostMv']");
+    int count = 0;
+    foreach (var node in elements)
+    {
+        count++;
+        movieList.Add(GetMovieInfo(node)); //here
+        Console.WriteLine($"Movie {count}");
     }
     return movieList;
 }
@@ -35,9 +40,9 @@ MovieWebDTO GetMovieInfo(HtmlNode node)
 {
     var data = new MovieWebDTO();
 
-    data.Name = node.ChildNodes[3].ChildNodes[1].InnerText;
-    data.Url = node.Attributes["href"].Value;
-    data.Img = node.ChildNodes[1].Attributes["src"].Value;
+    data.Name = node.ChildNodes[1].ChildNodes[2].ChildNodes[1].InnerText;
+    data.Url = node.ChildNodes[1].ChildNodes[1].Attributes["href"].Value;
+    data.Img = node.ChildNodes[1].ChildNodes[1].ChildNodes[2].ChildNodes[1].Attributes["src"].Value;
     data.Overview = GetOverView(data.Url);
     data.ScrapPageID = DB_WEB_ID;
 
@@ -52,7 +57,7 @@ string GetOverView(string uri)
     {
         HtmlWeb web = new HtmlWeb();
         var htmlDoc = web.Load(ORIGINAL_URI + uri);
-        node = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[1]/div/div/section/div/div[1]/div[1]/div[2]/div/div[2]/div[1]").InnerText;
+        node = htmlDoc.DocumentNode.SelectSingleNode("//*[@class=\"Description\"]").InnerText;
     }
     catch
     {

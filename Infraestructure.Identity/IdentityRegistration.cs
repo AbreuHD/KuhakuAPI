@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System.Text;
 
 namespace Infrastructure.Identity
@@ -26,8 +27,8 @@ namespace Infrastructure.Identity
             services.AddDbContext<IdentityContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"),
-                    m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
+                options.UseMySql(configuration.GetConnectionString("IdentityConnection"), new MySqlServerVersion(new Version(10,6,16)),
+                    m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName).SchemaBehavior(MySqlSchemaBehavior.Ignore));
             });
 
 
