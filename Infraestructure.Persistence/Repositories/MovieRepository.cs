@@ -50,6 +50,12 @@ namespace Infraestructure.Persistence.Repositories
             return allMovies;
         }
 
+        public async Task<Movie> GetMovieWebPage(int MovieId)
+        {
+            var response = await _dbContext.Set<Movie>().Include(x => x.Movie_MovieWeb).FirstOrDefaultAsync(x => x.ID == MovieId);
+            return response;
+        }
+
         public async Task<(List<Movie>, List<Genre>)> SearchMovies(string Title, List<int> Value = null)
         {
             var searchKeywords = Title.ToLower().Split(' ');

@@ -8,6 +8,7 @@ namespace Core.Application.DTOs.Movies
 {
     public class PreviewSearchMovieDTO
     {
+        public int ID { get; set; }
         public int TMDBID { get; set; }
         public string Title { get; set; }
         public bool? Adult { get; set; }

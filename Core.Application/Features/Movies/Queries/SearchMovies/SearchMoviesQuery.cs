@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Application.Features.Movies.Queries
+namespace Core.Application.Features.Movies.Queries.SearchMovies
 {
     public class SearchMoviesQuery : IRequest<GenericApiResponse<List<PreviewSearchMovieDTO>>>
     {
@@ -22,7 +22,7 @@ namespace Core.Application.Features.Movies.Queries
         private readonly IMovieRepository _movieRepository;
         private readonly IMapper _mapper;
 
-        public SearchMoviesQueryHandler(IMovieRepository movieRepository,IMapper mapper)
+        public SearchMoviesQueryHandler(IMovieRepository movieRepository, IMapper mapper)
         {
             _movieRepository = movieRepository;
             _mapper = mapper;
