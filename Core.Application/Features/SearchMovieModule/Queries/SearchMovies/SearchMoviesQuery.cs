@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Application.Features.Movies.Queries.SearchMovies
+namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovies
 {
     public class SearchMoviesQuery : IRequest<GenericApiResponse<List<PreviewSearchMovieDTO>>>
     {

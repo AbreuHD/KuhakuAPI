@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Application.Features.Movies.Queries.SearchMoviePages
+namespace Core.Application.Features.SearchMovieModule.Queries.SearchMoviePages
 {
     public class SearchMoviePagesQuery : IRequest<GenericApiResponse<MoviePageResponseDTO>>
     {

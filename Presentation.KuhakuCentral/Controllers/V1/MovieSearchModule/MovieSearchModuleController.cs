@@ -1,17 +1,13 @@
-﻿using Core.Application.DTOs.Account;
-using Core.Application.Enum;
-using Core.Application.Features.Movies.Queries;
-using Core.Application.Features.Movies.Queries.SearchMoviePages;
-using Core.Application.Features.Movies.Queries.SearchMovies;
-using KuhakuCentral.Controllers.V1.General;
-using Microsoft.AspNetCore.Authorization;
+﻿using Core.Application.Features.SearchMovieModule.Queries.SearchMoviePages;
+using Core.Application.Features.SearchMovieModule.Queries.SearchMovies;
+using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 
-namespace KuhakuCentral.Controllers.V1.Movie
+namespace KuhakuCentral.Controllers.V1.MovieSearchModule
 {
-    public class MovieController : BaseAPI
+    public class MovieSearchModuleController : BaseAPI
     {
         [HttpGet("Search")]
         [Consumes(MediaTypeNames.Application.Json)]

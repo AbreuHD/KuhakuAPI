@@ -83,12 +83,6 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
                         }
                     }
                 }
-
-
-
-
-
-
                 pagination--;
             }
 

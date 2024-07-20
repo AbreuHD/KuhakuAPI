@@ -1,6 +1,6 @@
 ﻿using Core.Application.DTOs.Account;
 using Core.Application.Interface.Services;
-using KuhakuCentral.Controllers.V1.General;
+using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuhakuCentral.Controllers.V1.Account
