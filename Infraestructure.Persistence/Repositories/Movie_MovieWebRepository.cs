@@ -1,7 +1,6 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Relations;
 using Infraestructure.Persistence.Context;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Persistence.Repositories
 {

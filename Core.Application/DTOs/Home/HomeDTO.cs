@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Application.DTOs.Movies;
 
 namespace Core.Application.DTOs.Home
 {
-    public class HomeDTO
+    public class HomeDto
     {
-        //public 
+        public List<PreviewSearchMovieDTO>? Accion { get; set; }
+        public List<PreviewSearchMovieDTO>? Animacion { get; set; }
+        public List<PreviewSearchMovieDTO>? Horror { get; set; }
+        public List<PreviewSearchMovieDTO>? Romance { get; set; }
+        public List<PreviewSearchMovieDTO>? Familiar { get; set; }
+        public List<PreviewSearchMovieDTO>? History { get; set; }
     }
 }

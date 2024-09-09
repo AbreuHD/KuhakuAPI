@@ -1,10 +1,8 @@
 ﻿using Core.Application.DTOs.Scraping;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using Infraestructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace Infraestructure.Persistence.Repositories
 {
@@ -25,7 +23,7 @@ namespace Infraestructure.Persistence.Repositories
             {
                 var exists = await _dbContext.Set<MovieWeb>()
                     .AnyAsync(x => x.Url == movie.Url);
-                if(exists == false)
+                if (exists == false)
                 {
                     newMovie.Add(movies[i]);
                 }

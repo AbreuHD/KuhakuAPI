@@ -2,13 +2,8 @@
 using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Application.Features.SearchMovieModule.Queries.SearchMoviePages
+namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMoviePages
 {
     public class SearchMoviePagesQuery : IRequest<GenericApiResponse<MoviePageResponseDTO>>
     {

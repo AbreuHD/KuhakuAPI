@@ -1,14 +1,14 @@
-using Infraestructure.Shared;
 using Core.Application;
-using Infrastructure.Identity;
 using Infraestructure.Persistence;
-using Microsoft.AspNetCore.Mvc;
-using KuhakuCentral.Extensions;
-using Swashbuckle.AspNetCore.SwaggerUI;
+using Infraestructure.Shared;
+using Infrastructure.Identity;
 using Infrastructure.Identity.Entities;
 using Infrastructure.Identity.Seeds;
-using Microsoft.AspNetCore.Identity;
+using KuhakuCentral.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,10 +51,11 @@ using (var scope = app.Services.CreateScope())
         await DefaultRoles.Seed(userManager, roleManager);
         await DefaultOwner.Seed(userManager, roleManager);
         await DefaultUser.Seed(userManager, roleManager);
+
     }
     catch (Exception ex)
     {
-
+        throw new Exception(ex.Message);
     }
 }
 // Configure the HTTP request pipeline.
@@ -75,7 +76,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 //app.UseHttpsRedirection();
-
 
 app.UseAuthorization();
 

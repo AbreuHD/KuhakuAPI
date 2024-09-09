@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Features\SearchMovieModule\Commands\" />
+    <Folder Include="Services\TMDB\" />
     <Folder Include="Services\WebScrapers\Common\" />
   </ItemGroup>
 

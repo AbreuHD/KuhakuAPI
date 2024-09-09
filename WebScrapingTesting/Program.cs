@@ -1,7 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Core.Application.DTOs.Scraping;
 using HtmlAgilityPack;
-using System;
 
 int DB_WEB_ID = 0;
 string ORIGINAL_URI = "https://cuevana3.ch";

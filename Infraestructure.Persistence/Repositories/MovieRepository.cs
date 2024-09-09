@@ -1,10 +1,8 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.GeneralMovie;
 using Core.Domain.Entities.Relations;
-using Core.Domain.Entities.WebScraping;
 using Infraestructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace Infraestructure.Persistence.Repositories
 {
@@ -46,7 +44,7 @@ namespace Infraestructure.Persistence.Repositories
                 movie.MovieID = movieId;
                 allMovies.Add(movie);
             }
-            
+
             return allMovies;
         }
 

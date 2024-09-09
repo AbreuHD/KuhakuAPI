@@ -6,11 +6,6 @@ using Core.Domain.Entities.GeneralMovie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusLatMovies
 {

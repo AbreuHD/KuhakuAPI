@@ -1,11 +1,6 @@
 ﻿using Core.Application.DTOs.Scraping;
 using HtmlAgilityPack;
 using ScrapySharp.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3.ch
 {

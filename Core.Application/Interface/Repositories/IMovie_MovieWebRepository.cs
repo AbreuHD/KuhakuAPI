@@ -1,6 +1,4 @@
-﻿using Core.Application.DTOs.Relations;
-using Core.Application.DTOs.Scraping;
-using Core.Domain.Entities.Relations;
+﻿using Core.Domain.Entities.Relations;
 
 namespace Core.Application.Interface.Repositories
 {

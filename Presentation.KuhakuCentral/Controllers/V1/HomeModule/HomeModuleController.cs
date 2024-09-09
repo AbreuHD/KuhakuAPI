@@ -1,4 +1,4 @@
-﻿using Core.Application.Features.SearchMovieModule.Queries.SearchMovies;
+﻿using Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHomePageData;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -6,7 +6,7 @@ using System.Net.Mime;
 
 namespace KuhakuCentral.Controllers.V1.HomeModule
 {
-    public class HomeModuleController : BaseAPI 
+    public class HomeModuleController : BaseAPI
     {
         [HttpGet("GetHome")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -18,7 +18,7 @@ namespace KuhakuCentral.Controllers.V1.HomeModule
             )]
         public async Task<IActionResult> Home()
         {
-            return Ok();
+            return Ok(await Mediator.Send(new GetHomePageDataQuery()));
         }
     }
 }

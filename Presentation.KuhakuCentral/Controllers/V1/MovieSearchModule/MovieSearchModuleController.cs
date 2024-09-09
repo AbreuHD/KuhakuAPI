@@ -1,5 +1,5 @@
-﻿using Core.Application.Features.SearchMovieModule.Queries.SearchMoviePages;
-using Core.Application.Features.SearchMovieModule.Queries.SearchMovies;
+﻿using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMoviePages;
+using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovies;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -19,7 +19,7 @@ namespace KuhakuCentral.Controllers.V1.MovieSearchModule
             )]
         public async Task<IActionResult> Search(string Title, List<int> Values)
         {
-            return Ok(await Mediator.Send(new SearchMoviesQuery { Title = Title, Values = Values}));
+            return Ok(await Mediator.Send(new SearchMoviesQuery { Title = Title, Values = Values }));
         }
 
         [HttpGet("Info")]

@@ -1,11 +1,6 @@
 ﻿using Core.Domain.Common;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Domain.Entities.UserThings
 {

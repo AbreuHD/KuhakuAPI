@@ -6,11 +6,6 @@ using Core.Domain.Entities.GeneralMovie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAllCuevanaMovies
 {
@@ -42,14 +37,14 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
             var _cuevanaService = new Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3.ch.Cuevana3CHServices(1, "https://cuevana3.ch");
 
             var pagination = await _cuevanaService.GetCuevana3Pagination();
-            while(pagination > 0)
+            while (pagination > 0)
             {
                 Console.WriteLine($"Paginacion {pagination}");
                 List<Movie_MovieWebDTO> relations = new List<Movie_MovieWebDTO>();
 
 
                 var movies = await _cuevanaService.GetCuevana3(pagination);
-                if(movies != null)
+                if (movies != null)
                 {
                     var data = await _getTMDBData.GetTMDBId(movies);
                     List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();

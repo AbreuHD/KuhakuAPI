@@ -45,7 +45,8 @@ namespace KuhakuCentral.Controllers.V1.WebScraping
         public async Task<IActionResult> ScrapPelisPlusLat()
         {
             await Mediator.Send(new GetPelisPlusLatMoviesCommand());
-            return Ok(new GenericApiResponse<String>{
+            return Ok(new GenericApiResponse<String>
+            {
                 Message = "Done",
                 Statuscode = 200,
                 Success = true

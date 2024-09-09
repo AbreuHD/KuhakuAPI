@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
-using Core.Domain.Common;
+﻿using Core.Domain.Common;
 using Core.Domain.Entities.GeneralMovie;
 using Core.Domain.Entities.Relations;
+using Core.Domain.Entities.User;
 using Core.Domain.Entities.UserThings;
 using Core.Domain.Entities.WebScraping;
-using Core.Domain.Entities.User;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Infraestructure.Persistence.Context
 {
@@ -13,7 +13,7 @@ namespace Infraestructure.Persistence.Context
     {
         public KhakuContext(DbContextOptions<KhakuContext> options) : base(options) { }
 
-        public DbSet<Genre> Genre { get; set; }
+        //public DbSet<Genre> Genre { get; set; }
         public DbSet<Movie> Movie { get; set; }
         public DbSet<Genre_Movie> Genre_Movie { get; set; }
         public DbSet<Movie_MovieWeb> Movie_MovieWeb { get; set; }
@@ -49,13 +49,13 @@ namespace Infraestructure.Persistence.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region DBNames
-            modelBuilder.Entity<Genre>().ToTable("Genre");
+            //modelBuilder.Entity<Genre>().ToTable("Genre");
             modelBuilder.Entity<Movie>().ToTable("Movie");
 
             modelBuilder.Entity<Genre_Movie>().ToTable("Genre_Movie");
             modelBuilder.Entity<Movie_MovieWeb>().ToTable("Movie_MovieWeb");
             modelBuilder.Entity<MovieList_Movie>().ToTable("MovieList_Movie");
-            
+
             modelBuilder.Entity<MovieList>().ToTable("MovieList");
             modelBuilder.Entity<Recents>().ToTable("Recents");
 
@@ -65,7 +65,7 @@ namespace Infraestructure.Persistence.Context
             #endregion
 
             #region PK's
-            modelBuilder.Entity<Genre>().HasKey(x => x.ID);
+            //modelBuilder.Entity<Genre>().HasKey(x => x.ID);
             modelBuilder.Entity<Movie>().HasKey(x => x.ID);
 
             modelBuilder.Entity<Genre_Movie>().HasKey(x => x.ID);
@@ -115,6 +115,11 @@ namespace Infraestructure.Persistence.Context
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
         }
     }
 }
