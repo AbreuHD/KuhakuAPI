@@ -7,6 +7,7 @@ namespace Core.Domain.Entities.GeneralMovie
     {
         public required string Name { get; set; }
         public required int GenreID { get; set; }
+        public required bool IsMovie { get; set; } = false;
 
         public ICollection<Genre_Movie> Genre_Movie { get; set; }
     }
