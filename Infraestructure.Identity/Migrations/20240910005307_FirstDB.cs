@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace Infrastructure.Persistence.Migrations
+namespace Infrastructure.Identity.Migrations
 {
     /// <inheritdoc />
-    public partial class GenreDeleted : Migration
+    public partial class FirstDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

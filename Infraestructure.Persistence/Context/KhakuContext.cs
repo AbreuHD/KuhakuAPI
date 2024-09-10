@@ -13,7 +13,7 @@ namespace Infraestructure.Persistence.Context
     {
         public KhakuContext(DbContextOptions<KhakuContext> options) : base(options) { }
 
-        //public DbSet<Genre> Genre { get; set; }
+        public DbSet<Genre> Genre { get; set; }
         public DbSet<Movie> Movie { get; set; }
         public DbSet<Genre_Movie> Genre_Movie { get; set; }
         public DbSet<Movie_MovieWeb> Movie_MovieWeb { get; set; }
@@ -49,7 +49,7 @@ namespace Infraestructure.Persistence.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region DBNames
-            //modelBuilder.Entity<Genre>().ToTable("Genre");
+            modelBuilder.Entity<Genre>().ToTable("Genre");
             modelBuilder.Entity<Movie>().ToTable("Movie");
 
             modelBuilder.Entity<Genre_Movie>().ToTable("Genre_Movie");
@@ -65,7 +65,7 @@ namespace Infraestructure.Persistence.Context
             #endregion
 
             #region PK's
-            //modelBuilder.Entity<Genre>().HasKey(x => x.ID);
+            modelBuilder.Entity<Genre>().HasKey(x => x.ID);
             modelBuilder.Entity<Movie>().HasKey(x => x.ID);
 
             modelBuilder.Entity<Genre_Movie>().HasKey(x => x.ID);

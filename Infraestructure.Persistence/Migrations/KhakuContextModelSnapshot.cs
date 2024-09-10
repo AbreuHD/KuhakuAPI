@@ -51,7 +51,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Genre");
+                    b.ToTable("Genre", (string)null);
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.GeneralMovie.Movie", b =>

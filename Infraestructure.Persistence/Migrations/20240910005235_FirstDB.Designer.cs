@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(KhakuContext))]
-    [Migration("20240229053835_MySql")]
-    partial class MySql
+    [Migration("20240910005235_FirstDB")]
+    partial class FirstDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Core.Domain.Entities.GeneralMovie.Genre", b =>
@@ -34,6 +34,12 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("GenreID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsMovie")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");

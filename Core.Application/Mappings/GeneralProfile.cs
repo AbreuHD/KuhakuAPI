@@ -25,7 +25,7 @@ namespace Core.Application.Mappings
             CreateMap<Movie_MovieWeb, Movie_MovieWebDTO>()
                 .ReverseMap();
 
-            CreateMap<Movie, PreviewSearchMovieDTO>()
+            CreateMap<Movie, PreviewSearchMovieDto>()
                 .ReverseMap();
         }
     }

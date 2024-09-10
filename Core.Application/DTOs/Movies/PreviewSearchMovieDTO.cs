@@ -1,6 +1,6 @@
 ﻿namespace Core.Application.DTOs.Movies
 {
-    public class PreviewSearchMovieDTO
+    public class PreviewSearchMovieDto
     {
         public int ID { get; set; }
         public int TMDBID { get; set; }

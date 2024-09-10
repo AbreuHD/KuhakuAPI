@@ -4,11 +4,11 @@ namespace Core.Application.DTOs.Home
 {
     public class HomeDto
     {
-        public List<PreviewSearchMovieDTO>? Accion { get; set; }
-        public List<PreviewSearchMovieDTO>? Animacion { get; set; }
-        public List<PreviewSearchMovieDTO>? Horror { get; set; }
-        public List<PreviewSearchMovieDTO>? Romance { get; set; }
-        public List<PreviewSearchMovieDTO>? Familiar { get; set; }
-        public List<PreviewSearchMovieDTO>? History { get; set; }
+        public List<PreviewSearchMovieDto>? Accion { get; set; }
+        public List<PreviewSearchMovieDto>? Animacion { get; set; }
+        public List<PreviewSearchMovieDto>? Horror { get; set; }
+        public List<PreviewSearchMovieDto>? Romance { get; set; }
+        public List<PreviewSearchMovieDto>? Familiar { get; set; }
+        public List<PreviewSearchMovieDto>? History { get; set; }
     }
 }

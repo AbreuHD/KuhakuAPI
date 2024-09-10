@@ -34,28 +34,28 @@ namespace Core.Application.Features.GenreModule.Commands.GetAllGenres
                 var res = await _getTMDBData.GetAllGenres();
                 foreach (var m in res.Movies)
                 {
-                    var InDb = await _genreRepository.Exist(m.id);
+                    var InDb = await _genreRepository.Exist(m.Id);
                     if (!InDb)
                     {
                         i++;
                         await _genreRepository.AddAsync(new Genre
                         {
-                            GenreID = m.id,
-                            Name = m.name,
+                            GenreID = m.Id,
+                            Name = m.Name,
                             IsMovie = true
                         });
                     }
                 }
                 foreach (var m in res.Series)
                 {
-                    var InDb = await _genreRepository.Exist(m.id);
+                    var InDb = await _genreRepository.Exist(m.Id);
                     if (!InDb)
                     {
                         i++;
                         await _genreRepository.AddAsync(new Genre
                         {
-                            GenreID = m.id,
-                            Name = m.name,
+                            GenreID = m.Id,
+                            Name = m.Name,
                             IsMovie = false
                         });
                     }
