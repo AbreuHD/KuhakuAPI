@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System.Text;
 
 namespace Infrastructure.Identity
@@ -26,8 +27,8 @@ namespace Infrastructure.Identity
             services.AddDbContext<IdentityContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"),
-                    m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
+                options.UseMySql(configuration.GetConnectionString("IdentityConnection"), new MySqlServerVersion(new Version(10, 6, 16)),
+                    m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName).SchemaBehavior(MySqlSchemaBehavior.Ignore));
             });
 
 
@@ -74,8 +75,9 @@ namespace Infrastructure.Identity
                         c.HandleResponse();
                         c.Response.StatusCode = 401;
                         c.Response.ContentType = "application/json";
-                        var result = JsonConvert.SerializeObject(new JWTResponse { 
-                            Message = "You're Not Authorized", 
+                        var result = JsonConvert.SerializeObject(new JWTResponse
+                        {
+                            Message = "You're Not Authorized",
                             Success = false,
                             Statuscode = 401
                         });
@@ -85,8 +87,9 @@ namespace Infrastructure.Identity
                     {
                         c.Response.StatusCode = 404;
                         c.Response.ContentType = "application/json";
-                        var result = JsonConvert.SerializeObject(new JWTResponse { 
-                            Message = "You're Not Authorized to access to this resource", 
+                        var result = JsonConvert.SerializeObject(new JWTResponse
+                        {
+                            Message = "You're Not Authorized to access to this resource",
                             Success = false,
                             Statuscode = 404
                         });

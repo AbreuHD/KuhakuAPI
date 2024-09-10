@@ -1,5 +1,4 @@
-﻿
-namespace Core.Application.DTOs.Scraping
+﻿namespace Core.Application.DTOs.Scraping
 {
     public class MovieWebDTO
     {
@@ -9,5 +8,6 @@ namespace Core.Application.DTOs.Scraping
         public string Img { get; set; }
         public int ScrapPageID { get; set; }
         public int TMDBTempID { get; set; }
+        public List<int>? Genres { get; set; }
     }
 }

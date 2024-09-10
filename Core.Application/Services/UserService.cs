@@ -2,12 +2,6 @@
 using Core.Application.DTOs.Account;
 using Core.Application.DTOs.General;
 using Core.Application.Interface.Services;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Services
 {

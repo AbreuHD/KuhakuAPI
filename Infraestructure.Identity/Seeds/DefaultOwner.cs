@@ -1,4 +1,4 @@
-﻿using Core.Application.Enum;
+﻿using Core.Application.Enums;
 using Infrastructure.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 

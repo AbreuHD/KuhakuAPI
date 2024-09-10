@@ -1,6 +1,7 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.GeneralMovie;
 using Infraestructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Persistence.Repositories
 {
@@ -11,6 +12,16 @@ namespace Infraestructure.Persistence.Repositories
         public GenreRepository(KhakuContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<bool> Exist(int TmdbId)
+        {
+            return await _dbContext.Set<Genre>().Where(x => x.GenreID == TmdbId).FirstOrDefaultAsync() != null;
+        }
+
+        public async Task<int> GetIdByTmdbId(int TmdbId)
+        {
+            return (await _dbContext.Set<Genre>().Where(x => x.GenreID == TmdbId).FirstOrDefaultAsync()).ID;
         }
     }
 }

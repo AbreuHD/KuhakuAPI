@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KuhakuCentral.Controllers.V1.General
+namespace KuhakuCentral.Controllers.General
 {
     [ApiController]
     [Route("v{version:apiVersion}/es/[controller]")]

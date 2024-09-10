@@ -1,13 +1,14 @@
-using Infraestructure.Shared;
 using Core.Application;
-using Infrastructure.Identity;
 using Infraestructure.Persistence;
-using Microsoft.AspNetCore.Mvc;
-using KuhakuCentral.Extensions;
-using Swashbuckle.AspNetCore.SwaggerUI;
+using Infraestructure.Shared;
+using Infrastructure.Identity;
 using Infrastructure.Identity.Entities;
 using Infrastructure.Identity.Seeds;
+using KuhakuCentral.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,16 +51,18 @@ using (var scope = app.Services.CreateScope())
         await DefaultRoles.Seed(userManager, roleManager);
         await DefaultOwner.Seed(userManager, roleManager);
         await DefaultUser.Seed(userManager, roleManager);
+
     }
     catch (Exception ex)
     {
-
+        throw new Exception(ex.Message);
     }
 }
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseHttpsRedirection();
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Kuhaku API");
@@ -67,7 +70,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

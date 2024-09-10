@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Application.DTOs.Movies
+﻿namespace Core.Application.DTOs.Movies
 {
-    public class PreviewSearchMovieDTO
+    public class PreviewSearchMovieDto
     {
+        public int ID { get; set; }
         public int TMDBID { get; set; }
         public string Title { get; set; }
         public bool? Adult { get; set; }

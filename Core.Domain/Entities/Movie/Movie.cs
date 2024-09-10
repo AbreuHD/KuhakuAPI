@@ -1,11 +1,6 @@
 ﻿using Core.Domain.Common;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Domain.Entities.GeneralMovie
 {
@@ -27,6 +22,5 @@ namespace Core.Domain.Entities.GeneralMovie
         public ICollection<Recents> Recents { get; set; }
         public ICollection<MovieList_Movie> MovieList_Movie { get; set; }
         public ICollection<Movie_MovieWeb> Movie_MovieWeb { get; set; }
-
     }
 }

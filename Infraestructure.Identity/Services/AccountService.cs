@@ -1,7 +1,7 @@
 ﻿using Core.Application.DTOs.Account;
 using Core.Application.DTOs.Email;
 using Core.Application.DTOs.General;
-using Core.Application.Enum;
+using Core.Application.Enums;
 using Core.Application.Interface.Repositories;
 using Core.Application.Interface.Services;
 using Core.Domain.Entities.User;
