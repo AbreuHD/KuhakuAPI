@@ -1,31 +1,28 @@
-﻿using KuhakuCentral.Controllers.General;
+﻿using Auth.Core.Application.Features.Login.Queries.AuthLogin;
+using Auth.Infraestructure.Identity.Features.Register.Commands.CreateAccount;
+using KuhakuCentral.Controllers.General;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuhakuCentral.Controllers.V1.Account
 {
-    //public class AccountController : BaseAPI
-    //{
-    //    private readonly IUserService _userService;
-    //    private readonly IHttpContextAccessor _httpContext;
-    //    private readonly AuthenticationResponse user;
+    public class AccountController(IMediator mediator, ILogger<AccountController> logger) : BaseAPI
+    {
+        public IMediator Mediator { get; } = mediator;
+        private readonly ILogger<AccountController> _logger = logger;
 
-    //    public AccountController(IUserService userService)
-    //    {
-    //        _userService = userService;
+        [HttpPost("Login")]
+        public async Task<IActionResult> AuthLogin([FromBody] AuthLoginQuery request)
+        {
+            var data = await Mediator.Send(request);
+            return Ok(data);
+        }
 
-    //    }
-
-    //    [HttpPost("Login")]
-    //    public async Task<IActionResult> Authentication(AuthenticationRequest request)
-    //    {
-    //        return Ok(await _userService.Login(request));
-    //    }
-
-    //    [HttpPost("Register")]
-    //    public async Task<IActionResult> Register(RegisterRequest request)
-    //    {
-    //        var origin = Request.Headers["Origin"];
-    //        return Ok(await _userService.Register(request, origin));
-    //    }
-    //}
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] CreateAccountCommand request)
+        {
+            var data = await Mediator.Send(request);
+            return Ok(data);
+        }
+    }
 }

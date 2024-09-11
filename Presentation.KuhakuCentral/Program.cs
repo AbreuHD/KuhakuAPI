@@ -1,3 +1,4 @@
+using Auth.Infraestructure.Identity;
 using Core.Application;
 using Infraestructure.Persistence;
 using KuhakuCentral.Extensions;
@@ -17,6 +18,8 @@ builder.Services.AddPersistenceInfraestructure(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication();
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
 
 //new
 builder.Services.AddControllers(options =>
@@ -34,6 +37,11 @@ builder.Services.AddApiVersioningExtension();
 builder.Services.AddSwaggerExtension();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await services.AddIdentityRolesAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
