@@ -1,3 +1,5 @@
+[![Deploy website on push](https://github.com/AbreuHD/KuhakuAPI/actions/workflows/main.yml/badge.svg)](https://github.com/AbreuHD/KuhakuAPI/actions/workflows/main.yml)
+
 # ![Logo](https://i.imgur.com/YK549Ia.png)
 
 
