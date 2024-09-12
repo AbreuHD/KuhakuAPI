@@ -1,33 +1,44 @@
-﻿using Core.Application.DTOs.Account;
-using Core.Application.Interface.Services;
+﻿using Auth.Core.Application.Features.Login.Queries.AuthLogin;
+using Auth.Infraestructure.Identity.Features.AuthenticateEmail.Command.AuthEmail;
+using Auth.Infraestructure.Identity.Features.Register.Commands.CreateAccount;
+using Auth.Infraestructure.Identity.Features.Register.Commands.SendValidationEmailAgain;
 using KuhakuCentral.Controllers.General;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuhakuCentral.Controllers.V1.Account
 {
-    public class AccountController : BaseAPI
+    public class AccountController(IMediator mediator, ILogger<AccountController> logger) : BaseAPI
     {
-        private readonly IUserService _userService;
-        private readonly IHttpContextAccessor _httpContext;
-        private readonly AuthenticationResponse user;
-
-        public AccountController(IUserService userService)
-        {
-            _userService = userService;
-
-        }
+        public new IMediator Mediator { get; } = mediator;
+        private readonly ILogger<AccountController> _logger = logger;
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Authentication(AuthenticationRequest request)
+        public async Task<IActionResult> AuthLogin([FromBody] AuthLoginQuery request)
         {
-            return Ok(await _userService.Login(request));
+            var data = await Mediator.Send(request);
+            return Ok(data);
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] CreateAccountCommand request)
         {
-            var origin = Request.Headers["Origin"];
-            return Ok(await _userService.Register(request, origin));
+            var data = await Mediator.Send(request);
+            return Ok(data);
+        }
+
+        [HttpPost("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] AuthEmailCommand request)
+        {
+            var data = await Mediator.Send(request);
+            return Ok(data);
+        }
+
+        [HttpPost("ResentConfirmation")]
+        public async Task<IActionResult> ResentConfirmation([FromBody] SendValidationEmailAgainCommand request)
+        {
+            var data = await Mediator.Send(request);
+            return Ok(data);
         }
     }
 }
