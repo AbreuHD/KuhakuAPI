@@ -35,3 +35,5 @@ jobs:
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
         local-dir: ./Release/
+        dangerous-clean-slate: true
+        ftp-use-pasv: true
