@@ -35,4 +35,4 @@ jobs:
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
         local-dir: ./Release/
-        timeout: 70000 
+        timeout: 7000000
