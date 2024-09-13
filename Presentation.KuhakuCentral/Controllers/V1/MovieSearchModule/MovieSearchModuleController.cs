@@ -32,7 +32,7 @@ namespace KuhakuCentral.Controllers.V1.MovieSearchModule
         )]
         public async Task<IActionResult> Info(int MovieId)
         {
-            return Ok(await Mediator.Send(new SearchMoviePagesQuery { MovieId = MovieId }));
+            return Ok(await Mediator.Send(new SearchMovieInfoQuery { MovieId = MovieId }));
         }
     }
 }
