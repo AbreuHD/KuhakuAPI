@@ -53,9 +53,11 @@ namespace Infraestructure.Persistence.Repositories
             return (await _dbContext.Set<Movie>().FirstAsync(x => x.TMDBID == TmdbId)).ID;
         }
 
-        public async Task<Movie> GetMovieWebPage(int MovieId)
+        public async Task<Movie> GetMovieInfo(int MovieId)
         {
-            var response = await _dbContext.Set<Movie>().Include(x => x.Movie_MovieWeb).FirstOrDefaultAsync(x => x.ID == MovieId);
+            var response = await _dbContext.Set<Movie>().FindAsync(MovieId);
+            await _dbContext.Entry(response).Collection(x => x.Movie_MovieWeb).LoadAsync();
+            await _dbContext.Entry(response).Collection(x => x.Genre_Movie).LoadAsync();
             return response;
         }
 

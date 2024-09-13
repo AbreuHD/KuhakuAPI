@@ -13,7 +13,7 @@ namespace Infraestructure.Persistence
         public static void AddPersistenceInfraestructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<KhakuContext>(options =>
-                options.UseMySql(configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(10, 6, 16)), m =>
+                options.UseMySql(Environment.GetEnvironmentVariable("DefaultConnection") ?? configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(10, 6, 16)), m =>
                     m.MigrationsAssembly(typeof(KhakuContext).Assembly.FullName).SchemaBehavior(MySqlSchemaBehavior.Ignore)));
 
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));

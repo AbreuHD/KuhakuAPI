@@ -19,7 +19,7 @@ namespace Core.Application.Helpers.TMDB
         {
             _configuration = configuration;
             _mapper = mapper;
-            TMDBAPIKEY = _configuration["TMDBAPIKey"] ?? "false";
+            TMDBAPIKEY = Environment.GetEnvironmentVariable("TMDBAPIKey") ?? _configuration["TMDBAPIKey"];
         }
 
         public async Task<CheckedList> GetTMDBId(List<MovieWebDTO> movies)

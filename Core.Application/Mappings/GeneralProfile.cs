@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Movies;
 using Core.Application.DTOs.Relations;
 using Core.Application.DTOs.Scraping;
@@ -26,6 +27,15 @@ namespace Core.Application.Mappings
                 .ReverseMap();
 
             CreateMap<Movie, PreviewSearchMovieDto>()
+                .ReverseMap();
+
+            CreateMap<Movie, InfoSearchMovieDto>()
+                .ReverseMap();            
+            
+            CreateMap<MovieWeb, MovieWebDTO>()
+                .ReverseMap();            
+            
+            CreateMap<Genre, TmdbGenreResponseDto>()
                 .ReverseMap();
         }
     }

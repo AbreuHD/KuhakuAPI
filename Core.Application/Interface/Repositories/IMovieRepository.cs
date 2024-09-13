@@ -9,6 +9,6 @@ namespace Core.Application.Interface.Repositories
         Task<List<Movie_MovieWeb>> GetId(List<Movie_MovieWeb> movie);
         Task<int> GetIdByTmdbId(int TmdbId);
         Task<List<Movie>> SearchMovies(string Title);
-        Task<Movie> GetMovieWebPage(int MovieId);
+        Task<Movie> GetMovieInfo(int MovieId);
     }
 }
