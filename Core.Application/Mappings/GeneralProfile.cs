@@ -36,7 +36,7 @@ namespace Core.Application.Mappings
                 .ReverseMap();            
             
             CreateMap<Genre, TmdbGenreResponseDto>()
-                .ReverseMap();
+                .ReverseMap();            
         }
     }
 }

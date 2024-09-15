@@ -16,9 +16,9 @@ namespace KuhakuCentral.Controllers.V1.HomeModule
             Summary = "Home Page",
             Description = "Get Home Page Data"
             )]
-        public async Task<IActionResult> Home()
+        public async Task<IActionResult> Home(bool KidMode = false)
         {
-            return Ok(await Mediator.Send(new GetHomePageDataQuery()));
+            return Ok(await Mediator.Send(new GetHomePageDataQuery() { KidMode = KidMode}));
         }
     }
 }
