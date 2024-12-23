@@ -21,6 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing Scraping", "Testing
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebScrapingTesting", "WebScrapingTesting\WebScrapingTesting.csproj", "{6F652130-A97A-434D-B1CC-466612A8DE5F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jenkinsfiles", "Jenkinsfiles", "{8377DF25-0E24-45F4-BFF4-1760CE19591B}"
+	ProjectSection(SolutionItems) = preProject
+		.Jenkins\ProdJenkins = .Jenkins\ProdJenkins
+		.Jenkins\TestJenkins = .Jenkins\TestJenkins
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
