@@ -42,8 +42,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'abreu_kuhaku_test_ftp_credentials', usernameVariable: 'FTP_USER', passwordVariable: 'FTP_PASSWORD')]) {
                     script {
-                        // Asumiendo que el directorio de salida se encuentra en bin/Release/net8.0/
-                        def buildDirectory = 'bin/Release/net8.0/'
+                        def buildDirectory = 'Presentation.KuhakuCentral/bin/Release/net8.0/'
                         if (fileExists(buildDirectory)) {
                             echo "Directory exists. Deploying files to FTP..."
                             sh """
