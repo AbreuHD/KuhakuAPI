@@ -24,7 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jenkinsfiles", "Jenkinsfiles", "{8377DF25-0E24-45F4-BFF4-1760CE19591B}"
 	ProjectSection(SolutionItems) = preProject
 		.Jenkins\ProdJenkins = .Jenkins\ProdJenkins
-		.Jenkins\TestJenkins = .Jenkins\TestJenkins
+		Jenkinsfiles\TestJenkins = Jenkinsfiles\TestJenkins
 	EndProjectSection
 EndProject
 Global

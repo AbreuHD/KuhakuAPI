@@ -2,7 +2,7 @@ pipeline {
     agent { label 'Africa' }
     environment {
         FTP_SERVER = credentials('abreu_fpt_host')
-        NUGET_SOURCE = 'credentials('private_nuget_uri')
+        NUGET_SOURCE = credentials('private_nuget_uri')
     }
 
     stages {
