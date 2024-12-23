@@ -8,10 +8,15 @@ pipeline {
     stages {
         stage('Restore dependencies') {
             steps {
-                echo 'Restoring project dependencies from NuGet...'
-                sh 'dotnet restore KuhakuCentral.sln --source $NUGET_SOURCE'
+                echo 'Restoring specific project dependencies from NuGet...'
+                sh '''
+                    dotnet restore KuhakuCentral.sln \
+                        --source $NUGET_SOURCE \
+                        --source https://api.nuget.org/v3/index.json
+                '''
             }
         }
+
 
         stage('SonarQube Analysis') {
             steps {
