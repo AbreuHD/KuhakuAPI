@@ -1,4 +1,7 @@
-[![Deploy website on push](https://github.com/AbreuHD/KuhakuAPI/actions/workflows/main.yml/badge.svg)](https://github.com/AbreuHD/KuhakuAPI/actions/workflows/main.yml)
+[![Quality Gate Status](https://sonarq.abreuhd.com/api/project_badges/measure?project=Kuhaku&metric=alert_status&token=sqb_a50740cc500f4bd410494ac3b533b1849e2f1411)](https://sonarq.abreuhd.com/dashboard?id=Kuhaku)
+[![Lines of Code](https://sonarq.abreuhd.com/api/project_badges/measure?project=Kuhaku&metric=ncloc&token=sqb_a50740cc500f4bd410494ac3b533b1849e2f1411)](https://sonarq.abreuhd.com/dashboard?id=Kuhaku)
+[![Maintainability Rating](https://sonarq.abreuhd.com/api/project_badges/measure?project=Kuhaku&metric=software_quality_maintainability_rating&token=sqb_a50740cc500f4bd410494ac3b533b1849e2f1411)](https://sonarq.abreuhd.com/dashboard?id=Kuhaku)
+[![Security Rating](https://sonarq.abreuhd.com/api/project_badges/measure?project=Kuhaku&metric=software_quality_security_rating&token=sqb_a50740cc500f4bd410494ac3b533b1849e2f1411)](https://sonarq.abreuhd.com/dashboard?id=Kuhaku)
 
 # ![Logo](https://i.imgur.com/YK549Ia.png)
 
