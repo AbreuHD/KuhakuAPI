@@ -4,7 +4,9 @@ using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Home;
 using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
+using Core.Domain.Entities.GeneralMovie;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHomePageData
 {
@@ -27,32 +29,26 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
 
         public async Task<GenericApiResponse<List<HomeDto>>> Handle(GetHomePageDataQuery request, CancellationToken cancellationToken)
         {
-            var response = new GenericApiResponse<List<HomeDto>>();
-            response.Payload = new List<HomeDto>();
-            
-            var genres = await _genreRepository.GetAllWithIncludes( new List<string> { "Genre_Movie" });
-            
+            var response = new GenericApiResponse<List<HomeDto>>
+            {
+                Payload = []
+            };
+
+            var genres = await _genreRepository.GetAllWithIncludes( ["Genre_Movie"]);
+
             foreach (var genre in genres)
             {
-                var i = 0;
+                var selectedMovies = new List<Movie>();
                 foreach (var x in genre.Genre_Movie)
                 {
                     var movieToAdd = await _movieRepository.GetByIdAsync(x.MovieID);
 
-                    if (request.KidMode)
+                    if (request.KidMode && movieToAdd.Adult is false || !request.KidMode)
                     {
-                        if(movieToAdd.Adult is false)
-                        {
-                            i++;
-                            x.Movie = movieToAdd;
-                        }
+                        selectedMovies.Add(movieToAdd);
                     }
-                    else
-                    {
-                        i++;
-                        x.Movie = movieToAdd;
-                    }
-                    if (i == 6) { break; }
+
+                    if (selectedMovies.Count == 6) break;
                 }
 
                 if (genre.Genre_Movie.Count is not 0)
@@ -60,7 +56,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
                     response.Payload.Add(new HomeDto
                     {
                         Genre = _mapper.Map<TmdbGenreResponseDto>(genre),
-                        Movies = _mapper.Map<List<PreviewSearchMovieDto>>(genre.Genre_Movie.Select(x => x.Movie).ToList())
+                        Movies = _mapper.Map<List<PreviewSearchMovieDto>>(selectedMovies),
                     });
                 }
             }
