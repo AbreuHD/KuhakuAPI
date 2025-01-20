@@ -1,4 +1,4 @@
-﻿using Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHomePageData;
+﻿using Core.Application.Features.ShareListModule.CreateNewList.Commands;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -8,17 +8,25 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
 {
     public class ShareListController : BaseAPI
     {
-        [HttpGet("GetHome")]
+        [HttpPost("CreateList")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-                    Summary = "Home Page",
-                    Description = "Get Home Page Data"
+                    Summary = "Create List",
+                    Description = "Endpoint to create a new List of movies and series"
                     )]
-        public async Task<IActionResult> Home(bool KidMode = false)
+        public async Task<IActionResult> CreateList(string name, string img, [FromBody] string? description)
         {
-            return Ok(await Mediator.Send(new GetHomePageDataQuery() { KidMode = KidMode }));
+            var response = await Mediator.Send(
+                new CreateNewListCommand
+                {
+                    Name = name,
+                    Img = img,
+                    Description = description
+                });
+
+            return StatusCode(response.Statuscode, response);
         }
     }
 }
