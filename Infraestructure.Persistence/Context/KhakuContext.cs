@@ -18,7 +18,7 @@ namespace Infraestructure.Persistence.Context
         public DbSet<Genre_Movie> Genre_Movie { get; set; }
         public DbSet<Movie_MovieWeb> Movie_MovieWeb { get; set; }
         public DbSet<MovieList_Movie> MovieList_Movie { get; set; }
-        public DbSet<ShareList> MovieList { get; set; }
+        public DbSet<ShareList> ShareList { get; set; }
         public DbSet<Recents> Recents { get; set; }
         public DbSet<MovieWeb> MovieWeb { get; set; }
         public DbSet<ScrapPage> ScrapPage { get; set; }
@@ -54,7 +54,7 @@ namespace Infraestructure.Persistence.Context
             modelBuilder.Entity<Movie_MovieWeb>().ToTable("Movie_MovieWeb");
             modelBuilder.Entity<MovieList_Movie>().ToTable("MovieList_Movie");
 
-            modelBuilder.Entity<ShareList>().ToTable("MovieList");
+            modelBuilder.Entity<ShareList>().ToTable("ShareList");
             modelBuilder.Entity<Recents>().ToTable("Recents");
 
             modelBuilder.Entity<MovieWeb>().ToTable("MovieWeb");
@@ -104,17 +104,17 @@ namespace Infraestructure.Persistence.Context
             modelBuilder.Entity<ShareList>().HasMany<MovieList_Movie>(x => x.MovieList_Movie).WithOne(x => x.MovieList).HasForeignKey(x => x.MovieListID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Recents>()
-                    .HasOne(x => x.User)
-                    .WithMany()
-                    .HasForeignKey(x => x.UserEntityID)
-                    .OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<Recents>()
+            //        .HasOne<ApplicationUser>()
+            //        .WithMany()
+            //        .HasForeignKey(x => x.UserID)
+            //        .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<ShareList>()
-                .HasOne(x => x.User)
-                .WithMany()
-                .HasForeignKey(x => x.UserEntityID)
-                .OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<ShareList>()
+            //    .HasOne<ApplicationUser>()
+            //    .WithMany()
+            //    .HasForeignKey(x => x.UserID)
+            //    .OnDelete(DeleteBehavior.NoAction);
             #endregion
 
         }

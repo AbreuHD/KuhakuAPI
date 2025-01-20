@@ -22,7 +22,7 @@ namespace Infraestructure.Persistence
             services.AddTransient<IGenreRepository, GenreRepository>();
             services.AddTransient<IMovie_MovieWebRepository, Movie_MovieWebRepository>();
             services.AddTransient<IMovieList_MovieRepository, MovieList_MovieRepository>();
-            services.AddTransient<IMovieListRepository, ShareListRepository>();
+            services.AddTransient<IShareListRepository, ShareListRepository>();
             services.AddTransient<IMovieRepository, MovieRepository>();
             services.AddTransient<IMovieWebRepository, MovieWebRepository>();
             services.AddTransient<IRecentsRepository, RecentsRepository>();

@@ -7,6 +7,7 @@ namespace Core.Application.Features.ShareListModule.CreateNewList.Commands
 {
     public class CreateNewListCommand : IRequest<GenericApiResponse<bool>>
     {
+        public required string UserId { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
         public required string Img { get; set; }
@@ -22,6 +23,7 @@ namespace Core.Application.Features.ShareListModule.CreateNewList.Commands
             {
                 var newList = new Domain.Entities.UserThings.ShareList
                 {
+                    UserID = request.UserId,
                     Name = request.Name,
                     Description = request.Description ?? string.Empty,
                     Img = request.Img

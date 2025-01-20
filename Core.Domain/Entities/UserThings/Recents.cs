@@ -7,10 +7,9 @@ namespace Core.Domain.Entities.UserThings
     public class Recents : AuditableBase
     {
         public DateTime Date { get; set; }
-        public string UserEntityID { get; set; }
+        public string UserID { get; set; }
         public int MovieID { get; set; }
 
         public Movie Movie { get; set; }
-        public ApplicationUser User { get; set; }
     }
 }
