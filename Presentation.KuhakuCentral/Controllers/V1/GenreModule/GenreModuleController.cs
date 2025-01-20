@@ -1,5 +1,4 @@
 ﻿using Core.Application.Features.GenreModule.Commands.GetAllGenres;
-using Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHomePageData;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

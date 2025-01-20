@@ -1,5 +1,4 @@
 ﻿using Asp.Versioning;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
 namespace KuhakuCentral.Extensions
