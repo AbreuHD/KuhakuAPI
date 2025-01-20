@@ -1,14 +1,7 @@
 ﻿using AutoMapper;
-using Core.Application.DTOs.General;
 using Core.Application.DTOs.Scraping;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.WebScraping;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Features.Movies.GetAllMovieWebById
 {

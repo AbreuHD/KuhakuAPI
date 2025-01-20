@@ -30,13 +30,13 @@ namespace Core.Application.Mappings
                 .ReverseMap();
 
             CreateMap<Movie, InfoSearchMovieDto>()
-                .ReverseMap();            
-            
+                .ReverseMap();
+
             CreateMap<MovieWeb, MovieWebDTO>()
-                .ReverseMap();            
-            
+                .ReverseMap();
+
             CreateMap<Genre, TmdbGenreResponseDto>()
-                .ReverseMap();            
+                .ReverseMap();
         }
     }
 }

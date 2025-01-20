@@ -1,5 +1,4 @@
 ﻿using Core.Application.Helpers.TMDB;
-using Core.Application.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

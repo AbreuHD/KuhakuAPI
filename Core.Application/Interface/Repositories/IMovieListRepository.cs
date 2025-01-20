@@ -2,7 +2,7 @@
 
 namespace Core.Application.Interface.Repositories
 {
-    public interface IMovieListRepository : IGenericRepository<MovieList>
+    public interface IMovieListRepository : IGenericRepository<ShareList>
     {
     }
 }

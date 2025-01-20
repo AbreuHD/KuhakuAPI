@@ -3,7 +3,6 @@ using Core.Application;
 using Infraestructure.Persistence;
 using KuhakuCentral.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerUI;
 

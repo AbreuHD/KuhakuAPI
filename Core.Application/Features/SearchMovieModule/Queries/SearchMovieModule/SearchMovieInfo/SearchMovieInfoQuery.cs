@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Core.Application.DTOs.General;
-using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Movies;
 using Core.Application.Features.GenreModule.Commands.GetGenresFromAMovie;
 using Core.Application.Features.Movies.GetAllMovieWebById;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
 using MediatR;
 using System.Net;
 

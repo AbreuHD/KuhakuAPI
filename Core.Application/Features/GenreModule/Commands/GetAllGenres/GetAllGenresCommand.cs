@@ -3,12 +3,7 @@ using Core.Application.Helpers.TMDB;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.GeneralMovie;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Features.GenreModule.Commands.GetAllGenres
 {
