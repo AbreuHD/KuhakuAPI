@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Core.Application.DTOs.Relations;
 using Core.Application.Helpers.TMDB;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.GeneralMovie;
@@ -66,7 +65,7 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
                             Verified = false
                         });
 
-                        if(movie.Genres != null)
+                        if (movie.Genres != null)
                         {
                             foreach (var genre in movie.Genres)
                             {

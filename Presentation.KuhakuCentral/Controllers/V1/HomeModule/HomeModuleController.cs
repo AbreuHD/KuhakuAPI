@@ -18,7 +18,7 @@ namespace KuhakuCentral.Controllers.V1.HomeModule
             )]
         public async Task<IActionResult> Home(bool KidMode = false)
         {
-            return Ok(await Mediator.Send(new GetHomePageDataQuery() { KidMode = KidMode}));
+            return Ok(await Mediator.Send(new GetHomePageDataQuery() { KidMode = KidMode }));
         }
     }
 }

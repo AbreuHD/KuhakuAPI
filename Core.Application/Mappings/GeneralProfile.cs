@@ -3,9 +3,11 @@ using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Movies;
 using Core.Application.DTOs.Relations;
 using Core.Application.DTOs.Scraping;
+using Core.Application.DTOs.ShareList;
 using Core.Application.DTOs.TMDB;
 using Core.Domain.Entities.GeneralMovie;
 using Core.Domain.Entities.Relations;
+using Core.Domain.Entities.UserThings;
 using Core.Domain.Entities.WebScraping;
 
 namespace Core.Application.Mappings
@@ -30,13 +32,16 @@ namespace Core.Application.Mappings
                 .ReverseMap();
 
             CreateMap<Movie, InfoSearchMovieDto>()
-                .ReverseMap();            
-            
+                .ReverseMap();
+
             CreateMap<MovieWeb, MovieWebDTO>()
-                .ReverseMap();            
-            
+                .ReverseMap();
+
             CreateMap<Genre, TmdbGenreResponseDto>()
-                .ReverseMap();            
+                .ReverseMap();
+
+            CreateMap<PreviewShareListDto, ShareList>()
+                .ReverseMap();
         }
     }
 }

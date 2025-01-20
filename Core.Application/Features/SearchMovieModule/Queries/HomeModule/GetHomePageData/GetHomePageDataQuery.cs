@@ -6,7 +6,6 @@ using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.GeneralMovie;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHomePageData
 {
@@ -34,7 +33,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
                 Payload = []
             };
 
-            var genres = await _genreRepository.GetAllWithIncludes( ["Genre_Movie"]);
+            var genres = await _genreRepository.GetAllWithIncludes(["Genre_Movie"]);
 
             foreach (var genre in genres)
             {

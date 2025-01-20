@@ -10,6 +10,6 @@ namespace Core.Domain.Entities.Relations
         public int MovieID { get; set; }
 
         public Movie Movie { get; set; }
-        public MovieList MovieList { get; set; }
+        public ShareList MovieList { get; set; }
     }
 }
