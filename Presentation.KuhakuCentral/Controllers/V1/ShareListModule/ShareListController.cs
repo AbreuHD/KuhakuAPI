@@ -1,6 +1,5 @@
-﻿using Core.Application.Features.ShareListModule.AllShareListQuery.Queries;
-using Core.Application.Features.ShareListModule.CreateNewList.Commands;
-using Core.Application.Features.ShareListModule.LogedUserLists.Queries;
+﻿using Core.Application.Features.ShareListModule.Commands;
+using Core.Application.Features.ShareListModule.Queries;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,19 +19,10 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
                     Summary = "Create List",
                     Description = "Endpoint to create a new Share list of movies and series"
                     )]
-        public async Task<IActionResult> CreateList(string name, string img, [FromBody] string? description)
+        public async Task<IActionResult> CreateList([FromBody]CreateNewListCommand command)
         {
-            var USERID = User.FindFirst("uid")!.Value;
-
-            var response = await Mediator.Send(
-                new CreateNewListCommand
-                {
-                    UserId = USERID,
-                    Name = name,
-                    Img = img,
-                    Description = description
-                });
-
+            command.UserId = User.FindFirst("uid")!.Value;
+            var response = await Mediator.Send(command);
             return StatusCode(response.Statuscode, response);
         }
 
@@ -58,17 +48,48 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpPost("AllShareList")]
+        [HttpGet("SearchShareList")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-            Summary = "See Loged User Lists",
-            Description = "Endpoint to all user loged lists"
+            Summary = "Search for Share Lists",
+            Description = "Endpoint to Search for Share Lists and Home List Page"
             )]
-        public async Task<IActionResult> AllShareList()
+        public async Task<IActionResult> AllShareList(string? name)
         {
-            var response = await Mediator.Send(new AllShareListQuery { } );
+            var response = await Mediator.Send(new SearchShareListQuery { Name = name ?? string.Empty } );
+            return StatusCode(response.Statuscode, response);
+        }
+
+        [HttpPut("EditShareList")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Edit Share List",
+            Description = "Endpoint to edit a loged user share list"
+            )]
+        public async Task<IActionResult> EditShareList([FromBody] EditUserShareListCommand command)
+        {
+            command.UserId = User.FindFirst("uid")!.Value;
+            var response = await Mediator.Send(command);
+            return StatusCode(response.Statuscode, response);
+        }
+
+        [HttpDelete("DelShareList")]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Delete Share List",
+            Description = "Endpoint to delete a loged user share list"
+            )]
+        public async Task<IActionResult> DelShareList(DelShareListCommand command)
+        {
+            command.UserId = User.FindFirst("uid")!.Value;
+            var response = await Mediator.Send(command);
             return StatusCode(response.Statuscode, response);
         }
     }
