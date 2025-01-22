@@ -17,8 +17,6 @@ pipeline {
                 '''
             }
         }
-
-
         stage('SonarQube Analysis') {
             steps {
                 script {
@@ -29,9 +27,14 @@ pipeline {
                         sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end"
                     }
                 }
+                script {
+                    def qualitygate = waitForQualityGate()
+                    if (qualitygate.status != "OK") {
+                        error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+                    }
+                }
             }
         }
-
         stage('Compile project') {
             steps {
                 echo 'Compiling the project...'
