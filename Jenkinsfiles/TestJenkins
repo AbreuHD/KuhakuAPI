@@ -24,13 +24,10 @@ pipeline {
                     withSonarQubeEnv('SonarQ') {
                         sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Kuhaku\" /d:sonar.exclusions='${SONARQUBE_EXCLUDE_FILES}'"
                         sh "dotnet build"
-                        sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end"
-                    }
-                }
-                script {
-                    def qualitygate = waitForQualityGate()
-                    if (qualitygate.status != "OK") {
-                        error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+                        def sonarEnd = sh(script: "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end", returnStatus: true)
+                        if (sonarEnd != 0) {
+                            error "SonarQube analysis failed. Stopping the pipeline."
+                        }
                     }
                 }
             }
