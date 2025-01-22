@@ -27,11 +27,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jenkinsfiles", "Jenkinsfile
 		Jenkinsfiles\TestJenkins = Jenkinsfiles\TestJenkins
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Documentation", ".Documentation", "{EA618C33-7E14-43F6-AE5B-4FA7C9EC3972}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{EA618C33-7E14-43F6-AE5B-4FA7C9EC3972}"
 	ProjectSection(SolutionItems) = preProject
 		DatabaseDiagram.drawio = DatabaseDiagram.drawio
-		LICENSE.txt = LICENSE.txt
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solution Items", "{2F25D2F5-5BE6-4F2D-8B46-F03A8A25523F}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
 	EndProjectSection
 EndProject
 Global
@@ -70,7 +74,8 @@ Global
 		{18406F0A-BCBA-4EC1-AD59-BBD433876AD7} = {0DC8D7A5-116E-4D3A-9558-7117E04259E4}
 		{634F6CB7-783B-4D7D-8AA6-9EEACAE82D5A} = {53B76375-560E-4877-ADCB-AC8867D2C154}
 		{6F652130-A97A-434D-B1CC-466612A8DE5F} = {512629F5-2E4E-4745-B822-0FEBE9944F81}
-		{8377DF25-0E24-45F4-BFF4-1760CE19591B} = {EA618C33-7E14-43F6-AE5B-4FA7C9EC3972}
+		{8377DF25-0E24-45F4-BFF4-1760CE19591B} = {2F25D2F5-5BE6-4F2D-8B46-F03A8A25523F}
+		{EA618C33-7E14-43F6-AE5B-4FA7C9EC3972} = {2F25D2F5-5BE6-4F2D-8B46-F03A8A25523F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA615552-1A61-42A1-A8DB-FBCE8C10103C}

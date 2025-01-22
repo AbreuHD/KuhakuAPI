@@ -10,6 +10,7 @@ namespace Core.Domain.Entities.UserThings
         public string Description { get; set; }
         public string Img { get; set; }
         public string UserID { get; set; }
+        public bool IsPublic { get; set; }
 
         public ICollection<MovieList_Movie> MovieList_Movie { get; set; }
     }

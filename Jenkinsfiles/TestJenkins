@@ -3,6 +3,7 @@ pipeline {
     environment {
         FTP_SERVER = credentials('abreu_fpt_host')
         NUGET_SOURCE = credentials('private_nuget_uri')
+        SONARQUBE_EXCLUDE_FILES = "**/*.xml,**/*.json,**/*.html,**/*.css,**/*.js,**/Program.cs,**/Startup.cs,**/Migrations/**"
     }
 
     stages {
@@ -23,7 +24,7 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarQ-DotNET8'
                     withSonarQubeEnv('SonarQ') {
-                        sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Kuhaku\""
+                        sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Kuhaku\" /d:sonar.exclusions='${SONARQUBE_EXCLUDE_FILES}'"
                         sh "dotnet build"
                         sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end"
                     }

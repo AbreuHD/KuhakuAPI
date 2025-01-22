@@ -3,6 +3,7 @@ pipeline {
     environment {
         FTP_SERVER = credentials('abreu_fpt_host')
         NUGET_SOURCE = credentials('private_nuget_uri')
+        SONARQUBE_EXCLUDE_FILES = "**/*.xml,**/*.json,**/*.html,**/*.css,**/*.js,**/Program.cs,**/Startup.cs,**/Migrations/**"
     }
 
     stages {
