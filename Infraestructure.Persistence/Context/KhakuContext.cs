@@ -77,8 +77,6 @@ namespace Infraestructure.Persistence.Context
             modelBuilder.Entity<ScrapPage>().HasKey(x => x.ID);
             #endregion
 
-            //modelBuilder.Entity<CuevanaMovies>().Property(c => c.Title).IsRequired();
-
             #region Relations  
             modelBuilder.Entity<Genre>().HasMany<Genre_Movie>(x => x.Genre_Movie).WithOne(x => x.Genre).HasForeignKey(x => x.GenreID)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -101,20 +99,8 @@ namespace Infraestructure.Persistence.Context
             modelBuilder.Entity<MovieWeb>().HasMany<Movie_MovieWeb>(x => x.Movie_MovieWeb).WithOne(x => x.MovieWeb).HasForeignKey(x => x.MovieWebID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ShareList>().HasMany<MovieList_Movie>(x => x.MovieList_Movie).WithOne(x => x.MovieList).HasForeignKey(x => x.MovieListID)
+            modelBuilder.Entity<ShareList>().HasMany<MovieList_Movie>(x => x.MovieList_Movie).WithOne(x => x.ShareList).HasForeignKey(x => x.ShareListID)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<Recents>()
-            //        .HasOne<ApplicationUser>()
-            //        .WithMany()
-            //        .HasForeignKey(x => x.UserID)
-            //        .OnDelete(DeleteBehavior.NoAction);
-
-            //modelBuilder.Entity<ShareList>()
-            //    .HasOne<ApplicationUser>()
-            //    .WithMany()
-            //    .HasForeignKey(x => x.UserID)
-            //    .OnDelete(DeleteBehavior.NoAction);
             #endregion
 
         }

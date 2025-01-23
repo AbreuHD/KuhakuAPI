@@ -6,10 +6,10 @@ namespace Core.Domain.Entities.Relations
 {
     public class MovieList_Movie : AuditableBase
     {
-        public int MovieListID { get; set; }
+        public int ShareListID { get; set; }
         public int MovieID { get; set; }
 
         public Movie Movie { get; set; }
-        public ShareList MovieList { get; set; }
+        public ShareList ShareList { get; set; }
     }
 }

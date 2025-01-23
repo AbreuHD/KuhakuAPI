@@ -1,6 +1,8 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Relations;
+using Core.Domain.Entities.UserThings;
 using Infraestructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Persistence.Repositories
 {
@@ -11,6 +13,11 @@ namespace Infraestructure.Persistence.Repositories
         public MovieList_MovieRepository(KhakuContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<bool> ItemExist(int MovieId, int ShareListID)
+        {
+            return await _dbContext.Set<MovieList_Movie>().AnyAsync(x => x.MovieID == MovieId && x.ShareListID == ShareListID);
         }
     }
 }
