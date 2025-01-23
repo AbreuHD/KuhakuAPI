@@ -1,10 +1,12 @@
 ﻿using Core.Application.Features.ShareListModule.Commands;
 using Core.Application.Features.ShareListModule.Queries;
+using Core.Application.Features.UserShareListQuery.Queries;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace KuhakuCentral.Controllers.V1.ShareListModule
 {
@@ -87,6 +89,52 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
             Description = "Endpoint to delete a loged user share list"
             )]
         public async Task<IActionResult> DelShareList(DelShareListCommand command)
+        {
+            command.UserId = User.FindFirst("uid")!.Value;
+            var response = await Mediator.Send(command);
+            return StatusCode(response.Statuscode, response);
+        }
+
+        [HttpGet("UserShareList")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Search for User Share Lists by Id",
+            Description = "Endpoint to Search for User Share Lists"
+            )]
+        public async Task<IActionResult> UserShareList(AddItemToShareListCommand command)
+        {
+            var response = await Mediator.Send(command);
+            return StatusCode(response.Statuscode, response);
+        }
+
+        [HttpPost("AddItemToShareList")]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Search for User Share Lists by Id",
+            Description = "Endpoint to Search for User Share Lists"
+            )]
+        public async Task<IActionResult> AddItemToShareList([FromBody]AddItemToShareListCommand command)
+        {
+            command.UserId = User.FindFirst("uid")!.Value;
+            var response = await Mediator.Send(command);
+            return StatusCode(response.Statuscode, response);
+        }
+
+        [HttpPost("DelItemFromShareList")]
+        [Authorize]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+        Summary = "Search for User Share Lists by Id",
+        Description = "Endpoint to Search for User Share Lists"
+        )]
+        public async Task<IActionResult> DelItemFromShareList([FromBody] DelItemFromShareList command)
         {
             command.UserId = User.FindFirst("uid")!.Value;
             var response = await Mediator.Send(command);

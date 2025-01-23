@@ -4,5 +4,6 @@ namespace Core.Application.Interface.Repositories
 {
     public interface IMovieList_MovieRepository : IGenericRepository<MovieList_Movie>
     {
+        public Task<bool> ItemExist(int MovieId, int ShareListID);
     }
 }

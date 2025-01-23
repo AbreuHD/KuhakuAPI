@@ -10,9 +10,10 @@ namespace Infraestructure.Persistence.Repositories
     {
         private readonly KhakuContext _dbContext = dbContext;
 
-        public async Task<List<ShareList>> GetAllByUserId(string userId)
+        public async Task<List<ShareList>> GetAllByUserId(string userId, bool isUserLoged)
         {
-            return await _dbContext.Set<ShareList>().Where(x => x.UserID == userId).ToListAsync();
+            if (isUserLoged) { return await _dbContext.Set<ShareList>().Where(x => x.UserID == userId).ToListAsync(); }
+            return await _dbContext.Set<ShareList>().Where(x => x.UserID == userId && x.IsPublic).ToListAsync();
         }
 
         public override async Task UpdateAsync(ShareList shareList, int id)

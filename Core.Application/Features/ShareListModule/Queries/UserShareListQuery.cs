@@ -9,23 +9,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Application.Features.ShareListModule.Queries
+namespace Core.Application.Features.UserShareListQuery.Queries
 {
-    public class LogedUserQuery : IRequest<GenericApiResponse<List<PreviewShareListDto>>>
+    public class UserShareListQuery : IRequest<GenericApiResponse<List<PreviewShareListDto>>>
     {
-        public required string UserId { get; set; }
+      public required string User { get; set; }
     }
-    public class LogedUserQueryHandler : IRequestHandler<LogedUserQuery, GenericApiResponse<List<PreviewShareListDto>>>
+    public class UserShareListQueryHandler : IRequestHandler<UserShareListQuery, GenericApiResponse<List<PreviewShareListDto>>>
     {
         private readonly IShareListRepository _shareListRepository;
         private readonly IMapper _mapper;
-        public LogedUserQueryHandler(IShareListRepository shareListRepository, IMapper mapper)
+        public UserShareListQueryHandler(IShareListRepository shareListRepository, IMapper mapper)
         {
             _shareListRepository = shareListRepository;
             _mapper = mapper;
         }
 
-        public async Task<GenericApiResponse<List<PreviewShareListDto>>> Handle(LogedUserQuery request, CancellationToken cancellationToken)
+        public async Task<GenericApiResponse<List<PreviewShareListDto>>> Handle(UserShareListQuery request, CancellationToken cancellationToken)
         {
             var response = new GenericApiResponse<List<PreviewShareListDto>>
             {
@@ -34,7 +34,7 @@ namespace Core.Application.Features.ShareListModule.Queries
 
             try
             {
-                var lists = await _shareListRepository.GetAllByUserId(request.UserId, true);
+                var lists = await _shareListRepository.GetAllByUserId(request.User, false);
                 response.Payload = _mapper.Map<List<PreviewShareListDto>>(lists);
                 response.Statuscode = 200;
                 response.Message = "Lists found successfully";
