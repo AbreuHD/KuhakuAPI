@@ -1,12 +1,12 @@
 ﻿using Core.Application.Interface.Repositories;
-using Infraestructure.Persistence.Context;
-using Infraestructure.Persistence.Repositories;
+using Infrastructure.Persistence.Context;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
-namespace Infraestructure.Persistence
+namespace Infrastructure.Persistence
 {
     public static class ServiceRegistration
     {

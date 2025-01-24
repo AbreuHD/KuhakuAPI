@@ -1,9 +1,9 @@
 ﻿using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
-using Infraestructure.Persistence.Context;
+using Core.Domain.Entities.Movie;
+using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class GenreRepository : GenericRepository<Genre>, IGenreRepository
     {

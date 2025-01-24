@@ -1,10 +1,10 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class MovieList_MovieRepository : GenericRepository<MovieList_Movie>, IMovieList_MovieRepository
     {

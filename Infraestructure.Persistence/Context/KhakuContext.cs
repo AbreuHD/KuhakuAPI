@@ -1,13 +1,13 @@
 ﻿using Auth.Infraestructure.Identity.Entities;
 using Core.Domain.Common;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
 using Core.Domain.Entities.WebScraping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Infraestructure.Persistence.Context
+namespace Infrastructure.Persistence.Context
 {
     public class KhakuContext : DbContext
     {
@@ -78,28 +78,28 @@ namespace Infraestructure.Persistence.Context
             #endregion
 
             #region Relations  
-            modelBuilder.Entity<Genre>().HasMany<Genre_Movie>(x => x.Genre_Movie).WithOne(x => x.Genre).HasForeignKey(x => x.GenreID)
+            modelBuilder.Entity<Genre>().HasMany(x => x.Genre_Movie).WithOne(x => x.Genre).HasForeignKey(x => x.GenreID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Movie>().HasMany<Genre_Movie>(x => x.Genre_Movie).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
+            modelBuilder.Entity<Movie>().HasMany(x => x.Genre_Movie).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Movie>().HasMany<Recents>(x => x.Recents).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
+            modelBuilder.Entity<Movie>().HasMany(x => x.Recents).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Movie>().HasMany<MovieList_Movie>(x => x.MovieList_Movie).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
+            modelBuilder.Entity<Movie>().HasMany(x => x.MovieList_Movie).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Movie>().HasMany<Movie_MovieWeb>(x => x.Movie_MovieWeb).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
+            modelBuilder.Entity<Movie>().HasMany(x => x.Movie_MovieWeb).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ScrapPage>().HasMany<MovieWeb>(x => x.MovieWeb).WithOne(x => x.ScrapPage).HasForeignKey(x => x.ScrapPageID)
+            modelBuilder.Entity<ScrapPage>().HasMany(x => x.MovieWeb).WithOne(x => x.ScrapPage).HasForeignKey(x => x.ScrapPageID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<MovieWeb>().HasMany<Movie_MovieWeb>(x => x.Movie_MovieWeb).WithOne(x => x.MovieWeb).HasForeignKey(x => x.MovieWebID)
+            modelBuilder.Entity<MovieWeb>().HasMany(x => x.Movie_MovieWeb).WithOne(x => x.MovieWeb).HasForeignKey(x => x.MovieWebID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ShareList>().HasMany<MovieList_Movie>(x => x.MovieList_Movie).WithOne(x => x.ShareList).HasForeignKey(x => x.ShareListID)
+            modelBuilder.Entity<ShareList>().HasMany(x => x.MovieList_Movie).WithOne(x => x.ShareList).HasForeignKey(x => x.ShareListID)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 

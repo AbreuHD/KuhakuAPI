@@ -5,7 +5,7 @@ using Core.Application.DTOs.Relations;
 using Core.Application.DTOs.Scraping;
 using Core.Application.DTOs.ShareList;
 using Core.Application.DTOs.TMDB;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
 using Core.Domain.Entities.WebScraping;

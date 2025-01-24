@@ -1,10 +1,10 @@
 ﻿using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class MovieRepository : GenericRepository<Movie>, IMovieRepository
     {
@@ -74,7 +74,7 @@ namespace Infraestructure.Persistence.Repositories
             }
             responseMovies = responseMovies.Distinct().ToList();
 
-            return (responseMovies);
+            return responseMovies;
         }
     }
 }

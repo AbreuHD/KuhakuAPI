@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Core.Application.Helpers.TMDB;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;

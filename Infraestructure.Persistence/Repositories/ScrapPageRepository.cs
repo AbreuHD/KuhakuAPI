@@ -1,8 +1,8 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.WebScraping;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class ScrapPageRepository : GenericRepository<ScrapPage>, IScrapPageRepository
     {

@@ -4,7 +4,7 @@ using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Home;
 using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using MediatR;
 
 namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHomePageData

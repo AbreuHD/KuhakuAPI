@@ -2,7 +2,7 @@
 using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Scraping;
 using Core.Application.DTOs.TMDB;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net;

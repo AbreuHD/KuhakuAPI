@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 
-namespace KuhakuCentral.Controllers.V1.WebScraping
+namespace KuhakuCentral.Controllers.V1.WebScrapingModule
 {
     public class WebScrapingModuleController : BaseAPI
     {
@@ -24,7 +24,7 @@ namespace KuhakuCentral.Controllers.V1.WebScraping
         public async Task<IActionResult> ScrapCuevana3CH()
         {
             await Mediator.Send(new GetAllCuevanaMoviesCommand());
-            return Ok(new GenericApiResponse<String>
+            return Ok(new GenericApiResponse<string>
             {
                 Message = "Done",
                 Statuscode = 200,
@@ -45,7 +45,7 @@ namespace KuhakuCentral.Controllers.V1.WebScraping
         public async Task<IActionResult> ScrapPelisPlusLat()
         {
             await Mediator.Send(new GetPelisPlusLatMoviesCommand());
-            return Ok(new GenericApiResponse<String>
+            return Ok(new GenericApiResponse<string>
             {
                 Message = "Done",
                 Statuscode = 200,

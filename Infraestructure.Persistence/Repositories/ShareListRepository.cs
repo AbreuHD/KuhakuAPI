@@ -1,10 +1,10 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.GeneralMovie;
 using Core.Domain.Entities.UserThings;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class ShareListRepository(KhakuContext dbContext) : GenericRepository<ShareList>(dbContext), IShareListRepository
     {
@@ -19,7 +19,7 @@ namespace Infraestructure.Persistence.Repositories
         public override async Task UpdateAsync(ShareList shareList, int id)
         {
             ShareList request = await _dbContext.Set<ShareList>().FindAsync(id) ?? throw new KeyNotFoundException("ShareList not found");
-            if(request.UserID != shareList.UserID)
+            if (request.UserID != shareList.UserID)
             {
                 throw new UnauthorizedAccessException("You are not allowed to edit this ShareList");
             }

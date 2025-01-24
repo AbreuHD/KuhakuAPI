@@ -7,7 +7,7 @@ using Core.Application.Interface.Repositories;
 using MediatR;
 using System.Net;
 
-namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMoviePages
+namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovieInfo
 {
     public class SearchMovieInfoQuery : IRequest<GenericApiResponse<InfoSearchMovieDto>>
     {

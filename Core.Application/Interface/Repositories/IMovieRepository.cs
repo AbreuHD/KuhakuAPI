@@ -1,4 +1,4 @@
-﻿using Core.Domain.Entities.GeneralMovie;
+﻿using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 
 namespace Core.Application.Interface.Repositories

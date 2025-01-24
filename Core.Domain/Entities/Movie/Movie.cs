@@ -2,7 +2,7 @@
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
 
-namespace Core.Domain.Entities.GeneralMovie
+namespace Core.Domain.Entities.Movie
 {
     public class Movie : AuditableBase
     {

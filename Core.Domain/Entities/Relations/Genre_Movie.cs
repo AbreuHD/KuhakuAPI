@@ -1,5 +1,5 @@
 ﻿using Core.Domain.Common;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 
 namespace Core.Domain.Entities.Relations
 {

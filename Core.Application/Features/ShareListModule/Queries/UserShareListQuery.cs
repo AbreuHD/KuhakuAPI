@@ -9,11 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Application.Features.UserShareListQuery.Queries
+namespace Core.Application.Features.ShareListModule.Queries
 {
     public class UserShareListQuery : IRequest<GenericApiResponse<List<PreviewShareListDto>>>
     {
-      public required string User { get; set; }
+        public required string User { get; set; }
     }
     public class UserShareListQueryHandler : IRequestHandler<UserShareListQuery, GenericApiResponse<List<PreviewShareListDto>>>
     {

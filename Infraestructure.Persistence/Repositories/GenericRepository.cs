@@ -1,8 +1,8 @@
 ﻿using Core.Application.Interface.Repositories;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity : class
     {

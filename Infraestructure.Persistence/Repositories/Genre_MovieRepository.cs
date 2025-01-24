@@ -1,8 +1,8 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Relations;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class Genre_MovieRepository : GenericRepository<Genre_Movie>, IGenre_MovieRepository
     {

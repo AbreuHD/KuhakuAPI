@@ -1,5 +1,5 @@
 ﻿using Core.Application.DTOs.Scraping;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 
 namespace Core.Application.DTOs.TMDB
 {

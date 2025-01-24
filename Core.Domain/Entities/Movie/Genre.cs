@@ -1,7 +1,7 @@
 ﻿using Core.Domain.Common;
 using Core.Domain.Entities.Relations;
 
-namespace Core.Domain.Entities.GeneralMovie
+namespace Core.Domain.Entities.Movie
 {
     public class Genre : AuditableBase
     {
