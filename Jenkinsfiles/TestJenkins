@@ -23,7 +23,7 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarQ-DotNET8'
                     withSonarQubeEnv('SonarQ') {
-                        sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Kuhaku\" /d:sonar.projectVersion=${VERSION} /d:sonar.exclusions=${SONARQUBE_EXCLUDE_FILES}"
+                        sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Kuhaku\" /v:${VERSION} /d:sonar.exclusions=${SONARQUBE_EXCLUDE_FILES}"
                         sh "dotnet build"
                         def sonarEnd = sh(script: "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end", returnStatus: true)
                         if (sonarEnd != 0) {
