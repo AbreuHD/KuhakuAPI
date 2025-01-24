@@ -1,5 +1,4 @@
 ﻿using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
 using Core.Domain.Entities.UserThings;
 using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +15,9 @@ namespace Infrastructure.Persistence.Repositories
             return await _dbContext.Set<ShareList>().Where(x => x.UserID == userId && x.IsPublic).ToListAsync();
         }
 
-        public override async Task UpdateAsync(ShareList shareList, int id)
+        public override async Task UpdateAsync(ShareList shareList, int ID)
         {
-            ShareList request = await _dbContext.Set<ShareList>().FindAsync(id) ?? throw new KeyNotFoundException("ShareList not found");
+            ShareList request = await _dbContext.Set<ShareList>().FindAsync(ID) ?? throw new KeyNotFoundException("ShareList not found");
             if (request.UserID != shareList.UserID)
             {
                 throw new UnauthorizedAccessException("You are not allowed to edit this ShareList");

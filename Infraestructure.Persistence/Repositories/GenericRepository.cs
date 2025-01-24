@@ -4,14 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity : class
+    public class GenericRepository<Entity>(KhakuContext dbcontext) : IGenericRepository<Entity> where Entity : class
     {
-        private readonly KhakuContext _dbcontext;
-
-        public GenericRepository(KhakuContext dbcontext)
-        {
-            _dbcontext = dbcontext;
-        }
+        private readonly KhakuContext _dbcontext = dbcontext;
 
         public virtual async Task<Entity> AddAsync(Entity entity)
         {
@@ -29,7 +24,8 @@ namespace Infrastructure.Persistence.Repositories
 
         public virtual async Task UpdateAsync(Entity entity, int ID)
         {
-            Entity etry = await _dbcontext.Set<Entity>().FindAsync(ID);
+            Entity etry = await _dbcontext.Set<Entity>().FindAsync(ID)
+                ?? throw new KeyNotFoundException($"{typeof(Entity).Name} not found");
             _dbcontext.Entry(etry).CurrentValues.SetValues(entity);
             await _dbcontext.SaveChangesAsync();
         }
@@ -42,7 +38,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public virtual async Task<List<Entity>> GetAllAsync(int skip = 0, bool useSkip = false)
         {
-            if (useSkip == true)
+            if (useSkip)
             {
                 return await _dbcontext.Set<Entity>().Skip(skip).Take(30).ToListAsync();
             }
@@ -61,11 +57,13 @@ namespace Infrastructure.Persistence.Repositories
 
         public virtual async Task<Entity> GetByIdAsync(int Id)
         {
-            return await _dbcontext.Set<Entity>().FindAsync(Id);
+            return await _dbcontext.Set<Entity>().FindAsync(Id) 
+                ?? throw new KeyNotFoundException($"{typeof(Entity).Name} not found");
         }
         public virtual async Task<Entity> GetByStringIdAsync(string Id)
         {
-            return await _dbcontext.Set<Entity>().FindAsync(Id);
+            return await _dbcontext.Set<Entity>().FindAsync(Id)
+                ?? throw new KeyNotFoundException($"{typeof(Entity).Name} not found");
         }
     }
 }

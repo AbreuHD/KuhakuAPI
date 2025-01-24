@@ -16,16 +16,16 @@ namespace Core.Application.Mappings
     {
         public GeneralProfile()
         {
-            CreateMap<Movie, TMDBResult>()
+            CreateMap<Movie, TmdbResult>()
                 .ForMember(x => x.ID, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(x => x.ID, opt => opt.Ignore());
 
-            CreateMap<MovieWebDTO, MovieWeb>()
+            CreateMap<MovieWebDto, MovieWeb>()
                 .ReverseMap()
                 .ForMember(x => x.TMDBTempID, opt => opt.Ignore());
 
-            CreateMap<Movie_MovieWeb, Movie_MovieWebDTO>()
+            CreateMap<MovieMovieWeb, MovieMovieWebDto>()
                 .ReverseMap();
 
             CreateMap<Movie, PreviewSearchMovieDto>()
@@ -34,7 +34,7 @@ namespace Core.Application.Mappings
             CreateMap<Movie, InfoSearchMovieDto>()
                 .ReverseMap();
 
-            CreateMap<MovieWeb, MovieWebDTO>()
+            CreateMap<MovieWeb, MovieWebDto>()
                 .ReverseMap();
 
             CreateMap<Genre, TmdbGenreResponseDto>()

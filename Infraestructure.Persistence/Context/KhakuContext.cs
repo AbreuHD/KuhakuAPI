@@ -15,9 +15,9 @@ namespace Infrastructure.Persistence.Context
 
         public DbSet<Genre> Genre { get; set; }
         public DbSet<Movie> Movie { get; set; }
-        public DbSet<Genre_Movie> Genre_Movie { get; set; }
-        public DbSet<Movie_MovieWeb> Movie_MovieWeb { get; set; }
-        public DbSet<MovieList_Movie> MovieList_Movie { get; set; }
+        public DbSet<GenreMovie> Genre_Movie { get; set; }
+        public DbSet<MovieMovieWeb> Movie_MovieWeb { get; set; }
+        public DbSet<MovieListMovie> MovieList_Movie { get; set; }
         public DbSet<ShareList> ShareList { get; set; }
         public DbSet<Recents> Recents { get; set; }
         public DbSet<MovieWeb> MovieWeb { get; set; }
@@ -37,7 +37,6 @@ namespace Infrastructure.Persistence.Context
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModified = DateTime.Now;
-                        //entry.Entity.CreatedBy = "System";
                         break;
                 }
             }
@@ -50,9 +49,9 @@ namespace Infrastructure.Persistence.Context
             modelBuilder.Entity<Genre>().ToTable("Genre");
             modelBuilder.Entity<Movie>().ToTable("Movie");
 
-            modelBuilder.Entity<Genre_Movie>().ToTable("Genre_Movie");
-            modelBuilder.Entity<Movie_MovieWeb>().ToTable("Movie_MovieWeb");
-            modelBuilder.Entity<MovieList_Movie>().ToTable("MovieList_Movie");
+            modelBuilder.Entity<GenreMovie>().ToTable("Genre_Movie");
+            modelBuilder.Entity<MovieMovieWeb>().ToTable("Movie_MovieWeb");
+            modelBuilder.Entity<MovieListMovie>().ToTable("MovieList_Movie");
 
             modelBuilder.Entity<ShareList>().ToTable("ShareList");
             modelBuilder.Entity<Recents>().ToTable("Recents");
@@ -65,9 +64,9 @@ namespace Infrastructure.Persistence.Context
             modelBuilder.Entity<Genre>().HasKey(x => x.ID);
             modelBuilder.Entity<Movie>().HasKey(x => x.ID);
 
-            modelBuilder.Entity<Genre_Movie>().HasKey(x => x.ID);
-            modelBuilder.Entity<Movie_MovieWeb>().HasKey(x => x.ID);
-            modelBuilder.Entity<MovieList_Movie>().HasKey(x => x.ID);
+            modelBuilder.Entity<GenreMovie>().HasKey(x => x.ID);
+            modelBuilder.Entity<MovieMovieWeb>().HasKey(x => x.ID);
+            modelBuilder.Entity<MovieListMovie>().HasKey(x => x.ID);
 
 
             modelBuilder.Entity<ShareList>().HasKey(x => x.ID);
@@ -78,19 +77,19 @@ namespace Infrastructure.Persistence.Context
             #endregion
 
             #region Relations  
-            modelBuilder.Entity<Genre>().HasMany(x => x.Genre_Movie).WithOne(x => x.Genre).HasForeignKey(x => x.GenreID)
+            modelBuilder.Entity<Genre>().HasMany(x => x.GenreMovie).WithOne(x => x.Genre).HasForeignKey(x => x.GenreID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Movie>().HasMany(x => x.Genre_Movie).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
+            modelBuilder.Entity<Movie>().HasMany(x => x.GenreMovie).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Movie>().HasMany(x => x.Recents).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Movie>().HasMany(x => x.MovieList_Movie).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
+            modelBuilder.Entity<Movie>().HasMany(x => x.MovieMovieWeb).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Movie>().HasMany(x => x.Movie_MovieWeb).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
+            modelBuilder.Entity<Movie>().HasMany(x => x.MovieMovieWeb).WithOne(x => x.Movie).HasForeignKey(x => x.MovieID)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ScrapPage>().HasMany(x => x.MovieWeb).WithOne(x => x.ScrapPage).HasForeignKey(x => x.ScrapPageID)
@@ -99,7 +98,7 @@ namespace Infrastructure.Persistence.Context
             modelBuilder.Entity<MovieWeb>().HasMany(x => x.Movie_MovieWeb).WithOne(x => x.MovieWeb).HasForeignKey(x => x.MovieWebID)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ShareList>().HasMany(x => x.MovieList_Movie).WithOne(x => x.ShareList).HasForeignKey(x => x.ShareListID)
+            modelBuilder.Entity<ShareList>().HasMany(x => x.MovieListMovie).WithOne(x => x.ShareList).HasForeignKey(x => x.ShareListID)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 

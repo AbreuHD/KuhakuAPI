@@ -3,6 +3,8 @@ using Core.Application.DTOs.General;
 using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
+using Core.Domain.Entities.Movie;
+using Core.Domain.Entities.Relations;
 using MediatR;
 using System.Net;
 
@@ -29,7 +31,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
 
         public async Task<GenericApiResponse<MovieSearchModuleDto>> Handle(SearchMoviesQuery request, CancellationToken cancellationToken)
         {
-            List<TmdbGenreResponseDto> genres = new();
+            List<TmdbGenreResponseDto> genres = [];
             try
             {
                 var movies = await _movieRepository.SearchMovies(request.Title);
@@ -38,24 +40,22 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
                 {
                     foreach (var genreFilter in request.Values)
                     {
-                        movies = movies.FindAll(x => x.Genre_Movie.Any(m => m.GenreID == genreFilter));
+                        movies = movies.FindAll(x => x.GenreMovie.Any(m => m.GenreID == genreFilter));
                     }
                 }
 
-                foreach (var movie in movies)
+                var genreIds = movies.SelectMany(movie => movie.GenreMovie ?? Enumerable.Empty<GenreMovie>())
+                                     .Select(genre => genre.GenreID)
+                                     .Distinct();
+
+                foreach (var genreId in genreIds)
                 {
-                    foreach (var genre in movie.Genre_Movie)
+                    var requestGenre = await _genreRepository.GetByIdAsync(genreId);
+                    genres.Add(new TmdbGenreResponseDto
                     {
-                        if (genres.Find(x => x.Id == genre.GenreID) == null)
-                        {
-                            var requestGenre = await _genreRepository.GetByIdAsync(genre.GenreID);
-                            genres.Add(new TmdbGenreResponseDto
-                            {
-                                Id = requestGenre.ID,
-                                Name = requestGenre.Name
-                            });
-                        }
-                    }
+                        Id = requestGenre.ID,
+                        Name = requestGenre.Name
+                    });
                 }
 
                 return new GenericApiResponse<MovieSearchModuleDto>

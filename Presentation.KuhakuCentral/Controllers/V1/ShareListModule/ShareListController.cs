@@ -1,6 +1,5 @@
 ﻿using Core.Application.Features.ShareListModule.Commands;
 using Core.Application.Features.ShareListModule.Queries;
-using Core.Application.Features.UserShareListQuery.Queries;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace KuhakuCentral.Controllers.V1.ShareListModule
 {
-    public class ShareListController : BaseAPI
+    public class ShareListController : BaseApi
     {
         [HttpPost("CreateList")]
         [Authorize]

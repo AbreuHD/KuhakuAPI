@@ -5,11 +5,12 @@ using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 using System.Net.Mime;
 
 namespace KuhakuCentral.Controllers.V1.WebScrapingModule
 {
-    public class WebScrapingModuleController : BaseAPI
+    public class WebScrapingModuleController : BaseApi
     {
 
         [HttpGet("Cuevana3.ch")]
@@ -26,7 +27,8 @@ namespace KuhakuCentral.Controllers.V1.WebScrapingModule
             await Mediator.Send(new GetAllCuevanaMoviesCommand());
             return Ok(new GenericApiResponse<string>
             {
-                Message = "Done",
+                Payload = "Done",
+                Message = HttpStatusCode.Accepted.ToString(),
                 Statuscode = 200,
                 Success = true
             });
@@ -47,7 +49,8 @@ namespace KuhakuCentral.Controllers.V1.WebScrapingModule
             await Mediator.Send(new GetPelisPlusLatMoviesCommand());
             return Ok(new GenericApiResponse<string>
             {
-                Message = "Done",
+                Payload = "Done",
+                Message = HttpStatusCode.Accepted.ToString(),
                 Statuscode = 200,
                 Success = true
             });

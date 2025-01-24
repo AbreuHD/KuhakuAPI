@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class MovieList_MovieRepository : GenericRepository<MovieList_Movie>, IMovieList_MovieRepository
+    public class MovieList_MovieRepository : GenericRepository<MovieListMovie>, IMovieList_MovieRepository
     {
         private readonly KhakuContext _dbContext;
 
@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<bool> ItemExist(int MovieId, int ShareListID)
         {
-            return await _dbContext.Set<MovieList_Movie>().AnyAsync(x => x.MovieID == MovieId && x.ShareListID == ShareListID);
+            return await _dbContext.Set<MovieListMovie>().AnyAsync(x => x.MovieID == MovieId && x.ShareListID == ShareListID);
         }
     }
 }

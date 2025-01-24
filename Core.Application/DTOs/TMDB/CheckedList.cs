@@ -5,7 +5,7 @@ namespace Core.Application.DTOs.TMDB
 {
     public class CheckedList
     {
-        public List<Movie> Movies { get; set; }
-        public List<MovieWebDTO> MovieWebDTO { get; set; }
+        public required List<Movie> Movies { get; set; }
+        public required List<MovieWebDto> MovieWebDto { get; set; }
     }
 }

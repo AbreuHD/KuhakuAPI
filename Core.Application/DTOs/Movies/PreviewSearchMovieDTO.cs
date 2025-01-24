@@ -4,7 +4,7 @@
     {
         public int ID { get; set; }
         public int TMDBID { get; set; }
-        public string Title { get; set; }
+        public required string Title { get; set; }
         public bool? Adult { get; set; }
         public double? Vote_average { get; set; }
         public string? Overview { get; set; }

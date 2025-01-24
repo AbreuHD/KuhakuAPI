@@ -4,7 +4,7 @@ using Infrastructure.Persistence.Context;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class Genre_MovieRepository : GenericRepository<Genre_Movie>, IGenre_MovieRepository
+    public class Genre_MovieRepository : GenericRepository<GenreMovie>, IGenre_MovieRepository
     {
         private readonly KhakuContext _dbContext;
 
