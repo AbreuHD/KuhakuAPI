@@ -1,7 +1,7 @@
 ﻿namespace Core.Application.DTOs.TMDB
 {
-    public class TMDBResponse
+    public class TmdbResponse
     {
-        public List<TMDBResult> results { get; set; }
+        public List<TmdbResult>? Results { get; set; }
     }
 }

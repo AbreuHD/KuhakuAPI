@@ -2,7 +2,7 @@
 using Core.Application.DTOs.Relations;
 using Core.Application.Helpers.TMDB;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
@@ -36,31 +36,31 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
             var PelisPlusLatMovies = new Services.WebScrapers.MovieESWebsites.PelisPluslat.GetPelisPlusLatMovies(DB_WEB_ID, ORIGINAL_URI);
             try
             {
-                int count = await PelisPlusLatMovies.GetPelisplushdPagination();
+                int count = PelisPlusLatMovies.GetPelisplushdPagination();
                 int i = 0;
                 while (i <= count)
                 {
                     i++;
                     Console.WriteLine($"Paginacion {i}");
-                    List<Movie_MovieWebDTO> relations = new List<Movie_MovieWebDTO>();
-                    var movieRaw = await PelisPlusLatMovies.GetPelisplushd(i);
+                    List<MovieMovieWebDto> relations = [];
+                    var movieRaw = PelisPlusLatMovies.GetPelisplushd(i);
                     if (movieRaw != null)
                     {
-                        var data = await _getTMDBData.GetTMDBId(movieRaw);
+                        var data = _getTMDBData.GetTMDBId(movieRaw);
                         List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
                         await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies)); //Movie Added if not exist
-                        var movies = await _movieWebRepository.Exist(data.MovieWebDTO);
+                        var movies = await _movieWebRepository.Exist(data.MovieWebDto);
                         foreach (var movie in movies)
                         {
                             var movieWeb = await _movieWebRepository.AddAsync(_mapper.Map<MovieWeb>(movie)); //MovieWeb Added if not exist
-                            relations.Add(new Movie_MovieWebDTO
+                            relations.Add(new MovieMovieWebDto
                             {
                                 MovieID = movie.TMDBTempID,
                                 MovieWebID = movieWeb.ID,
                                 Verified = false
                             });
                         }
-                        var dataMovieEndRelations = await _movieRepository.GetId(_mapper.Map<List<Movie_MovieWeb>>(relations));
+                        var dataMovieEndRelations = await _movieRepository.GetId(_mapper.Map<List<MovieMovieWeb>>(relations));
                         foreach (var endRelations in dataMovieEndRelations)
                         {
                             try
@@ -70,9 +70,9 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
                                     await _movie_MovieWebRepository.AddAsync(endRelations); //Movie_MovieWeb Added
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                throw ex;
+                                throw;
                             }
                         }
                     }
@@ -80,7 +80,7 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
                 }
                 ;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

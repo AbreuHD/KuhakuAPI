@@ -1,7 +1,7 @@
 ﻿using Core.Domain.Common;
 using Core.Domain.Entities.Relations;
 
-namespace Core.Domain.Entities.GeneralMovie
+namespace Core.Domain.Entities.Movie
 {
     public class Genre : AuditableBase
     {
@@ -9,6 +9,6 @@ namespace Core.Domain.Entities.GeneralMovie
         public required int GenreID { get; set; }
         public required bool IsMovie { get; set; } = false;
 
-        public ICollection<Genre_Movie> Genre_Movie { get; set; }
+        public ICollection<GenreMovie> GenreMovie { get; set; }
     }
 }

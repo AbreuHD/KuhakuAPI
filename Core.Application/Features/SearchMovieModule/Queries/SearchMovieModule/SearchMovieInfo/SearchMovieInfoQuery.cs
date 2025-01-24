@@ -7,7 +7,7 @@ using Core.Application.Interface.Repositories;
 using MediatR;
 using System.Net;
 
-namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMoviePages
+namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovieInfo
 {
     public class SearchMovieInfoQuery : IRequest<GenericApiResponse<InfoSearchMovieDto>>
     {
@@ -35,8 +35,8 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
             {
                 var data = await _movieRepository.GetMovieInfo(request.MovieId);
                 var response = _mapper.Map<InfoSearchMovieDto>(data);
-                response.Genres = await _mediator.Send(new GetGenresFromAMovieCommand { Genres = data.Genre_Movie.Select(x => x.GenreID).ToList() });
-                response.Source = await _mediator.Send(new GetAllMovieWebByIdCommand { MovieWebId = data.Movie_MovieWeb.Select(x => x.MovieWebID).ToList() });
+                response.Genres = await _mediator.Send(new GetGenresFromAMovieCommand { Genres = data.GenreMovie.Select(x => x.GenreID).ToList() });
+                response.Source = await _mediator.Send(new GetAllMovieWebByIdCommand { MovieWebId = data.MovieMovieWeb.Select(x => x.MovieWebID).ToList() });
 
                 return new GenericApiResponse<InfoSearchMovieDto>
                 {

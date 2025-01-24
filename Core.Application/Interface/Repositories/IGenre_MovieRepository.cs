@@ -2,7 +2,7 @@
 
 namespace Core.Application.Interface.Repositories
 {
-    public interface IGenre_MovieRepository : IGenericRepository<Genre_Movie>
+    public interface IGenre_MovieRepository : IGenericRepository<GenreMovie>
     {
     }
 }

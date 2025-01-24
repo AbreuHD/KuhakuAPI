@@ -1,10 +1,10 @@
 ﻿using Core.Application.DTOs.Scraping;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.WebScraping;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class MovieWebRepository : GenericRepository<MovieWeb>, IMovieWebRepository
     {
@@ -15,15 +15,15 @@ namespace Infraestructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<List<MovieWebDTO>> Exist(List<MovieWebDTO> movies)
+        public async Task<List<MovieWebDto>> Exist(List<MovieWebDto> movies)
         {
-            List<MovieWebDTO> newMovie = new List<MovieWebDTO>();
+            List<MovieWebDto> newMovie = [];
             int i = 0;
             foreach (var movie in movies)
             {
                 var exists = await _dbContext.Set<MovieWeb>()
                     .AnyAsync(x => x.Url == movie.Url);
-                if (exists == false)
+                if (!exists)
                 {
                     newMovie.Add(movies[i]);
                 }

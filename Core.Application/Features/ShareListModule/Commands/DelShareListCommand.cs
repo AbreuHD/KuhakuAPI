@@ -30,6 +30,9 @@ namespace Core.Application.Features.ShareListModule.Commands
             {
                 var shareListRequest = new ShareList
                 {
+                    Name = "ShareList",
+                    Img = "ShareList",
+                    IsPublic = true,
                     UserID = request.UserId,
                     ID = request.Id
                 };

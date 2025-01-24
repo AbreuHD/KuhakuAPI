@@ -1,10 +1,10 @@
 ﻿using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class MovieRepository : GenericRepository<Movie>, IMovieRepository
     {
@@ -15,14 +15,14 @@ namespace Infraestructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<List<Movie>> Exist(List<Movie> movies)
+        public async Task<List<Movie>> Exist(List<Movie> movieList)
         {
-            List<Movie> allMovies = new List<Movie>();
-            foreach (var movie in movies)
+            List<Movie> allMovies = [];
+            foreach (var movie in movieList)
             {
                 var exists = await _dbContext.Set<Movie>()
                     .AnyAsync(x => x.TMDBID == movie.TMDBID);
-                if (exists == false)
+                if (!exists)
                 {
                     allMovies.Add(movie);
                 }
@@ -31,10 +31,10 @@ namespace Infraestructure.Persistence.Repositories
 
         }
 
-        public async Task<List<Movie_MovieWeb>> GetId(List<Movie_MovieWeb> movies)
+        public async Task<List<MovieMovieWeb>> GetId(List<MovieMovieWeb> movieList)
         {
-            List<Movie_MovieWeb> allMovies = new List<Movie_MovieWeb>();
-            foreach (var movie in movies)
+            List<MovieMovieWeb> allMovies = [];
+            foreach (var movie in movieList)
             {
                 var movieId = await _dbContext.Set<Movie>()
                         .Where(m => m.TMDBID == movie.MovieID)
@@ -56,8 +56,8 @@ namespace Infraestructure.Persistence.Repositories
         public async Task<Movie> GetMovieInfo(int MovieId)
         {
             var response = await _dbContext.Set<Movie>().FindAsync(MovieId);
-            await _dbContext.Entry(response).Collection(x => x.Movie_MovieWeb).LoadAsync();
-            await _dbContext.Entry(response).Collection(x => x.Genre_Movie).LoadAsync();
+            await _dbContext.Entry(response).Collection(x => x.MovieMovieWeb).LoadAsync();
+            await _dbContext.Entry(response).Collection(x => x.GenreMovie).LoadAsync();
             return response;
         }
 
@@ -68,13 +68,13 @@ namespace Infraestructure.Persistence.Repositories
             foreach (var keyword in searchKeywords)
             {
                 var moviesMatchingKeyword = await _dbContext.Set<Movie>()
-                    .Where(x => x.Title.ToLower().Contains(keyword)).Include(x => x.Genre_Movie)
+                    .Where(x => x.Title.ToLower().Contains(keyword)).Include(x => x.GenreMovie)
                     .ToListAsync();
                 responseMovies.AddRange(moviesMatchingKeyword);
             }
             responseMovies = responseMovies.Distinct().ToList();
 
-            return (responseMovies);
+            return responseMovies;
         }
     }
 }

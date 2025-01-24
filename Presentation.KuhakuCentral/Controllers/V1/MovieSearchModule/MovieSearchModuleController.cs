@@ -1,4 +1,4 @@
-﻿using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMoviePages;
+﻿using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovieInfo;
 using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovies;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ using System.Net.Mime;
 
 namespace KuhakuCentral.Controllers.V1.MovieSearchModule
 {
-    public class MovieSearchModuleController : BaseAPI
+    public class MovieSearchModuleController : BaseApi
     {
         [HttpGet("Search")]
         [Consumes(MediaTypeNames.Application.Json)]

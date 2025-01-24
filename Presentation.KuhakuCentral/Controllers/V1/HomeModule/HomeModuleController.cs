@@ -6,7 +6,7 @@ using System.Net.Mime;
 
 namespace KuhakuCentral.Controllers.V1.HomeModule
 {
-    public class HomeModuleController : BaseAPI
+    public class HomeModuleController : BaseApi
     {
         [HttpGet("GetHome")]
         [Consumes(MediaTypeNames.Application.Json)]

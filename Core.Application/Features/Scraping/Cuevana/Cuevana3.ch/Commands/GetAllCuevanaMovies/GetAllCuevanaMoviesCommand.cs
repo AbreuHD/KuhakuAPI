@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Core.Application.Helpers.TMDB;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
@@ -40,25 +40,25 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
         {
             var _cuevanaService = new Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3.ch.Cuevana3CHServices(1, "https://cuevana3.ch");
 
-            var pagination = await _cuevanaService.GetCuevana3Pagination();
+            var pagination = _cuevanaService.GetCuevana3Pagination();
             while (pagination > 0)
             {
                 Console.WriteLine($"Paginacion {pagination}");
 
-                var movies = await _cuevanaService.GetCuevana3(pagination);
+                var movies = _cuevanaService.GetCuevana3(pagination);
                 if (movies != null)
                 {
-                    var data = await _getTMDBData.GetTMDBId(movies);
+                    var data = _getTMDBData.GetTMDBId(movies);
                     List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
                     await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies));
-                    var movieWeb = await _movieWebRepository.Exist(data.MovieWebDTO);
+                    var movieWeb = await _movieWebRepository.Exist(data.MovieWebDto);
 
                     foreach (var movie in movieWeb)
                     {
                         var movieWebAdd = await _movieWebRepository.AddAsync(_mapper.Map<MovieWeb>(movie));
                         var movieRepositoryId = await _movieRepository.GetIdByTmdbId(movie.TMDBTempID);
 
-                        await _movie_MovieWebRepository.AddAsync(new Movie_MovieWeb
+                        await _movie_MovieWebRepository.AddAsync(new MovieMovieWeb
                         {
                             MovieID = movieRepositoryId,
                             MovieWebID = movieWebAdd.ID,
@@ -70,7 +70,7 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
                             foreach (var genre in movie.Genres)
                             {
                                 var genreId = await _genreRepository.GetIdByTmdbId(genre);
-                                await _genre_MovieRepository.AddAsync(new Genre_Movie
+                                await _genre_MovieRepository.AddAsync(new GenreMovie
                                 {
                                     MovieID = movieRepositoryId,
                                     GenreID = genreId

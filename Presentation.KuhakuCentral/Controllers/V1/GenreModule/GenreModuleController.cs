@@ -6,7 +6,7 @@ using System.Net.Mime;
 
 namespace KuhakuCentral.Controllers.V1.GenreModule
 {
-    public class GenreModuleController : BaseAPI
+    public class GenreModuleController : BaseApi
     {
         [HttpGet("GetAllGenres")]
         [Consumes(MediaTypeNames.Application.Json)]

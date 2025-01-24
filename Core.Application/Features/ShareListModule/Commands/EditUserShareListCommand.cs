@@ -34,7 +34,7 @@ namespace Core.Application.Features.ShareListModule.Commands
                 var shareListRequest = new ShareList
                 {
                     ID = request.Id,
-                    UserID = request.UserId,
+                    UserID = request.UserId!,
                     Name = request.Name,
                     Description = request.Description ?? string.Empty,
                     Img = request.Img,

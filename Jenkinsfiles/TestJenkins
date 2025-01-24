@@ -1,6 +1,7 @@
 pipeline {
     agent { label 'Africa' }
     environment {
+        VERSION = "0.5.0"
         FTP_SERVER = credentials('abreu_fpt_host')
         NUGET_SOURCE = credentials('private_nuget_uri')
         SONARQUBE_EXCLUDE_FILES = "**/*.xml,**/*.json,**/*.html,**/*.css,**/*.js,**/Program.cs,**/Startup.cs,**/Migrations/**"
@@ -22,7 +23,7 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarQ-DotNET8'
                     withSonarQubeEnv('SonarQ') {
-                        sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Kuhaku\" /d:sonar.exclusions='${SONARQUBE_EXCLUDE_FILES}'"
+                        sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Kuhaku\" /d:sonar.projectVersion=${VERSION} /d:sonar.exclusions=${SONARQUBE_EXCLUDE_FILES}"
                         sh "dotnet build"
                         def sonarEnd = sh(script: "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end", returnStatus: true)
                         if (sonarEnd != 0) {
