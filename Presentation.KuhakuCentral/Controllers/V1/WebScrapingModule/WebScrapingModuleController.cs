@@ -13,40 +13,26 @@ namespace KuhakuCentral.Controllers.V1.WebScrapingModule
     public class WebScrapingModuleController : BaseApi
     {
 
-        [HttpGet("Cuevana3.ch")]
+        [HttpGet("ScrapPage")]
         [Authorize(Roles = "Owner")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-        Summary = "Web Scraping at Cuevana3.ch",
-        Description = "Get all movies from Cuevana3.ch and send them to the Database"
+        Summary = "Web Scraping",
+        Description = "Get all movies from Page and send them to the Database"
         )]
-        public async Task<IActionResult> ScrapCuevana3CH()
+        public async Task<IActionResult> ScrapPage(int Id)
         {
-            await Mediator.Send(new GetAllCuevanaMoviesCommand());
-            return Ok(new GenericApiResponse<string>
+            switch(Id)
             {
-                Payload = "Done",
-                Message = HttpStatusCode.Accepted.ToString(),
-                Statuscode = 200,
-                Success = true
-            });
-        }
-
-
-        [HttpGet("Pelisplushd.lat")]
-        [Authorize(Roles = "Owner")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerOperation(
-            Summary = "Web Scraping at PelisPlus.lat",
-            Description = "Get all movies from PelisPlus.lat and send them to the Database"
-        )]
-        public async Task<IActionResult> ScrapPelisPlusLat()
-        {
-            await Mediator.Send(new GetPelisPlusLatMoviesCommand());
+                case 1:
+                    await Mediator.Send(new GetAllCuevanaMoviesCommand());
+                    break;
+                case 2:
+                    await Mediator.Send(new GetPelisPlusLatMoviesCommand());
+                    break;
+            }
             return Ok(new GenericApiResponse<string>
             {
                 Payload = "Done",

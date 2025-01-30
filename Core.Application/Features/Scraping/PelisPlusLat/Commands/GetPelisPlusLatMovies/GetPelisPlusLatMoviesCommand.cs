@@ -21,8 +21,6 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
         ILogger<GetPelisPlusLatMoviesCommandHandler> logger,
         IMapper mapper) : IRequestHandler<GetPelisPlusLatMoviesCommand, bool>
     {
-        private readonly int DB_WEB_ID = 1;
-        private readonly string ORIGINAL_URI = "https://www12.pelisplushd.lat";
         private readonly IMovieWebRepository _movieWebRepository = movieWebRepository;
         private readonly IMovie_MovieWebRepository _movie_MovieWebRepository = movie_MovieWebRepository;
         private readonly IMovieRepository _movieRepository = movieRepository;
@@ -32,7 +30,7 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
 
         public async Task<bool> Handle(GetPelisPlusLatMoviesCommand request, CancellationToken cancellationToken)
         {
-            var PelisPlusLatMovies = new Services.WebScrapers.MovieESWebsites.PelisPluslat.GetPelisPlusLatMovies(DB_WEB_ID, ORIGINAL_URI);
+            var PelisPlusLatMovies = new Services.WebScrapers.MovieESWebsites.PelisPluslat.GetPelisPlusLatMovies(1, "https://www12.pelisplushd.lat");
             try
             {
                 int count = PelisPlusLatMovies.GetPelisplushdPagination();

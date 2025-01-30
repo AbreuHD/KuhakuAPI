@@ -13,28 +13,16 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
 
     }
 
-    public class GetAllCuevanaMoviesCommandHandler : IRequestHandler<GetAllCuevanaMoviesCommand, bool>
+    public class GetAllCuevanaMoviesCommandHandler(IMovieWebRepository movieWebRepository, IMovie_MovieWebRepository movie_MovieWebRepository, IMovieRepository movieRepository, GetTmdbData getTmdbData, IGenre_MovieRepository genre_MovieRepository, IGenreRepository genreRepository, IMapper mapper) : IRequestHandler<GetAllCuevanaMoviesCommand, bool>
     {
-        private readonly IMovieWebRepository _movieWebRepository;
-        private readonly IMovie_MovieWebRepository _movie_MovieWebRepository;
-        private readonly IMovieRepository _movieRepository;
-        private readonly IGenre_MovieRepository _genre_MovieRepository;
-        private readonly IGenreRepository _genreRepository;
+        private readonly IMovieWebRepository _movieWebRepository = movieWebRepository;
+        private readonly IMovie_MovieWebRepository _movie_MovieWebRepository = movie_MovieWebRepository;
+        private readonly IMovieRepository _movieRepository = movieRepository;
+        private readonly IGenre_MovieRepository _genre_MovieRepository = genre_MovieRepository;
+        private readonly IGenreRepository _genreRepository = genreRepository;
 
-        private readonly GetTmdbData _getTmdbData;
-        private readonly IMapper _mapper;
-
-        public GetAllCuevanaMoviesCommandHandler(IMovieWebRepository movieWebRepository, IMovie_MovieWebRepository movie_MovieWebRepository, IMovieRepository movieRepository, GetTmdbData getTmdbData, IGenre_MovieRepository genre_MovieRepository, IGenreRepository genreRepository, IMapper mapper)
-        {
-            _movieWebRepository = movieWebRepository;
-            _movie_MovieWebRepository = movie_MovieWebRepository;
-            _movieRepository = movieRepository;
-            _getTmdbData = getTmdbData;
-            _genre_MovieRepository = genre_MovieRepository;
-            _genreRepository = genreRepository;
-            _mapper = mapper;
-        }
-
+        private readonly GetTmdbData _getTmdbData = getTmdbData;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<bool> Handle(GetAllCuevanaMoviesCommand request, CancellationToken cancellationToken)
         {
