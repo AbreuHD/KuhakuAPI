@@ -12,22 +12,15 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
 {
     public class SearchMoviesQuery : IRequest<GenericApiResponse<MovieSearchModuleDto>>
     {
-        public string Title { get; set; }
+        public required string Title { get; set; }
         public List<int>? Values { get; set; }
     }
 
-    public class SearchMoviesQueryHandler : IRequestHandler<SearchMoviesQuery, GenericApiResponse<MovieSearchModuleDto>>
+    public class SearchMoviesQueryHandler(IMovieRepository movieRepository, IGenreRepository genreRepository, IMapper mapper) : IRequestHandler<SearchMoviesQuery, GenericApiResponse<MovieSearchModuleDto>>
     {
-        private readonly IMovieRepository _movieRepository;
-        private readonly IGenreRepository _genreRepository;
-        private readonly IMapper _mapper;
-
-        public SearchMoviesQueryHandler(IMovieRepository movieRepository, IGenreRepository genreRepository, IMapper mapper)
-        {
-            _movieRepository = movieRepository;
-            _genreRepository = genreRepository;
-            _mapper = mapper;
-        }
+        private readonly IMovieRepository _movieRepository = movieRepository;
+        private readonly IGenreRepository _genreRepository = genreRepository;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<GenericApiResponse<MovieSearchModuleDto>> Handle(SearchMoviesQuery request, CancellationToken cancellationToken)
         {
@@ -40,7 +33,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
                 {
                     foreach (var genreFilter in request.Values)
                     {
-                        movies = movies.FindAll(x => x.GenreMovie.Any(m => m.GenreID == genreFilter));
+                        movies = movies.FindAll(x => x.GenreMovie != null && x.GenreMovie.Any(m => m.GenreID == genreFilter));
                     }
                 }
 
@@ -74,7 +67,10 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
             {
                 return new GenericApiResponse<MovieSearchModuleDto>
                 {
-                    Payload = null,
+                    Payload = new MovieSearchModuleDto
+                    {
+                        Movies = new List<PreviewSearchMovieDto>()
+                    },
                     Message = e.Message,
                     Success = false,
                     Statuscode = (int)HttpStatusCode.InternalServerError

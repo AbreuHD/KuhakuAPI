@@ -40,7 +40,7 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3
         {
             var data = new MovieWebDto
             {
-                Name = node.ChildNodes[1].ChildNodes[1].ChildNodes[3].InnerText, //ChildNodes[1].ChildNodes[1].SelectSingleNode("//h2").InnerText;
+                Name = node.ChildNodes[1].ChildNodes[1].ChildNodes[3].InnerText,
                 Img = node.ChildNodes[1].ChildNodes[1].ChildNodes[1].ChildNodes[2].ChildNodes[1].Attributes["data-src"].Value,
                 Url = node.ChildNodes[1].ChildNodes[1].Attributes["href"].Value
             };
