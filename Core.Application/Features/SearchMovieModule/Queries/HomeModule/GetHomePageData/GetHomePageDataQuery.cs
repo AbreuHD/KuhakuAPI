@@ -55,7 +55,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
                         if (selectedMovies.Count == 6) break;
                     }
 
-                    if (genre.GenreMovie.Count is not 0)
+                    if (genre.GenreMovie?.Count is not 0)
                     {
                         response.Payload.Add(new HomeDto
                         {

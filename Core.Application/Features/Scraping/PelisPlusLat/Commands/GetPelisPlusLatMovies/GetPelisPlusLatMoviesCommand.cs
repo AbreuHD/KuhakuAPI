@@ -14,6 +14,7 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
     {
     }
     public class GetPelisPlusLatMoviesCommandHandler(
+        IScrapPageRepository scrapPageRepository,
         IMovieWebRepository movieWebRepository, 
         IMovie_MovieWebRepository movie_MovieWebRepository, 
         IMovieRepository movieRepository, 
@@ -21,6 +22,7 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
         ILogger<GetPelisPlusLatMoviesCommandHandler> logger,
         IMapper mapper) : IRequestHandler<GetPelisPlusLatMoviesCommand, bool>
     {
+        private readonly IScrapPageRepository _scrapPageRepository = scrapPageRepository;
         private readonly IMovieWebRepository _movieWebRepository = movieWebRepository;
         private readonly IMovie_MovieWebRepository _movie_MovieWebRepository = movie_MovieWebRepository;
         private readonly IMovieRepository _movieRepository = movieRepository;
@@ -30,7 +32,9 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
 
         public async Task<bool> Handle(GetPelisPlusLatMoviesCommand request, CancellationToken cancellationToken)
         {
-            var PelisPlusLatMovies = new Services.WebScrapers.MovieESWebsites.PelisPluslat.GetPelisPlusLatMovies(1, "https://www12.pelisplushd.lat");
+            var SourceRequest = await _scrapPageRepository.GetByIdAsync(2);
+
+            var PelisPlusLatMovies = new Services.WebScrapers.MovieESWebsites.PelisPluslat.GetPelisPlusLatMovies(SourceRequest.ID, SourceRequest.Url);
             try
             {
                 int count = PelisPlusLatMovies.GetPelisplushdPagination();
