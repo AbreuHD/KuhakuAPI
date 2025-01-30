@@ -73,7 +73,8 @@ namespace Infrastructure.Persistence.Repositories
             foreach (var keyword in searchKeywords)
             {
                 var moviesMatchingKeyword = await _dbContext.Set<Movie>()
-                    .Where(x => x != null && x.Title.ToLower().Contains(keyword)).Include(x => x.GenreMovie)
+                    .Where(x => x != null && EF.Functions.Like(x.Title, $"%{keyword}%"))
+                    .Include(x => x.GenreMovie)
                     .ToListAsync();
                 responseMovies.AddRange(moviesMatchingKeyword);
             }

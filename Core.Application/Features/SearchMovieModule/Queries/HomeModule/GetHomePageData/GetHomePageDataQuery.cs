@@ -43,7 +43,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
                 foreach (var genre in genres)
                 {
                     var selectedMovies = new List<Movie>();
-                    foreach (var x in genre.GenreMovie)
+                    foreach (var x in genre.GenreMovie ?? [])
                     {
                         var movieToAdd = await _movieRepository.GetByIdAsync(x.MovieID);
 
