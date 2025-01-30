@@ -4,8 +4,9 @@ using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Home;
 using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHomePageData
 {
@@ -30,35 +31,47 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
         {
             var response = new GenericApiResponse<List<HomeDto>>
             {
+                Success = true,
+                Statuscode = StatusCodes.Status200OK,
+                Message = "Successfully retrieved data",
                 Payload = []
             };
-
-            var genres = await _genreRepository.GetAllWithIncludes(["Genre_Movie"]);
-
-            foreach (var genre in genres)
+            try
             {
-                var selectedMovies = new List<Movie>();
-                foreach (var x in genre.Genre_Movie)
-                {
-                    var movieToAdd = await _movieRepository.GetByIdAsync(x.MovieID);
+                var genres = await _genreRepository.GetAllWithIncludes(["Genre_Movie"]);
 
-                    if (request.KidMode && movieToAdd.Adult is false || !request.KidMode)
+                foreach (var genre in genres)
+                {
+                    var selectedMovies = new List<Movie>();
+                    foreach (var x in genre.GenreMovie ?? [])
                     {
-                        selectedMovies.Add(movieToAdd);
+                        var movieToAdd = await _movieRepository.GetByIdAsync(x.MovieID);
+
+                        if (request.KidMode && movieToAdd.Adult is false || !request.KidMode)
+                        {
+                            selectedMovies.Add(movieToAdd);
+                        }
+
+                        if (selectedMovies.Count == 6) break;
                     }
 
-                    if (selectedMovies.Count == 6) break;
-                }
-
-                if (genre.Genre_Movie.Count is not 0)
-                {
-                    response.Payload.Add(new HomeDto
+                    if (genre.GenreMovie?.Count is not 0)
                     {
-                        Genre = _mapper.Map<TmdbGenreResponseDto>(genre),
-                        Movies = _mapper.Map<List<PreviewSearchMovieDto>>(selectedMovies),
-                    });
+                        response.Payload.Add(new HomeDto
+                        {
+                            Genre = _mapper.Map<TmdbGenreResponseDto>(genre),
+                            Movies = _mapper.Map<List<PreviewSearchMovieDto>>(selectedMovies),
+                        });
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                response.Statuscode = StatusCodes.Status500InternalServerError;
+            }
+
             return response;
         }
     }

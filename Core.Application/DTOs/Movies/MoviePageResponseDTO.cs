@@ -1,9 +1,9 @@
 ﻿namespace Core.Application.DTOs.Movies
 {
-    public class MoviePageResponseDTO
+    public class MoviePageResponseDto
     {
         public int Id { get; set; }
-        public string WebPageTitle { get; set; }
-        public string URI { get; set; }
+        public required string WebPageTitle { get; set; }
+        public required string URI { get; set; }
     }
 }

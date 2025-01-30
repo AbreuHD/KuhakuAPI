@@ -5,7 +5,7 @@ using Core.Application.DTOs.Relations;
 using Core.Application.DTOs.Scraping;
 using Core.Application.DTOs.ShareList;
 using Core.Application.DTOs.TMDB;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
 using Core.Domain.Entities.WebScraping;
@@ -16,16 +16,16 @@ namespace Core.Application.Mappings
     {
         public GeneralProfile()
         {
-            CreateMap<Movie, TMDBResult>()
+            CreateMap<Movie, TmdbResult>()
                 .ForMember(x => x.ID, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(x => x.ID, opt => opt.Ignore());
 
-            CreateMap<MovieWebDTO, MovieWeb>()
+            CreateMap<MovieWebDto, MovieWeb>()
                 .ReverseMap()
                 .ForMember(x => x.TMDBTempID, opt => opt.Ignore());
 
-            CreateMap<Movie_MovieWeb, Movie_MovieWebDTO>()
+            CreateMap<MovieMovieWeb, MovieMovieWebDto>()
                 .ReverseMap();
 
             CreateMap<Movie, PreviewSearchMovieDto>()
@@ -34,7 +34,7 @@ namespace Core.Application.Mappings
             CreateMap<Movie, InfoSearchMovieDto>()
                 .ReverseMap();
 
-            CreateMap<MovieWeb, MovieWebDTO>()
+            CreateMap<MovieWeb, MovieWebDto>()
                 .ReverseMap();
 
             CreateMap<Genre, TmdbGenreResponseDto>()

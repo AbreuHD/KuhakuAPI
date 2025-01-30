@@ -2,12 +2,12 @@
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
 
-namespace Core.Domain.Entities.GeneralMovie
+namespace Core.Domain.Entities.Movie
 {
     public class Movie : AuditableBase
     {
-        public int TMDBID { get; set; }
-        public string Title { get; set; }
+        public int? TMDBID { get; set; }
+        public required string Title { get; set; }
         public string? Original_title { get; set; }
         public bool? Adult { get; set; }
         public double? Vote_average { get; set; }
@@ -18,9 +18,9 @@ namespace Core.Domain.Entities.GeneralMovie
         public string? Backdrop_path { get; set; }
         public DateTime? Release_date { get; set; }
 
-        public ICollection<Genre_Movie> Genre_Movie { get; set; }
-        public ICollection<Recents> Recents { get; set; }
-        public ICollection<MovieList_Movie> MovieList_Movie { get; set; }
-        public ICollection<Movie_MovieWeb> Movie_MovieWeb { get; set; }
+        public ICollection<GenreMovie>? GenreMovie { get; set; }
+        public ICollection<Recents>? Recents { get; set; }
+        public ICollection<MovieListMovie>? MovieListMovie { get; set; }
+        public ICollection<MovieMovieWeb>? MovieMovieWeb { get; set; }
     }
 }

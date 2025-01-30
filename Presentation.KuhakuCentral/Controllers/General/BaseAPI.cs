@@ -5,9 +5,9 @@ namespace KuhakuCentral.Controllers.General
 {
     [ApiController]
     [Route("v{version:apiVersion}/es/[controller]")]
-    public abstract class BaseAPI : ControllerBase
+    public abstract class BaseApi : ControllerBase
     {
-        private IMediator _mediator;
-        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        private IMediator? _mediator;
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>() ?? throw new InvalidOperationException("IMediator service not found.");
     }
 }

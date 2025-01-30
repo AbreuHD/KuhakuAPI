@@ -2,47 +2,50 @@
 using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Scraping;
 using Core.Application.DTOs.TMDB;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net;
 
 namespace Core.Application.Helpers.TMDB
 {
-    public class GetTMDBData
+    public class GetTmdbData
     {
         public readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private readonly string TMDBAPIKEY;
 
-        public GetTMDBData(IConfiguration configuration, IMapper mapper)
+        public GetTmdbData(IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
             _mapper = mapper;
-            TMDBAPIKEY = Environment.GetEnvironmentVariable("TMDBAPIKey") ?? _configuration["TMDBAPIKey"];
+            TMDBAPIKEY = Environment.GetEnvironmentVariable("TMDBAPIKey") ?? _configuration["TMDBAPIKey"] ?? throw new ArgumentNullException(nameof(configuration), "TMDBAPIKey is not set.");
         }
 
-        public async Task<CheckedList> GetTMDBId(List<MovieWebDTO> movies)
+        public CheckedList GetTMDBId(List<MovieWebDto> movies)
         {
-            List<Movie> CheckData = new List<Movie>();
-            List<MovieWebDTO> MovieData = new List<MovieWebDTO>();
+            List<Movie> CheckData = [];
+            List<MovieWebDto> MovieData = [];
             foreach (var data in movies)
             {
                 try
                 {
                     string TMDBData = new WebClient().DownloadString($"https://api.themoviedb.org/3/search/movie?api_key={TMDBAPIKEY}&language=es-MX&query={data.Name}&include_adult=true");
-                    var result = JsonConvert.DeserializeObject<TMDBResponse>(TMDBData);
-                    TMDBResult tmdb = result.results.FirstOrDefault();
-                    Console.WriteLine("Getting TMDB Data");
-                    if (tmdb != null)
+                    var result = JsonConvert.DeserializeObject<TmdbResponse>(TMDBData);
+                    if (result?.Results != null)
                     {
-                        data.TMDBTempID = tmdb.ID;
-                        data.Genres = tmdb.genre_ids;
-                        var newMovie = _mapper.Map<Movie>(tmdb);
-                        newMovie.TMDBID = tmdb.ID;
-                        CheckData.Add(newMovie);
+                        TmdbResult tmdb = result.Results.FirstOrDefault()!;
+                        Console.WriteLine("Getting TMDB Data");
+                        if (tmdb != null)
+                        {
+                            data.TMDBTempID = tmdb.ID;
+                            data.Genres = tmdb.GenreIds;
+                            var newMovie = _mapper.Map<Movie>(tmdb);
+                            newMovie.TMDBID = tmdb.ID;
+                            CheckData.Add(newMovie);
+                        }
+                        MovieData.Add(data);
                     }
-                    MovieData.Add(data);
                 }
                 catch (Exception ex)
                 {
@@ -52,19 +55,22 @@ namespace Core.Application.Helpers.TMDB
             return new CheckedList
             {
                 Movies = CheckData,
-                MovieWebDTO = MovieData
+                MovieWebDto = MovieData
             };
         }
 
-        public async Task<TmdbGenreResponseListDto> GetAllGenres()
+        public TmdbGenreResponseListDto GetAllGenres()
         {
             var movies = new HttpClient().GetStringAsync($"https://api.themoviedb.org/3/genre/movie/list?api_key={TMDBAPIKEY}&language=en-us").Result;
             var series = new HttpClient().GetStringAsync($"https://api.themoviedb.org/3/genre/tv/list?api_key={TMDBAPIKEY}&language=en-us").Result;
 
+            var movieGenres = JsonConvert.DeserializeObject<TmdbGenreApiResponseDto>(movies)?.genres ?? [];
+            var seriesGenres = JsonConvert.DeserializeObject<TmdbGenreApiResponseDto>(series)?.genres ?? [];
+
             return new TmdbGenreResponseListDto
             {
-                Movies = JsonConvert.DeserializeObject<TmdbGenreApiResponseDto>(movies).genres,
-                Series = JsonConvert.DeserializeObject<TmdbGenreApiResponseDto>(series).genres
+                Movies = movieGenres,
+                Series = seriesGenres
             };
         }
     }

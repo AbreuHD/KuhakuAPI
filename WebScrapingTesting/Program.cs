@@ -8,7 +8,7 @@ string ORIGINAL_URI = "https://cuevana3.ch";
 GetCuevana3Pagination();
 
 
-async Task<int> GetCuevana3Pagination()
+int GetCuevana3Pagination()
 {
     string uri = "/peliculas?page=1000";
     HtmlWeb web = new HtmlWeb();
@@ -16,10 +16,10 @@ async Task<int> GetCuevana3Pagination()
     return (int)Convert.ToInt64(htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"aa-wp\"]/div/div[2]/main/section/nav/div/a[7]").InnerText);
 }
 
-async Task<List<MovieWebDTO>> GetCuevana3(int i)
+List<MovieWebDto> GetCuevana3(int i)
 {
     string uri = "/peliculas";
-    List<MovieWebDTO> movieList = new List<MovieWebDTO>();
+    List<MovieWebDto> movieList = new List<MovieWebDto>();
 
     HtmlWeb web = new HtmlWeb();
     var htmlDoc = web.Load($"{ORIGINAL_URI + uri}?page={i}");
@@ -35,13 +35,14 @@ async Task<List<MovieWebDTO>> GetCuevana3(int i)
     return movieList;
 }
 
-MovieWebDTO GetMovieInfo(HtmlNode node)
+MovieWebDto GetMovieInfo(HtmlNode node)
 {
-    var data = new MovieWebDTO();
-
-    data.Name = node.ChildNodes[1].ChildNodes[2].ChildNodes[1].InnerText;
-    data.Url = node.ChildNodes[1].ChildNodes[1].Attributes["href"].Value;
-    data.Img = node.ChildNodes[1].ChildNodes[1].ChildNodes[2].ChildNodes[1].Attributes["src"].Value;
+    var data = new MovieWebDto
+    {
+        Name = node.ChildNodes[1].ChildNodes[2].ChildNodes[1].InnerText,
+        Url = node.ChildNodes[1].ChildNodes[1].Attributes["href"].Value,
+        Img = node.ChildNodes[1].ChildNodes[1].ChildNodes[2].ChildNodes[1].Attributes["src"].Value
+    };
     data.Overview = GetOverView(data.Url);
     data.ScrapPageID = DB_WEB_ID;
 

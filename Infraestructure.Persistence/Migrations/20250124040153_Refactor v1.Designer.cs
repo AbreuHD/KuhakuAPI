@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(KhakuContext))]
-    [Migration("20250120060053_changes in list again x2 test")]
-    partial class changesinlistagainx2test
+    [Migration("20250124040153_Refactor v1")]
+    partial class Refactorv1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,67 +25,7 @@ namespace Infrastructure.Persistence.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Auth.Infraestructure.Identity.Entities.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApplicationUser");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.GeneralMovie.Genre", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Movie.Genre", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -110,7 +50,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -122,7 +61,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Genre", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.GeneralMovie.Movie", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Movie.Movie", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -147,7 +86,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Original_title")
@@ -162,7 +100,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("Release_date")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("TMDBID")
+                    b.Property<int?>("TMDBID")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -183,7 +121,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Movie", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.Relations.Genre_Movie", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Relations.GenreMovie", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -205,7 +143,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("MovieID")
@@ -220,7 +157,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("Genre_Movie", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.Relations.MovieList_Movie", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Relations.MovieListMovie", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -239,25 +176,24 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("MovieID")
                         .HasColumnType("int");
 
-                    b.Property<int>("MovieListID")
+                    b.Property<int>("ShareListID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("MovieID");
 
-                    b.HasIndex("MovieListID");
+                    b.HasIndex("ShareListID");
 
                     b.ToTable("MovieList_Movie", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.Relations.Movie_MovieWeb", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Relations.MovieMovieWeb", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -276,7 +212,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("MovieID")
@@ -319,7 +254,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("MovieID")
@@ -327,13 +261,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<string>("UserID")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("ID");
 
                     b.HasIndex("MovieID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Recents", (string)null);
                 });
@@ -354,18 +286,19 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Img")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -373,12 +306,9 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("ShareList", (string)null);
                 });
@@ -399,14 +329,12 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Img")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -414,7 +342,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Overview")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("ScrapPageID")
@@ -461,7 +388,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedby")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("LastScrap")
@@ -480,16 +406,16 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("ScrapPage", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.Relations.Genre_Movie", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Relations.GenreMovie", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.GeneralMovie.Genre", "Genre")
-                        .WithMany("Genre_Movie")
+                    b.HasOne("Core.Domain.Entities.Movie.Genre", "Genre")
+                        .WithMany("GenreMovie")
                         .HasForeignKey("GenreID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.Entities.GeneralMovie.Movie", "Movie")
-                        .WithMany("Genre_Movie")
+                    b.HasOne("Core.Domain.Entities.Movie.Movie", "Movie")
+                        .WithMany("GenreMovie")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -499,29 +425,29 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.Relations.MovieList_Movie", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Relations.MovieListMovie", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.GeneralMovie.Movie", "Movie")
-                        .WithMany("MovieList_Movie")
+                    b.HasOne("Core.Domain.Entities.Movie.Movie", "Movie")
+                        .WithMany("MovieListMovie")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.Entities.UserThings.ShareList", "MovieList")
-                        .WithMany("MovieList_Movie")
-                        .HasForeignKey("MovieListID")
+                    b.HasOne("Core.Domain.Entities.UserThings.ShareList", "ShareList")
+                        .WithMany("MovieListMovie")
+                        .HasForeignKey("ShareListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Movie");
 
-                    b.Navigation("MovieList");
+                    b.Navigation("ShareList");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.Relations.Movie_MovieWeb", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Relations.MovieMovieWeb", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.GeneralMovie.Movie", "Movie")
-                        .WithMany("Movie_MovieWeb")
+                    b.HasOne("Core.Domain.Entities.Movie.Movie", "Movie")
+                        .WithMany("MovieMovieWeb")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -539,28 +465,13 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Core.Domain.Entities.UserThings.Recents", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.GeneralMovie.Movie", "Movie")
+                    b.HasOne("Core.Domain.Entities.Movie.Movie", "Movie")
                         .WithMany("Recents")
                         .HasForeignKey("MovieID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Auth.Infraestructure.Identity.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.UserThings.ShareList", b =>
-                {
-                    b.HasOne("Auth.Infraestructure.Identity.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.WebScraping.MovieWeb", b =>
@@ -574,25 +485,25 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("ScrapPage");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.GeneralMovie.Genre", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Movie.Genre", b =>
                 {
-                    b.Navigation("Genre_Movie");
+                    b.Navigation("GenreMovie");
                 });
 
-            modelBuilder.Entity("Core.Domain.Entities.GeneralMovie.Movie", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Movie.Movie", b =>
                 {
-                    b.Navigation("Genre_Movie");
+                    b.Navigation("GenreMovie");
 
-                    b.Navigation("MovieList_Movie");
+                    b.Navigation("MovieListMovie");
 
-                    b.Navigation("Movie_MovieWeb");
+                    b.Navigation("MovieMovieWeb");
 
                     b.Navigation("Recents");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.UserThings.ShareList", b =>
                 {
-                    b.Navigation("MovieList_Movie");
+                    b.Navigation("MovieListMovie");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.WebScraping.MovieWeb", b =>

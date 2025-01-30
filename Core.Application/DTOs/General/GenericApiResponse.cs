@@ -2,9 +2,9 @@
 {
     public class GenericApiResponse<DTO>
     {
-        public DTO Payload { get; set; }
-        public bool Success { get; set; } = true;
-        public int Statuscode { get; set; }
-        public string Message { get; set; }
+        public required DTO Payload { get; set; }
+        public required bool Success { get; set; } = true;
+        public required int Statuscode { get; set; }
+        public required string Message { get; set; }
     }
 }

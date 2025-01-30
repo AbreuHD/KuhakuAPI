@@ -3,6 +3,8 @@ using Core.Application.DTOs.General;
 using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
+using Core.Domain.Entities.Movie;
+using Core.Domain.Entities.Relations;
 using MediatR;
 using System.Net;
 
@@ -10,26 +12,19 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
 {
     public class SearchMoviesQuery : IRequest<GenericApiResponse<MovieSearchModuleDto>>
     {
-        public string Title { get; set; }
+        public required string Title { get; set; }
         public List<int>? Values { get; set; }
     }
 
-    public class SearchMoviesQueryHandler : IRequestHandler<SearchMoviesQuery, GenericApiResponse<MovieSearchModuleDto>>
+    public class SearchMoviesQueryHandler(IMovieRepository movieRepository, IGenreRepository genreRepository, IMapper mapper) : IRequestHandler<SearchMoviesQuery, GenericApiResponse<MovieSearchModuleDto>>
     {
-        private readonly IMovieRepository _movieRepository;
-        private readonly IGenreRepository _genreRepository;
-        private readonly IMapper _mapper;
-
-        public SearchMoviesQueryHandler(IMovieRepository movieRepository, IGenreRepository genreRepository, IMapper mapper)
-        {
-            _movieRepository = movieRepository;
-            _genreRepository = genreRepository;
-            _mapper = mapper;
-        }
+        private readonly IMovieRepository _movieRepository = movieRepository;
+        private readonly IGenreRepository _genreRepository = genreRepository;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<GenericApiResponse<MovieSearchModuleDto>> Handle(SearchMoviesQuery request, CancellationToken cancellationToken)
         {
-            List<TmdbGenreResponseDto> genres = new();
+            List<TmdbGenreResponseDto> genres = [];
             try
             {
                 var movies = await _movieRepository.SearchMovies(request.Title);
@@ -38,24 +33,22 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
                 {
                     foreach (var genreFilter in request.Values)
                     {
-                        movies = movies.FindAll(x => x.Genre_Movie.Any(m => m.GenreID == genreFilter));
+                        movies = movies.FindAll(x => x.GenreMovie != null && x.GenreMovie.Any(m => m.GenreID == genreFilter));
                     }
                 }
 
-                foreach (var movie in movies)
+                var genreIds = movies.SelectMany(movie => movie.GenreMovie ?? Enumerable.Empty<GenreMovie>())
+                                     .Select(genre => genre.GenreID)
+                                     .Distinct();
+
+                foreach (var genreId in genreIds)
                 {
-                    foreach (var genre in movie.Genre_Movie)
+                    var requestGenre = await _genreRepository.GetByIdAsync(genreId);
+                    genres.Add(new TmdbGenreResponseDto
                     {
-                        if (genres.Find(x => x.Id == genre.GenreID) == null)
-                        {
-                            var requestGenre = await _genreRepository.GetByIdAsync(genre.GenreID);
-                            genres.Add(new TmdbGenreResponseDto
-                            {
-                                Id = requestGenre.ID,
-                                Name = requestGenre.Name
-                            });
-                        }
-                    }
+                        Id = requestGenre.ID,
+                        Name = requestGenre.Name
+                    });
                 }
 
                 return new GenericApiResponse<MovieSearchModuleDto>
@@ -74,7 +67,10 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
             {
                 return new GenericApiResponse<MovieSearchModuleDto>
                 {
-                    Payload = null,
+                    Payload = new MovieSearchModuleDto
+                    {
+                        Movies = new List<PreviewSearchMovieDto>()
+                    },
                     Message = e.Message,
                     Success = false,
                     Statuscode = (int)HttpStatusCode.InternalServerError

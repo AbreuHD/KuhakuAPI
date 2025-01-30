@@ -12,7 +12,7 @@ namespace Core.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            services.AddTransient<GetTMDBData, GetTMDBData>();
+            services.AddTransient<GetTmdbData, GetTmdbData>();
         }
     }
 }

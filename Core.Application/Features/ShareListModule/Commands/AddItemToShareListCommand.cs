@@ -54,7 +54,7 @@ namespace Core.Application.Features.ShareListModule.Commands
                     }
                     else
                     {
-                        await _movieList_MovieRepository.AddAsync(new MovieList_Movie
+                        await _movieList_MovieRepository.AddAsync(new MovieListMovie
                         {
                             MovieID = request.ItemId,
                             ShareListID = request.ShareListId

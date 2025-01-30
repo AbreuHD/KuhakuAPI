@@ -2,7 +2,7 @@
 
 namespace Core.Application.Interface.Repositories
 {
-    public interface IMovie_MovieWebRepository : IGenericRepository<Movie_MovieWeb>
+    public interface IMovie_MovieWebRepository : IGenericRepository<MovieMovieWeb>
     {
     }
 }

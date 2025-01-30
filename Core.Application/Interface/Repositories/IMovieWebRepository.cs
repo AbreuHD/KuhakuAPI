@@ -5,6 +5,6 @@ namespace Core.Application.Interface.Repositories
 {
     public interface IMovieWebRepository : IGenericRepository<MovieWeb>
     {
-        Task<List<MovieWebDTO>> Exist(List<MovieWebDTO> movie);
+        Task<List<MovieWebDto>> Exist(List<MovieWebDto> movie);
     }
 }

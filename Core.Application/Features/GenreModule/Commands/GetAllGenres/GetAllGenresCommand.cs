@@ -1,7 +1,8 @@
 ﻿using Core.Application.DTOs.General;
+using Core.Application.DTOs.Genres;
 using Core.Application.Helpers.TMDB;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.GeneralMovie;
+using Core.Domain.Entities.Movie;
 using MediatR;
 using System.Net;
 
@@ -10,24 +11,18 @@ namespace Core.Application.Features.GenreModule.Commands.GetAllGenres
     public class GetAllGenresCommand : IRequest<GenericApiResponse<string>>
     {
     }
-    public class GetAllGenresCommandHandler : IRequestHandler<GetAllGenresCommand, GenericApiResponse<string>>
+    public class GetAllGenresCommandHandler(GetTmdbData getTmdbData, IGenreRepository genreRepository) : IRequestHandler<GetAllGenresCommand, GenericApiResponse<string>>
     {
-        private readonly GetTMDBData _getTMDBData;
-        private readonly IGenreRepository _genreRepository;
-
-        public GetAllGenresCommandHandler(GetTMDBData getTMDBData, IGenreRepository genreRepository)
-        {
-            _getTMDBData = getTMDBData;
-            _genreRepository = genreRepository;
-        }
+        private readonly GetTmdbData _getTmdbData = getTmdbData;
+        private readonly IGenreRepository _genreRepository = genreRepository;
 
         public async Task<GenericApiResponse<string>> Handle(GetAllGenresCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 int i = 0;
-                var res = await _getTMDBData.GetAllGenres();
-                foreach (var m in res.Movies)
+                var res = _getTmdbData.GetAllGenres();
+                foreach (var m in res.Movies ?? Enumerable.Empty<TmdbGenreResponseDto>())
                 {
                     var InDb = await _genreRepository.Exist(m.Id);
                     if (!InDb)
@@ -41,7 +36,7 @@ namespace Core.Application.Features.GenreModule.Commands.GetAllGenres
                         });
                     }
                 }
-                foreach (var m in res.Series)
+                foreach (var m in res.Series ?? Enumerable.Empty<TmdbGenreResponseDto>())
                 {
                     var InDb = await _genreRepository.Exist(m.Id);
                     if (!InDb)

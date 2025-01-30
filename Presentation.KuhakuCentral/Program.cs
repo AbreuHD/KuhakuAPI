@@ -1,6 +1,6 @@
 using Auth.Infraestructure.Identity;
 using Core.Application;
-using Infraestructure.Persistence;
+using Infrastructure.Persistence;
 using KuhakuCentral.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;

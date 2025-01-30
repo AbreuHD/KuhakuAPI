@@ -1,10 +1,10 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Relations;
-using Infraestructure.Persistence.Context;
+using Infrastructure.Persistence.Context;
 
-namespace Infraestructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
-    public class Movie_MovieWebRepository : GenericRepository<Movie_MovieWeb>, IMovie_MovieWebRepository
+    public class Movie_MovieWebRepository : GenericRepository<MovieMovieWeb>, IMovie_MovieWebRepository
     {
         private readonly KhakuContext _dbContext;
 

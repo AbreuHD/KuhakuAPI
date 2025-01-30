@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KuhakuCentral.Controllers.V1.Account
 {
-    public class AccountController(IMediator mediator, ILogger<AccountController> logger) : BaseAPI
+    public class AccountController(IMediator mediator, ILogger<AccountController> logger) : BaseApi
     {
         public new IMediator Mediator { get; } = mediator;
         private readonly ILogger<AccountController> _logger = logger;
