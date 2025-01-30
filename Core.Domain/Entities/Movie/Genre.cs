@@ -9,6 +9,6 @@ namespace Core.Domain.Entities.Movie
         public required int GenreID { get; set; }
         public required bool IsMovie { get; set; } = false;
 
-        public ICollection<GenreMovie> GenreMovie { get; set; }
+        public ICollection<GenreMovie>? GenreMovie { get; set; }
     }
 }

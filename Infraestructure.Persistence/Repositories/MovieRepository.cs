@@ -6,14 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class MovieRepository : GenericRepository<Movie>, IMovieRepository
+    public class MovieRepository(KhakuContext dbContext) : GenericRepository<Movie>(dbContext), IMovieRepository
     {
-        private readonly KhakuContext _dbContext;
-
-        public MovieRepository(KhakuContext dbContext) : base(dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        private readonly KhakuContext _dbContext = dbContext;
 
         public async Task<List<Movie>> Exist(List<Movie> movieList)
         {
@@ -55,10 +50,20 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<Movie> GetMovieInfo(int MovieId)
         {
-            var response = await _dbContext.Set<Movie>().FindAsync(MovieId);
-            await _dbContext.Entry(response).Collection(x => x.MovieMovieWeb).LoadAsync();
-            await _dbContext.Entry(response).Collection(x => x.GenreMovie).LoadAsync();
-            return response;
+            try
+            {
+                var response = await _dbContext.Set<Movie>().FindAsync(MovieId);
+                if (response != null)
+                {
+                    await _dbContext.Entry(response).Collection(x => x.MovieMovieWeb!).LoadAsync();
+                    await _dbContext.Entry(response).Collection(x => x.GenreMovie!).LoadAsync();
+                }
+                return response!;
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException("An error occurred while retrieving movie information.", e);
+            }
         }
 
         public async Task<List<Movie>> SearchMovies(string Title)
@@ -68,7 +73,7 @@ namespace Infrastructure.Persistence.Repositories
             foreach (var keyword in searchKeywords)
             {
                 var moviesMatchingKeyword = await _dbContext.Set<Movie>()
-                    .Where(x => x.Title.ToLower().Contains(keyword)).Include(x => x.GenreMovie)
+                    .Where(x => x != null && x.Title.ToLower().Contains(keyword)).Include(x => x.GenreMovie)
                     .ToListAsync();
                 responseMovies.AddRange(moviesMatchingKeyword);
             }

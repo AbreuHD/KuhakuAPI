@@ -6,30 +6,29 @@ using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusLatMovies
 {
     public class GetPelisPlusLatMoviesCommand : IRequest<bool>
     {
     }
-    public class GetPelisPlusLatMoviesCommandHandler : IRequestHandler<GetPelisPlusLatMoviesCommand, bool>
+    public class GetPelisPlusLatMoviesCommandHandler(
+        IMovieWebRepository movieWebRepository, 
+        IMovie_MovieWebRepository movie_MovieWebRepository, 
+        IMovieRepository movieRepository, 
+        GetTmdbData getTmdbData, 
+        ILogger<GetPelisPlusLatMoviesCommandHandler> logger,
+        IMapper mapper) : IRequestHandler<GetPelisPlusLatMoviesCommand, bool>
     {
-        private int DB_WEB_ID = 1;
-        private string ORIGINAL_URI = "https://www12.pelisplushd.lat";
-        private readonly IMovieWebRepository _movieWebRepository;
-        private readonly IMovie_MovieWebRepository _movie_MovieWebRepository;
-        private readonly IMovieRepository _movieRepository;
-        private readonly GetTMDBData _getTMDBData;
-        private readonly IMapper _mapper;
-
-        public GetPelisPlusLatMoviesCommandHandler(IMovieWebRepository movieWebRepository, IMovie_MovieWebRepository movie_MovieWebRepository, IMovieRepository movieRepository, GetTMDBData getTMDBData, IMapper mapper)
-        {
-            _movieWebRepository = movieWebRepository;
-            _movie_MovieWebRepository = movie_MovieWebRepository;
-            _movieRepository = movieRepository;
-            _getTMDBData = getTMDBData;
-            _mapper = mapper;
-        }
+        private readonly int DB_WEB_ID = 1;
+        private readonly string ORIGINAL_URI = "https://www12.pelisplushd.lat";
+        private readonly IMovieWebRepository _movieWebRepository = movieWebRepository;
+        private readonly IMovie_MovieWebRepository _movie_MovieWebRepository = movie_MovieWebRepository;
+        private readonly IMovieRepository _movieRepository = movieRepository;
+        private readonly GetTmdbData _getTMDBData = getTmdbData;
+        private readonly IMapper _mapper = mapper;
+        private readonly ILogger<GetPelisPlusLatMoviesCommandHandler> _logger = logger;
 
         public async Task<bool> Handle(GetPelisPlusLatMoviesCommand request, CancellationToken cancellationToken)
         {
@@ -65,14 +64,14 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
                         {
                             try
                             {
-                                if (endRelations.MovieID != 0 && endRelations.MovieID != null)
+                                if (endRelations.MovieID != 0)
                                 {
                                     await _movie_MovieWebRepository.AddAsync(endRelations); //Movie_MovieWeb Added
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                throw;
+                                _logger.LogError(ex, "Error adding movie relation for MovieID {MovieID}", endRelations.MovieID);
                             }
                         }
                     }

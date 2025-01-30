@@ -21,15 +21,15 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
         private readonly IGenre_MovieRepository _genre_MovieRepository;
         private readonly IGenreRepository _genreRepository;
 
-        private readonly GetTMDBData _getTMDBData;
+        private readonly GetTmdbData _getTmdbData;
         private readonly IMapper _mapper;
 
-        public GetAllCuevanaMoviesCommandHandler(IMovieWebRepository movieWebRepository, IMovie_MovieWebRepository movie_MovieWebRepository, IMovieRepository movieRepository, GetTMDBData getTMDBData, IGenre_MovieRepository genre_MovieRepository, IGenreRepository genreRepository, IMapper mapper)
+        public GetAllCuevanaMoviesCommandHandler(IMovieWebRepository movieWebRepository, IMovie_MovieWebRepository movie_MovieWebRepository, IMovieRepository movieRepository, GetTmdbData getTmdbData, IGenre_MovieRepository genre_MovieRepository, IGenreRepository genreRepository, IMapper mapper)
         {
             _movieWebRepository = movieWebRepository;
             _movie_MovieWebRepository = movie_MovieWebRepository;
             _movieRepository = movieRepository;
-            _getTMDBData = getTMDBData;
+            _getTmdbData = getTmdbData;
             _genre_MovieRepository = genre_MovieRepository;
             _genreRepository = genreRepository;
             _mapper = mapper;
@@ -48,7 +48,7 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
                 var movies = _cuevanaService.GetCuevana3(pagination);
                 if (movies != null)
                 {
-                    var data = _getTMDBData.GetTMDBId(movies);
+                    var data = _getTmdbData.GetTMDBId(movies);
                     List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
                     await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies));
                     var movieWeb = await _movieWebRepository.Exist(data.MovieWebDto);
