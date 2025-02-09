@@ -26,14 +26,14 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
 
         public async Task<bool> Handle(GetAllCuevanaMoviesCommand request, CancellationToken cancellationToken)
         {
-            var _cuevanaService = new Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3.ch.Cuevana3CHServices(1, "https://cuevana3.ch");
+            var _cuevanaService = new Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3Services(1, "https://cuevana.biz");
 
-            var pagination = _cuevanaService.GetCuevana3Pagination();
+            var pagination = _cuevanaService.GetPagination();
             while (pagination > 0)
             {
                 Console.WriteLine($"Paginacion {pagination}");
 
-                var movies = _cuevanaService.GetCuevana3(pagination);
+                var movies = _cuevanaService.GetMoviesFromPage(pagination);
                 if (movies != null)
                 {
                     var data = _getTmdbData.GetTMDBId(movies);
