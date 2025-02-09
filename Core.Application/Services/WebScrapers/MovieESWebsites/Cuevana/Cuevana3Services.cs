@@ -17,7 +17,7 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana
         /// <summary>
         /// Gets or sets the base URI to retrieve movie pages with different page numbers.
         /// </summary>
-        public virtual string PageNumberUri { get; set; } = "/peliculas?page=";
+        public virtual string PageNumberUri { get; set; } = "/peliculas/page/";
 
         /// <summary>
         /// Gets or sets the URI to be replaced for the movie image source.
@@ -37,17 +37,17 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana
         /// <summary>
         /// Gets or sets the XPath to the node containing the movie name.
         /// </summary>
-        public virtual string GetMovieName { get; set; } = "//div[@class=\"Title\"]";
+        public virtual string GetMovieName { get; set; } = "./div/div/div[@class=\"Title\"]";
 
         /// <summary>
         /// Gets or sets the XPath to the node containing the movie image.
         /// </summary>
-        public virtual string GetMovieImage { get; set; } = "//div[@class=\"Image\"]/img";
+        public virtual string GetMovieImage { get; set; } = "./div/a/div[@class=\"Image\"]/img";
 
         /// <summary>
         /// Gets or sets the XPath to the node containing the movie URL.
         /// </summary>
-        public virtual string GetMovieUrl { get; set; } = "//div[@class=\"TPost C hentry\"]/a";
+        public virtual string GetMovieUrl { get; set; } = "./div/a";
 
         /// <summary>
         /// Gets or sets the XPath to the node containing the movie description.
@@ -97,7 +97,7 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana
             var movieName = node.SelectSingleNode(GetMovieName).InnerText;
             var movieUrl = node.SelectSingleNode(GetMovieUrl).GetAttributeValue("href", "ERROR");
             var movieImage = WebUtility.UrlDecode(
-                node.SelectSingleNode(GetMovieImage)
+                node.SelectSingleNode(GetMovieImage)?
                     .GetAttributeValue("src", "ERROR")
                     .Replace(ReplaceMovieUri, "")
             );
@@ -127,7 +127,7 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana
             {
                 HtmlWeb web = new();
                 var htmlDoc = web.Load(ORIGINAL_URI + uri);
-                node = htmlDoc.DocumentNode.SelectSingleNode(GetMovieDescription).InnerText;
+                node = htmlDoc.DocumentNode.SelectSingleNode(GetMovieDescription)?.InnerText;
             }
             catch
             {
