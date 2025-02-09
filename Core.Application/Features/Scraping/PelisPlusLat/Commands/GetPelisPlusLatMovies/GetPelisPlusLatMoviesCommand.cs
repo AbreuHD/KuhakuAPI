@@ -15,10 +15,10 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
     }
     public class GetPelisPlusLatMoviesCommandHandler(
         IScrapPageRepository scrapPageRepository,
-        IMovieWebRepository movieWebRepository, 
-        IMovie_MovieWebRepository movie_MovieWebRepository, 
-        IMovieRepository movieRepository, 
-        GetTmdbData getTmdbData, 
+        IMovieWebRepository movieWebRepository,
+        IMovie_MovieWebRepository movie_MovieWebRepository,
+        IMovieRepository movieRepository,
+        GetTmdbData getTmdbData,
         ILogger<GetPelisPlusLatMoviesCommandHandler> logger,
         IMapper mapper) : IRequestHandler<GetPelisPlusLatMoviesCommand, bool>
     {

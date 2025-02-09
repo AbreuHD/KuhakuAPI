@@ -1,6 +1,5 @@
 ﻿using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Relations;
-using Core.Domain.Entities.UserThings;
 using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 

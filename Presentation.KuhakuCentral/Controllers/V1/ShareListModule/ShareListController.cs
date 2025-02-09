@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace KuhakuCentral.Controllers.V1.ShareListModule
 {
@@ -20,7 +19,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
                     Summary = "Create List",
                     Description = "Endpoint to create a new Share list of movies and series"
                     )]
-        public async Task<IActionResult> CreateList([FromBody]CreateNewListCommand command)
+        public async Task<IActionResult> CreateList([FromBody] CreateNewListCommand command)
         {
             command.UserId = User.FindFirst("uid")!.Value;
             var response = await Mediator.Send(command);
@@ -59,7 +58,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
             )]
         public async Task<IActionResult> AllShareList(string? name)
         {
-            var response = await Mediator.Send(new SearchShareListQuery { Name = name ?? string.Empty } );
+            var response = await Mediator.Send(new SearchShareListQuery { Name = name ?? string.Empty });
             return StatusCode(response.Statuscode, response);
         }
 
@@ -117,7 +116,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
             Summary = "Search for User Share Lists by Id",
             Description = "Endpoint to Search for User Share Lists"
             )]
-        public async Task<IActionResult> AddItemToShareList([FromBody]AddItemToShareListCommand command)
+        public async Task<IActionResult> AddItemToShareList([FromBody] AddItemToShareListCommand command)
         {
             command.UserId = User.FindFirst("uid")!.Value;
             var response = await Mediator.Send(command);

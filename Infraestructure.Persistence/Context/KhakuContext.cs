@@ -1,5 +1,4 @@
-﻿using Auth.Infraestructure.Identity.Entities;
-using Core.Domain.Common;
+﻿using Core.Domain.Common;
 using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;

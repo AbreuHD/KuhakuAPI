@@ -13,7 +13,7 @@ It is an API that thanks to WebScraping and its mobile application [KūhakuApp](
 
 ## Pages Added
 
-- Working on [Cuevana.AI](https://w4.cuevana3.ai)
+- Working on [Cuevana.biz](https://cuevana.biz/)
 
 
 ## Tech Stack

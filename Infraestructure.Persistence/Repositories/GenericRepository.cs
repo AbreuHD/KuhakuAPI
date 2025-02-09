@@ -57,7 +57,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public virtual async Task<Entity> GetByIdAsync(int Id)
         {
-            return await _dbcontext.Set<Entity>().FindAsync(Id) 
+            return await _dbcontext.Set<Entity>().FindAsync(Id)
                 ?? throw new KeyNotFoundException($"{typeof(Entity).Name} not found");
         }
         public virtual async Task<Entity> GetByStringIdAsync(string Id)

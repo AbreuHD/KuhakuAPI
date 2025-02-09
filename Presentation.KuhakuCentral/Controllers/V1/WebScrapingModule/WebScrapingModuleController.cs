@@ -24,7 +24,7 @@ namespace KuhakuCentral.Controllers.V1.WebScrapingModule
         )]
         public async Task<IActionResult> ScrapPage(int Id)
         {
-            switch(Id)
+            switch (Id)
             {
                 case 1:
                     await Mediator.Send(new GetAllCuevanaMoviesCommand());

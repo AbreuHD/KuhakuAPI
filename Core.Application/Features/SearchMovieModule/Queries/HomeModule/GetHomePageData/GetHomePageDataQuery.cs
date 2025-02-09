@@ -38,7 +38,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
             };
             try
             {
-                var genres = await _genreRepository.GetAllWithIncludes(["Genre_Movie"]);
+                var genres = await _genreRepository.GetAllWithIncludes(["GenreMovie"]);
 
                 foreach (var genre in genres)
                 {

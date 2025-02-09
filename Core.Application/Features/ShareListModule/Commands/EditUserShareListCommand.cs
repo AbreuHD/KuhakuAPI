@@ -1,5 +1,4 @@
 ﻿using Auth.Core.Application.DTOs.Generic;
-using AutoMapper;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.UserThings;
 using MediatR;
