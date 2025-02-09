@@ -2,10 +2,12 @@
 using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Scraping;
 using Core.Application.DTOs.TMDB;
+using Core.Application.Helpers.Logger;
+using Core.Application.Helpers.Logs;
 using Core.Domain.Entities.Movie;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Net;
 
 namespace Core.Application.Helpers.TMDB
 {
@@ -22,20 +24,30 @@ namespace Core.Application.Helpers.TMDB
             TMDBAPIKEY = Environment.GetEnvironmentVariable("TMDBAPIKey") ?? _configuration["TMDBAPIKey"] ?? throw new ArgumentNullException(nameof(configuration), "TMDBAPIKey is not set.");
         }
 
-        public CheckedList GetTMDBId(List<MovieWebDto> movies)
+        public async Task<CheckedList> GetTMDBIdAsync(List<MovieWebDto> movies)
         {
             List<Movie> CheckData = [];
             List<MovieWebDto> MovieData = [];
+            string Message;
+
             foreach (var data in movies)
             {
                 try
                 {
-                    string TMDBData = new WebClient().DownloadString($"https://api.themoviedb.org/3/search/movie?api_key={TMDBAPIKEY}&language=es-MX&query={data.Name}&include_adult=true");
-                    var result = JsonConvert.DeserializeObject<TmdbResponse>(TMDBData);
+                    Message = $"Getting TMDB data for {data.Name}";
+                    LoggerHelper.CustomLog(CustomLogLevel.Scraping, Message, LogLevels.Information);
+
+                    using var client = new HttpClient();
+                    var response = await client.GetStringAsync($"https://api.themoviedb.org/3/search/movie?api_key={TMDBAPIKEY}&language=es-MX&query={data.Name}&include_adult=true");
+                    var result = JsonConvert.DeserializeObject<TmdbResponse>(response);
                     if (result?.Results != null)
                     {
                         TmdbResult tmdb = result.Results.FirstOrDefault()!;
+
+                        Message = $"TMDB data found for {data.Name}";
+                        LoggerHelper.CustomLog(CustomLogLevel.Scraping, Message, LogLevels.Information);
                         Console.WriteLine("Getting TMDB Data");
+
                         if (tmdb != null)
                         {
                             data.TMDBTempID = tmdb.ID;
@@ -49,6 +61,8 @@ namespace Core.Application.Helpers.TMDB
                 }
                 catch (Exception ex)
                 {
+                    Message = $"Error getting TMDB data for {data.Name}";
+                    LoggerHelper.CustomLog(CustomLogLevel.Scraping, Message, LogLevels.Error, ex.Message);
                     Console.WriteLine(ex);
                 }
             }

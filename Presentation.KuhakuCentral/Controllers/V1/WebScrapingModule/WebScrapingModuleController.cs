@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using System.Net.Mime;
+using Serilog;
+using Core.Application.Helpers.Logs;
 
 namespace KuhakuCentral.Controllers.V1.WebScrapingModule
 {
@@ -14,7 +16,7 @@ namespace KuhakuCentral.Controllers.V1.WebScrapingModule
     {
 
         [HttpGet("ScrapPage")]
-        [Authorize(Roles = "Owner")]
+        //[Authorize(Roles = "Owner")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
