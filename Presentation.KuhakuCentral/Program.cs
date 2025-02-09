@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using KuhakuCentral.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Scalar.AspNetCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +53,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Kuhaku API");
         options.DefaultModelRendering(ModelRendering.Model);
     });
+
 }
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -60,7 +62,11 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 //app.UseHttpsRedirection();
-
+app.UseSwagger(options =>
+{
+    options.RouteTemplate = "/openapi/{documentName}.json";
+});
+app.MapScalarApiReference();
 app.UseAuthorization();
 
 app.MapControllers();
