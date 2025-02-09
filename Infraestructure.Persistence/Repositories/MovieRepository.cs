@@ -45,7 +45,8 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<int> GetIdByTmdbId(int TmdbId)
         {
-            return (await _dbContext.Set<Movie>().FirstAsync(x => x.TMDBID == TmdbId)).ID;
+            var movie = await _dbContext.Set<Movie>().FirstOrDefaultAsync(x => x.TMDBID == TmdbId);
+            return movie?.ID ?? 0;
         }
 
         public async Task<Movie> GetMovieInfo(int MovieId)
