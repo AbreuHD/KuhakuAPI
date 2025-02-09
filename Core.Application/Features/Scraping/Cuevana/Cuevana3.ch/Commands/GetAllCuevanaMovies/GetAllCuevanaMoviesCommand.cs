@@ -49,7 +49,10 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
                     {
                         var movieWebAdd = await _movieWebRepository.AddAsync(_mapper.Map<MovieWeb>(movie));
                         var movieRepositoryId = await _movieRepository.GetIdByTmdbId(movie.TMDBTempID);
-
+                        if(movieRepositoryId == 0)
+                        {
+                            continue;
+                        }
                         await _movie_MovieWebRepository.AddAsync(new MovieMovieWeb
                         {
                             MovieID = movieRepositoryId,
