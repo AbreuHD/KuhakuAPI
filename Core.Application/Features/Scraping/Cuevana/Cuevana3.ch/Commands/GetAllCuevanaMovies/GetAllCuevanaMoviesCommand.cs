@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using Core.Application.Helpers.Logger;
+using Core.Application.Helpers.Logs;
 using Core.Application.Helpers.TMDB;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAllCuevanaMovies
 {
@@ -26,17 +30,17 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
 
         public async Task<bool> Handle(GetAllCuevanaMoviesCommand request, CancellationToken cancellationToken)
         {
+            LoggerHelper.CustomLog(CustomLogLevel.Scraping, "Starting Scraping From Cuevana.biz", LogLevels.Information);
+
             var _cuevanaService = new Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3Services(1, "https://cuevana.biz");
 
             var pagination = _cuevanaService.GetPagination();
             while (pagination > 0)
             {
-                Console.WriteLine($"Paginacion {pagination}");
-
                 var movies = _cuevanaService.GetMoviesFromPage(pagination);
                 if (movies != null)
                 {
-                    var data = _getTmdbData.GetTMDBId(movies);
+                    var data = await _getTmdbData.GetTMDBIdAsync(movies);
                     List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
                     await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies));
                     var movieWeb = await _movieWebRepository.Exist(data.MovieWebDto);
@@ -55,6 +59,8 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
 
                         if (movie.Genres != null)
                         {
+                            var Message = $"Adding Genres for {movie.Name}";
+                            LoggerHelper.CustomLog(CustomLogLevel.Scraping, Message, LogLevels.Information);
                             foreach (var genre in movie.Genres)
                             {
                                 var genreId = await _genreRepository.GetIdByTmdbId(genre);

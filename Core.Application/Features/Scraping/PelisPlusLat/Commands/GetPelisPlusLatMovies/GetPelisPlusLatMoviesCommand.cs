@@ -15,10 +15,10 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
     }
     public class GetPelisPlusLatMoviesCommandHandler(
         IScrapPageRepository scrapPageRepository,
-        IMovieWebRepository movieWebRepository,
-        IMovie_MovieWebRepository movie_MovieWebRepository,
-        IMovieRepository movieRepository,
-        GetTmdbData getTmdbData,
+        IMovieWebRepository movieWebRepository, 
+        IMovie_MovieWebRepository movie_MovieWebRepository, 
+        IMovieRepository movieRepository, 
+        GetTmdbData getTmdbData, 
         ILogger<GetPelisPlusLatMoviesCommandHandler> logger,
         IMapper mapper) : IRequestHandler<GetPelisPlusLatMoviesCommand, bool>
     {
@@ -47,7 +47,7 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
                     var movieRaw = PelisPlusLatMovies.GetPelisplushd(i);
                     if (movieRaw != null)
                     {
-                        var data = _getTMDBData.GetTMDBId(movieRaw);
+                        var data = await _getTMDBData.GetTMDBIdAsync(movieRaw);
                         List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
                         await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies)); //Movie Added if not exist
                         var movies = await _movieWebRepository.Exist(data.MovieWebDto);
