@@ -16,7 +16,7 @@ namespace KuhakuCentral.Controllers.V1.WebScrapingModule
     {
 
         [HttpGet("ScrapPage")]
-        //[Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Owner")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
