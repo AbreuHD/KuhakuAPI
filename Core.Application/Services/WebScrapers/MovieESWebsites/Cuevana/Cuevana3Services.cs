@@ -37,17 +37,17 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana
         /// <summary>
         /// Gets or sets the XPath to the node containing the movie name.
         /// </summary>
-        public virtual string GetMovieName { get; set; } = "//div[@class=\"Title\"]";
+        public virtual string GetMovieName { get; set; } = "./div/div/div[@class=\"Title\"]";
 
         /// <summary>
         /// Gets or sets the XPath to the node containing the movie image.
         /// </summary>
-        public virtual string GetMovieImage { get; set; } = "//div[@class=\"Image\"]/img";
+        public virtual string GetMovieImage { get; set; } = "./div/a/div[@class=\"Image\"]/img";
 
         /// <summary>
         /// Gets or sets the XPath to the node containing the movie URL.
         /// </summary>
-        public virtual string GetMovieUrl { get; set; } = "//div[@class=\"TPost C hentry\"]/a";
+        public virtual string GetMovieUrl { get; set; } = "./div/a";
 
         /// <summary>
         /// Gets or sets the XPath to the node containing the movie description.
