@@ -1,8 +1,5 @@
 ﻿using Core.Application.DTOs.Scraping;
-using Core.Domain.Entities.WebScraping;
 using HtmlAgilityPack;
-using ScrapySharp.Extensions;
-using System;
 using System.Net;
 
 namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana

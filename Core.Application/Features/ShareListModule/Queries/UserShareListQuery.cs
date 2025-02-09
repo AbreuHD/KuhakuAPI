@@ -3,11 +3,6 @@ using AutoMapper;
 using Core.Application.DTOs.ShareList;
 using Core.Application.Interface.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Features.ShareListModule.Queries
 {

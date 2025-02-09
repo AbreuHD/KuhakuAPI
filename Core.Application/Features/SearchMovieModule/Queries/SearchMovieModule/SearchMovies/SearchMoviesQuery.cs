@@ -3,7 +3,6 @@ using Core.Application.DTOs.General;
 using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using MediatR;
 using System.Net;
