@@ -1,6 +1,7 @@
-﻿using Auth.Core.Application.DTOs.Generic;
+﻿using Core.Application.DTOs.General;
 using Core.Application.Interface.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 
 namespace Core.Application.Features.ShareListModule.Commands
@@ -19,7 +20,13 @@ namespace Core.Application.Features.ShareListModule.Commands
 
         public async Task<GenericApiResponse<bool>> Handle(CreateNewListCommand request, CancellationToken cancellationToken)
         {
-            var response = new GenericApiResponse<bool>();
+            var response = new GenericApiResponse<bool>
+            {
+                Payload = false,
+                Success = true,
+                Statuscode = StatusCodes.Status200OK,
+                Message = string.Empty
+            };
             try
             {
                 var newList = new Domain.Entities.UserThings.ShareList
@@ -33,14 +40,13 @@ namespace Core.Application.Features.ShareListModule.Commands
 
                 await _shareListRepository.AddAsync(newList);
                 response.Payload = true;
-                response.Statuscode = 200;
                 response.Message = "List created successfully";
             }
             catch (Exception ex)
             {
                 response.Message = ex.Message;
                 response.Success = false;
-                response.Statuscode = 500;
+                response.Statuscode = StatusCodes.Status500InternalServerError;
             }
 
             return response;

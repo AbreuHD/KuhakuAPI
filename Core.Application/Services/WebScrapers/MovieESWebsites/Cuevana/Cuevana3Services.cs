@@ -1,8 +1,6 @@
 ﻿using Core.Application.DTOs.Scraping;
 using Core.Application.Helpers.Logger;
-using Core.Application.Helpers.Logs;
 using HtmlAgilityPack;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net;
 
 namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana
@@ -91,7 +89,7 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.Cuevana
             {
                 count++;
                 var MovieInfo = GetMovieInfo(node, page);
-                if(MovieInfo.Name != null)
+                if (MovieInfo.Name != null)
                 {
                     movieList.Add(MovieInfo);
                 }

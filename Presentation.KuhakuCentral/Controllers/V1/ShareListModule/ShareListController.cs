@@ -101,9 +101,13 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
             Summary = "Search for User Share Lists by Id",
             Description = "Endpoint to Search for User Share Lists"
             )]
-        public async Task<IActionResult> UserShareList(AddItemToShareListCommand command)
+        public async Task<IActionResult> UserShareList()
         {
-            var response = await Mediator.Send(command);
+            var request = new UserShareListQuery
+            {
+                User = User.FindFirst("uid")!.Value
+            };
+            var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 

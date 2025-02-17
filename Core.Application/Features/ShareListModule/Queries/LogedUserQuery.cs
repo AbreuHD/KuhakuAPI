@@ -1,8 +1,9 @@
-﻿using Auth.Core.Application.DTOs.Generic;
-using AutoMapper;
+﻿using AutoMapper;
+using Core.Application.DTOs.General;
 using Core.Application.DTOs.ShareList;
 using Core.Application.Interface.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Core.Application.Features.ShareListModule.Queries
 {
@@ -10,35 +11,32 @@ namespace Core.Application.Features.ShareListModule.Queries
     {
         public required string UserId { get; set; }
     }
-    public class LogedUserQueryHandler : IRequestHandler<LogedUserQuery, GenericApiResponse<List<PreviewShareListDto>>>
+    public class LogedUserQueryHandler(IShareListRepository shareListRepository, IMapper mapper) : IRequestHandler<LogedUserQuery, GenericApiResponse<List<PreviewShareListDto>>>
     {
-        private readonly IShareListRepository _shareListRepository;
-        private readonly IMapper _mapper;
-        public LogedUserQueryHandler(IShareListRepository shareListRepository, IMapper mapper)
-        {
-            _shareListRepository = shareListRepository;
-            _mapper = mapper;
-        }
+        private readonly IShareListRepository _shareListRepository = shareListRepository;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<GenericApiResponse<List<PreviewShareListDto>>> Handle(LogedUserQuery request, CancellationToken cancellationToken)
         {
             var response = new GenericApiResponse<List<PreviewShareListDto>>
             {
-                Payload = []
+                Payload = [],
+                Success = true,
+                Statuscode = StatusCodes.Status200OK,
+                Message = string.Empty
             };
 
             try
             {
                 var lists = await _shareListRepository.GetAllByUserId(request.UserId, true);
                 response.Payload = _mapper.Map<List<PreviewShareListDto>>(lists);
-                response.Statuscode = 200;
                 response.Message = "Lists found successfully";
             }
             catch (Exception ex)
             {
                 response.Message = ex.Message;
                 response.Success = false;
-                response.Statuscode = 500;
+                response.Statuscode = StatusCodes.Status500InternalServerError;
             }
 
             return response;

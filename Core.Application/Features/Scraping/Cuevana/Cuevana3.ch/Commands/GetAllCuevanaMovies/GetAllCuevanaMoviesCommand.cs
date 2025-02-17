@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Core.Application.Helpers.Logger;
-using Core.Application.Helpers.Logs;
 using Core.Application.Helpers.TMDB;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
-using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAllCuevanaMovies
 {
@@ -49,7 +46,7 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
                     {
                         var movieWebAdd = await _movieWebRepository.AddAsync(_mapper.Map<MovieWeb>(movie));
                         var movieRepositoryId = await _movieRepository.GetIdByTmdbId(movie.TMDBTempID);
-                        if(movieRepositoryId == 0)
+                        if (movieRepositoryId == 0)
                         {
                             continue;
                         }

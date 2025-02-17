@@ -1,7 +1,6 @@
-﻿using Core.Application.Helpers.Logger;
-using Serilog;
+﻿using Serilog;
 
-namespace Core.Application.Helpers.Logs
+namespace Core.Application.Helpers.Logger
 {
     public static class LoggerHelper
     {
