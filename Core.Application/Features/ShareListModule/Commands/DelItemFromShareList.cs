@@ -1,4 +1,4 @@
-﻿using Auth.Core.Application.DTOs.Generic;
+﻿using Core.Application.DTOs.General;
 using Core.Application.Interface.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +26,13 @@ namespace Core.Application.Features.ShareListModule.Commands
 
         public async Task<GenericApiResponse<bool>> Handle(DelItemFromShareList request, CancellationToken cancellationToken)
         {
-            var response = new GenericApiResponse<bool>();
+            var response = new GenericApiResponse<bool>()
+            {
+                Payload = true,
+                Success = true,
+                Statuscode = StatusCodes.Status200OK,
+                Message = string.Empty
+            };
 
             try
             {

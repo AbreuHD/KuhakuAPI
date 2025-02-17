@@ -1,4 +1,4 @@
-﻿using Auth.Core.Application.DTOs.Generic;
+﻿using Core.Application.DTOs.General;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.UserThings;
 using MediatR;
@@ -27,7 +27,13 @@ namespace Core.Application.Features.ShareListModule.Commands
 
         public async Task<GenericApiResponse<bool>> Handle(EditUserShareListCommand request, CancellationToken cancellationToken)
         {
-            var response = new GenericApiResponse<bool>();
+            var response = new GenericApiResponse<bool>()
+            {
+                Payload = true,
+                Success = true,
+                Statuscode = StatusCodes.Status200OK,
+                Message = string.Empty
+            };
             try
             {
                 var shareListRequest = new ShareList
@@ -43,7 +49,6 @@ namespace Core.Application.Features.ShareListModule.Commands
                 response.Success = true;
                 response.Payload = true;
                 response.Message = "ShareList updated successfully";
-                response.Statuscode = StatusCodes.Status200OK;
             }
             catch (Exception ex)
             {

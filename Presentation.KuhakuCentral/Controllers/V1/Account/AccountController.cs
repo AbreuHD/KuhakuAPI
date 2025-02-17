@@ -1,5 +1,5 @@
-﻿using Auth.Core.Application.Features.Login.Queries.AuthLogin;
-using Auth.Infraestructure.Identity.Features.AuthenticateEmail.Command.AuthEmail;
+﻿using Auth.Infraestructure.Identity.Features.AuthenticateEmail.Command.AuthEmail;
+using Auth.Infraestructure.Identity.Features.Login.Queries.AuthLogin;
 using Auth.Infraestructure.Identity.Features.Register.Commands.CreateAccount;
 using Auth.Infraestructure.Identity.Features.Register.Commands.SendValidationEmailAgain;
 using KuhakuCentral.Controllers.General;
