@@ -3,9 +3,7 @@ using Core.Application.DTOs.Genres;
 using Core.Application.DTOs.Scraping;
 using Core.Application.DTOs.TMDB;
 using Core.Application.Helpers.Logger;
-using Core.Application.Helpers.Logs;
 using Core.Domain.Entities.Movie;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 

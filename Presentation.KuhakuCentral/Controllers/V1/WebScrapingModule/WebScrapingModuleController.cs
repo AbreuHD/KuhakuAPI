@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using System.Net.Mime;
-using Serilog;
-using Core.Application.Helpers.Logs;
 
 namespace KuhakuCentral.Controllers.V1.WebScrapingModule
 {
