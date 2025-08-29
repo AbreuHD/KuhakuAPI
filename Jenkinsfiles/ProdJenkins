@@ -27,19 +27,20 @@ pipeline {
 
         stage('Deploy to FTP') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'abreu_kuhaku_ftp_credentials', usernameVariable: 'FTP_USER', passwordVariable: 'FTP_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'abreu_kuhaku_ftp_credentials', 
+                                                 usernameVariable: 'FTP_USER', 
+                                                 passwordVariable: 'FTP_PASSWORD')]) {
                     script {
                         def buildDirectory = 'Presentation.KuhakuCentral/bin/Release/net8.0/'
                         if (fileExists(buildDirectory)) {
                             echo "Directory exists. Deploying files to FTP..."
-                            sh '''
-                                lftp -e "
+                            sh """
+                                lftp -u "$FTP_USER","$FTP_PASSWORD" $FTP_SERVER -e "
                                     set ssl:verify-certificate no;
-                                    open ftp://$FTP_USER:$FTP_PASSWORD@$FTP_SERVER;
-                                    mirror -R $buildDirectory .;
+                                    mirror -R ${buildDirectory} .;
                                     bye;
                                 "
-                            '''
+                            """
                         } else {
                             echo "Build directory not found. No files to upload."
                             error "Deployment failed: Directory $buildDirectory not found."
