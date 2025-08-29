@@ -36,7 +36,7 @@ pipeline {
                                 lftp -e "
                                     set ssl:verify-certificate no;
                                     open ftp://$FTP_USER:$FTP_PASSWORD@$FTP_SERVER;
-                                    mirror -R '$buildDirectory' .;
+                                    mirror -R $buildDirectory .;
                                     bye;
                                 "
                             '''
