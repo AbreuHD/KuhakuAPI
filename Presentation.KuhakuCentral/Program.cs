@@ -1,5 +1,6 @@
 using Auth.Infraestructure.Identity;
 using Core.Application;
+using Core.Application.Enums;
 using Infrastructure.Persistence;
 using KuhakuCentral.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -39,12 +40,13 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddApiVersioningExtension();
 builder.Services.AddSwaggerExtension();
-
+builder.Services.AddHttpClient();
 var app = builder.Build();
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await services.AddIdentityRolesAsync();
+    await services.AddIdentityRolesAsync(Enum.GetNames<Roles>());
 }
 
 // Configure the HTTP request pipeline.
@@ -70,6 +72,7 @@ app.UseSwagger(options =>
 {
     options.RouteTemplate = "/openapi/{documentName}.json";
 });
+
 app.MapScalarApiReference();
 app.UseAuthorization();
 

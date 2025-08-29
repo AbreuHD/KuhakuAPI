@@ -17,28 +17,28 @@ namespace KuhakuCentral.Controllers.V1.Account
         public async Task<IActionResult> AuthLogin([FromBody] AuthLoginQuery request)
         {
             var data = await Mediator.Send(request);
-            return Ok(data);
+            return StatusCode(data.Statuscode, data);
         }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] CreateAccountCommand request)
         {
             var data = await Mediator.Send(request);
-            return Ok(data);
+            return StatusCode(data.Statuscode, data);
         }
 
         [HttpPost("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] AuthEmailCommand request)
         {
             var data = await Mediator.Send(request);
-            return Ok(data);
+            return StatusCode(data.Statuscode, data);
         }
 
         [HttpPost("ResentConfirmation")]
         public async Task<IActionResult> ResentConfirmation([FromBody] SendValidationEmailAgainCommand request)
         {
             var data = await Mediator.Send(request);
-            return Ok(data);
+            return StatusCode(data.Statuscode, data);
         }
     }
 }
