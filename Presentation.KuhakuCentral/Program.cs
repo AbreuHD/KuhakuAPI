@@ -3,11 +3,14 @@ using Core.Application;
 using Core.Application.Enums;
 using Infrastructure.Persistence;
 using KuhakuCentral.Extensions;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Scalar.AspNetCore;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +44,16 @@ builder.Services.AddSession();
 builder.Services.AddApiVersioningExtension();
 builder.Services.AddSwaggerExtension();
 builder.Services.AddHttpClient();
+//Uptime monitoring
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy())
+    .AddMySql(
+        connectionString: Environment.GetEnvironmentVariable("DefaultConnection")
+            ?? builder.Configuration.GetConnectionString("DefaultConnection"),
+        name: "mysql",
+        failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+        tags: ["db", "sql"]);
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -75,7 +88,17 @@ app.UseSwagger(options =>
 
 app.MapScalarApiReference();
 app.UseAuthorization();
-
 app.MapControllers();
+
+//Uptime monitoring
+app.MapHealthChecks("/healthz", new HealthCheckOptions
+{
+    Predicate = check => check.Name == "self"
+});
+
+app.MapHealthChecks("/healthz/db", new HealthCheckOptions
+{
+    Predicate = check => check.Tags.Contains("db")
+});
 
 app.Run();
