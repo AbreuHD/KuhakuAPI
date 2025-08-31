@@ -16,10 +16,30 @@ namespace Core.Application.Mappings
     {
         public GeneralProfile()
         {
-            CreateMap<Movie, TmdbResult>()
+            CreateMap<TmdbResult, Movie>()
                 .ForMember(x => x.ID, opt => opt.Ignore())
+                .ForMember(dest => dest.TMDBID, opt => opt.MapFrom(src => src.ID))
+                .ForMember(dest => dest.Original_title, opt => opt.MapFrom(src => src.OriginalTitle))
+                .ForMember(dest => dest.Vote_average, opt => opt.MapFrom(src => src.VoteAverage))
+                .ForMember(dest => dest.Vote_count, opt => opt.MapFrom(src => src.VoteCount))
+                .ForMember(dest => dest.Poster_path, opt => opt.MapFrom(src => src.PosterPath))
+                .ForMember(dest => dest.Backdrop_path, opt => opt.MapFrom(src => src.BackdropPath))
+                .ForMember(dest => dest.Release_date, opt => opt.MapFrom(src =>
+                    string.IsNullOrEmpty(src.ReleaseDate)
+                        ? (DateTime?)null
+                        : DateTime.Parse(src.ReleaseDate)))
                 .ReverseMap()
-                .ForMember(x => x.ID, opt => opt.Ignore());
+                .ForMember(x => x.ID, opt => opt.Ignore())
+                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.TMDBID))
+                .ForMember(dest => dest.OriginalTitle, opt => opt.MapFrom(src => src.Original_title))
+                .ForMember(dest => dest.VoteAverage, opt => opt.MapFrom(src => src.Vote_average))
+                .ForMember(dest => dest.VoteCount, opt => opt.MapFrom(src => src.Vote_count))
+                .ForMember(dest => dest.PosterPath, opt => opt.MapFrom(src => src.Poster_path))
+                .ForMember(dest => dest.BackdropPath, opt => opt.MapFrom(src => src.Backdrop_path))
+                .ForMember(dest => dest.ReleaseDate, opt => opt.MapFrom(src =>
+                    src.Release_date.HasValue
+                        ? src.Release_date.Value.ToString("yyyy-MM-dd")
+                        : null));
 
             CreateMap<MovieWebDto, MovieWeb>()
                 .ReverseMap()

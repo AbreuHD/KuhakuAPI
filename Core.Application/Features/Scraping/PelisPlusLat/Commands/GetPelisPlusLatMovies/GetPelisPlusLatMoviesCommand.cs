@@ -48,7 +48,7 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
                     if (movieRaw != null)
                     {
                         var data = await _getTMDBData.GetTMDBIdAsync(movieRaw);
-                        List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
+                        List<Movie> uniqueMovies = [.. data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First())];
                         await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies)); //Movie Added if not exist
                         var movies = await _movieWebRepository.Exist(data.MovieWebDto);
                         foreach (var movie in movies)
