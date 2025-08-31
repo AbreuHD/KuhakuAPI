@@ -6,6 +6,7 @@ using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAllCuevanaMovies
 {
@@ -34,15 +35,16 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
             var pagination = _cuevanaService.GetPagination();
             while (pagination > 0)
             {
-                var movies = _cuevanaService.GetMoviesFromPage(pagination);
-                if (movies != null)
+                var movieList = _cuevanaService.GetMoviesFromPage(pagination);
+                movieList = await _movieWebRepository.Exist(movieList);
+                if (movieList != null)
                 {
-                    var data = await _getTmdbData.GetTMDBIdAsync(movies);
-                    List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
+                    var data = await _getTmdbData.GetTMDBIdAsync(movieList);
+                    List<Movie> uniqueMovies = [.. data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First())];
                     await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies));
-                    var movieWeb = await _movieWebRepository.Exist(data.MovieWebDto);
+                    
 
-                    foreach (var movie in movieWeb)
+                    foreach (var movie in movieList)
                     {
                         var movieWebAdd = await _movieWebRepository.AddAsync(_mapper.Map<MovieWeb>(movie));
                         var movieRepositoryId = await _movieRepository.GetIdByTmdbId(movie.TMDBTempID);
