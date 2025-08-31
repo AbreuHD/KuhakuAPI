@@ -19,7 +19,7 @@ namespace Infrastructure.Jobs
             {
                 intervalMinutes = 1140;
                 LoggerHelper.CustomLog(CustomLogLevel.Scraping,
-                    "Valor inválido para 'CronJobInMinutes'. Usando 1140 minutos por defecto.",
+                    "Invalid value for ‘CronJobInMinutes’. Using 1140 minutes by default.",
                     LogLevels.Error);
             }
 
