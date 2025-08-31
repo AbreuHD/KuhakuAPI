@@ -1,20 +1,16 @@
 using Auth.Infraestructure.Identity;
 using Core.Application;
 using Core.Application.Enums;
-using Core.Application.Helpers.Logger;
 using Infrastructure.Jobs;
-using Infrastructure.Jobs.Scraping;
 using Infrastructure.Persistence;
 using KuhakuCentral.Extensions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Quartz;
 using Scalar.AspNetCore;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

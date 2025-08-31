@@ -1,7 +1,4 @@
-﻿using Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusLatMovies;
-using Core.Application.Interface.Scraping;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using Core.Application.Interface.Scraping;
 using Quartz;
 
 namespace Infrastructure.Jobs.Scraping

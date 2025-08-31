@@ -54,6 +54,19 @@ namespace Core.Application.Services.WebScrapers.Common
             {
                 LoggerHelper.CustomLog(CustomLogLevel.Scraping,
                     $"Error scraping page {page.Name}: {ex.Message}", LogLevels.Error);
+                await _pageRepository.UpdateAsync(new Domain.Entities.WebScraping.ScrapPage
+                {
+                    ID = page.ID,
+                    Name = page.Name,
+                    Img = page.Img,
+                    Info = page.Info,
+                    Url = page.Url,
+                    LastScrapStart = start,
+                    LastScrapEnd = DateTime.Now,
+                    IsOn = true,
+                    Disabled = page.Disabled,
+                    MovieWeb = page.MovieWeb
+                }, page.ID);
             }
         }
     }

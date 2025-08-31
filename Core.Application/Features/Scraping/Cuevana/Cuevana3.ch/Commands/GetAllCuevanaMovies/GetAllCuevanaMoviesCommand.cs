@@ -6,8 +6,6 @@ using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAllCuevanaMovies
 {
@@ -43,7 +41,7 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
                     var data = await _getTmdbData.GetTMDBIdAsync(movieList);
                     List<Movie> uniqueMovies = [.. data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First())];
                     await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies));
-                    
+
 
                     foreach (var movie in movieList)
                     {

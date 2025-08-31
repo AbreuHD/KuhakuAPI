@@ -2,7 +2,6 @@
 using Infrastructure.Jobs.Scraping;
 using Microsoft.Extensions.Configuration;
 using Quartz;
-using System;
 
 namespace Infrastructure.Jobs
 {
@@ -32,7 +31,7 @@ namespace Infrastructure.Jobs
             q.AddTrigger(opts => opts
                 .ForJob(jobKey)
                 .WithIdentity($"ScrapingJob-trigger-{intervalMinutes}m")
-                .StartNow() 
+                .StartNow()
                 .WithSimpleSchedule(x => x
                     .WithInterval(TimeSpan.FromMinutes(intervalMinutes))
                     .RepeatForever()

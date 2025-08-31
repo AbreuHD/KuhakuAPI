@@ -7,7 +7,6 @@ using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.WebScraping;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusLatMovies
 {

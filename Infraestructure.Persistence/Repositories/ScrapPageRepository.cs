@@ -1,5 +1,4 @@
 ﻿using Core.Application.Interface.Repositories;
-using Core.Domain.Entities.UserThings;
 using Core.Domain.Entities.WebScraping;
 using Infrastructure.Persistence.Context;
 
