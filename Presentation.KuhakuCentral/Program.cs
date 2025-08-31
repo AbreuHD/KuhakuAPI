@@ -1,12 +1,16 @@
 using Auth.Infraestructure.Identity;
 using Core.Application;
 using Core.Application.Enums;
+using Core.Application.Helpers.Logger;
+using Infrastructure.Jobs;
+using Infrastructure.Jobs.Scraping;
 using Infrastructure.Persistence;
 using KuhakuCentral.Extensions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Quartz;
 using Scalar.AspNetCore;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -49,10 +53,20 @@ builder.Services.AddHealthChecks()
     .AddCheck("self", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy())
     .AddMySql(
         connectionString: Environment.GetEnvironmentVariable("DefaultConnection")
-            ?? builder.Configuration.GetConnectionString("DefaultConnection"),
+            ?? builder.Configuration.GetConnectionString("DefaultConnection") ?? "Error",
         name: "mysql",
         failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
         tags: ["db", "sql"]);
+
+
+builder.Services.AddQuartz(q =>
+{
+    JobConfigs.ConfigureQuartz(builder.Configuration, q);
+});
+builder.Services.AddQuartzHostedService(options =>
+{
+    options.WaitForJobsToComplete = true;
+});
 
 var app = builder.Build();
 
