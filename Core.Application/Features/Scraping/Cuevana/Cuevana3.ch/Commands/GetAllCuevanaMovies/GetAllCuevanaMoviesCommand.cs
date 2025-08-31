@@ -14,35 +14,36 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
 
     }
 
-    public class GetAllCuevanaMoviesCommandHandler(IMovieWebRepository movieWebRepository, IMovie_MovieWebRepository movie_MovieWebRepository, IMovieRepository movieRepository, GetTmdbData getTmdbData, IGenre_MovieRepository genre_MovieRepository, IGenreRepository genreRepository, IMapper mapper) : IRequestHandler<GetAllCuevanaMoviesCommand, bool>
+    public class GetAllCuevanaMoviesCommandHandler(IScrapPageRepository scrapPage, IMovieWebRepository movieWebRepository, IMovie_MovieWebRepository movie_MovieWebRepository, IMovieRepository movieRepository, GetTmdbData getTmdbData, IGenre_MovieRepository genre_MovieRepository, IGenreRepository genreRepository, IMapper mapper) : IRequestHandler<GetAllCuevanaMoviesCommand, bool>
     {
         private readonly IMovieWebRepository _movieWebRepository = movieWebRepository;
         private readonly IMovie_MovieWebRepository _movie_MovieWebRepository = movie_MovieWebRepository;
         private readonly IMovieRepository _movieRepository = movieRepository;
         private readonly IGenre_MovieRepository _genre_MovieRepository = genre_MovieRepository;
         private readonly IGenreRepository _genreRepository = genreRepository;
-
+        private readonly IScrapPageRepository _pageRepository = scrapPage;
         private readonly GetTmdbData _getTmdbData = getTmdbData;
         private readonly IMapper _mapper = mapper;
 
         public async Task<bool> Handle(GetAllCuevanaMoviesCommand request, CancellationToken cancellationToken)
         {
             LoggerHelper.CustomLog(CustomLogLevel.Scraping, "Starting Scraping From Cuevana.biz", LogLevels.Information);
-
-            var _cuevanaService = new Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3Services(1, "https://cuevana.biz");
+            var page = await _pageRepository.GetByIdAsync(1); //NEED A BETTER WAY TO GET THE PAGE
+            var _cuevanaService = new Services.WebScrapers.MovieESWebsites.Cuevana.Cuevana3Services(1, page.Url);
 
             var pagination = _cuevanaService.GetPagination();
             while (pagination > 0)
             {
-                var movies = _cuevanaService.GetMoviesFromPage(pagination);
-                if (movies != null)
+                var movieList = _cuevanaService.GetMoviesFromPage(pagination);
+                movieList = await _movieWebRepository.Exist(movieList);
+                if (movieList != null)
                 {
-                    var data = await _getTmdbData.GetTMDBIdAsync(movies);
-                    List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
+                    var data = await _getTmdbData.GetTMDBIdAsync(movieList);
+                    List<Movie> uniqueMovies = [.. data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First())];
                     await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies));
-                    var movieWeb = await _movieWebRepository.Exist(data.MovieWebDto);
 
-                    foreach (var movie in movieWeb)
+
+                    foreach (var movie in movieList)
                     {
                         var movieWebAdd = await _movieWebRepository.AddAsync(_mapper.Map<MovieWeb>(movie));
                         var movieRepositoryId = await _movieRepository.GetIdByTmdbId(movie.TMDBTempID);
@@ -75,7 +76,19 @@ namespace Core.Application.Features.Scraping.Cuevana.Cuevana3.ch.Commands.GetAll
                 }
                 pagination--;
             }
-
+            await _pageRepository.UpdateAsync(new ScrapPage
+            {
+                ID = page.ID,
+                Name = page.Name,
+                Img = page.Img,
+                Info = page.Info,
+                Url = page.Url,
+                LastScrapStart = page.LastScrapStart,
+                LastScrapEnd = DateTime.Now,
+                IsOn = false,
+                Disabled = page.Disabled,
+                MovieWeb = page.MovieWeb
+            }, page.ID);
             return true;
         }
     }

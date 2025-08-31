@@ -45,15 +45,16 @@ namespace Core.Application.Features.Scraping.PelisPlusLat.Commands.GetPelisPlusL
                     Console.WriteLine($"Paginacion {i}");
                     List<MovieMovieWebDto> relations = [];
                     var movieRaw = PelisPlusLatMovies.GetPelisplushd(i);
+                    movieRaw = await _movieWebRepository.Exist(movieRaw);
                     if (movieRaw != null)
                     {
                         var data = await _getTMDBData.GetTMDBIdAsync(movieRaw);
-                        List<Movie> uniqueMovies = data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First()).ToList();
+                        List<Movie> uniqueMovies = [.. data.Movies.GroupBy(m => m.TMDBID).Select(g => g.First())];
                         await _movieRepository.AddAllAsync(await _movieRepository.Exist(uniqueMovies)); //Movie Added if not exist
-                        var movies = await _movieWebRepository.Exist(data.MovieWebDto);
-                        foreach (var movie in movies)
+                        //var movies = await _movieWebRepository.Exist(data.MovieWebDto);
+                        foreach (var movie in movieRaw)
                         {
-                            var movieWeb = await _movieWebRepository.AddAsync(_mapper.Map<MovieWeb>(movie)); //MovieWeb Added if not exist
+                            var movieWeb = await _movieWebRepository.AddAsync(_mapper.Map<MovieWeb>(movie));
                             relations.Add(new MovieMovieWebDto
                             {
                                 MovieID = movie.TMDBTempID,

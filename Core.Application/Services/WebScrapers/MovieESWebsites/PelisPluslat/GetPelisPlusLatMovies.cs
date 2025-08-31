@@ -21,7 +21,7 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.PelisPluslat
             string uri = "/peliculas/estrenos";
             List<MovieWebDto> movieList = [];
 
-            HtmlWeb web = new HtmlWeb();
+            HtmlWeb web = new();
             var htmlDoc = web.Load($"{ORIGINAL_URI + uri}?page={i}");
 
             var elements = htmlDoc.DocumentNode.SelectNodes("//*[@id='default-tab-1']/div/a");
@@ -56,7 +56,7 @@ namespace Core.Application.Services.WebScrapers.MovieESWebsites.PelisPluslat
 
             try
             {
-                HtmlWeb web = new HtmlWeb();
+                HtmlWeb web = new();
                 var htmlDoc = web.Load(ORIGINAL_URI + uri);
                 node = htmlDoc.DocumentNode.SelectSingleNode("/html/body/div[1]/div/div/section/div/div[1]/div[1]/div[2]/div/div[2]/div[1]").InnerText;
             }
