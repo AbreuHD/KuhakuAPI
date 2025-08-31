@@ -18,6 +18,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Quartz" Version="3.15.0" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.15.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.0.14" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
@@ -30,6 +32,7 @@
     <ProjectReference Include="..\Core.Application\Core.Application.csproj" />
     <ProjectReference Include="..\Core.Domain\Core.Domain.csproj" />
     <ProjectReference Include="..\Infraestructure.Persistence\Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\Infrastructure.Jobs\Infrastructure.Jobs.csproj" />
   </ItemGroup>
 
 </Project>

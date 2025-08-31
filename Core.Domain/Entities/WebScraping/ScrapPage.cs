@@ -8,8 +8,10 @@ namespace Core.Domain.Entities.WebScraping
         public required string Img { get; set; }
         public required string Info { get; set; }
         public required string Url { get; set; }
-        public required DateTime LastScrap { get; set; }
-        public required bool IsOn { get; set; }
+        public DateTime? LastScrapStart { get; set; }
+        public DateTime? LastScrapEnd { get; set; }
+        public bool IsOn { get; set; } = false;
+        public bool Disabled { get; set; } = false;
 
         public ICollection<MovieWeb>? MovieWeb { get; set; }
     }

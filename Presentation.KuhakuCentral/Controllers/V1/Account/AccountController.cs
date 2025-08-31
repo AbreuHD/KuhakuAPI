@@ -1,4 +1,5 @@
-﻿using Auth.Infraestructure.Identity.Features.AuthenticateEmail.Command.AuthEmail;
+﻿using Auth.Infraestructure.Identity.DTOs.Account;
+using Auth.Infraestructure.Identity.Features.AuthenticateEmail.Command.AuthEmail;
 using Auth.Infraestructure.Identity.Features.Login.Queries.AuthLogin;
 using Auth.Infraestructure.Identity.Features.Register.Commands.CreateAccount;
 using Auth.Infraestructure.Identity.Features.Register.Commands.SendValidationEmailAgain;
@@ -14,10 +15,16 @@ namespace KuhakuCentral.Controllers.V1.Account
         private readonly ILogger<AccountController> _logger = logger;
 
         [HttpPost("Login")]
-        public async Task<IActionResult> AuthLogin([FromBody] AuthLoginQuery request)
+        public async Task<IActionResult> AuthLogin([FromBody] LoginRequestDto requestDto)
         {
-            var data = await Mediator.Send(request);
-            return StatusCode(data.Statuscode, data);
+            var request = new AuthLoginQuery
+            {
+                Dto = requestDto,
+                UserAgent = Request.Headers.UserAgent.ToString(),
+                IpAdress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown"
+            };
+            var response = await Mediator.Send(request);
+            return StatusCode(response.Statuscode, response);
         }
 
         [HttpPost("Register")]
