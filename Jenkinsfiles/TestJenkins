@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'Africa' }
     environment {
-        VERSION = "0.5.4"
+        VERSION = "0.5.5"
         FTP_SERVER = credentials('abreu_fpt_host')
         NUGET_SOURCE = credentials('private_nuget_uri')
         SONARQUBE_EXCLUDE_FILES = "**/*.xml,**/*.json,**/*.html,**/*.css,**/*.js,**/Program.cs,**/Startup.cs,**/Migrations/**"
@@ -25,9 +25,18 @@ pipeline {
                     withSonarQubeEnv('SonarQ') {
                         sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll begin /k:\"Kuhaku\" /v:${VERSION} /d:sonar.exclusions=${SONARQUBE_EXCLUDE_FILES}"
                         sh "dotnet build"
-                        def sonarEnd = sh(script: "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end", returnStatus: true)
-                        if (sonarEnd != 0) {
-                            error "SonarQube analysis failed. Stopping the pipeline."
+                        sh "dotnet ${scannerHome}/SonarScanner.MSBuild.dll end"
+                    }
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    script {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
                     }
                 }

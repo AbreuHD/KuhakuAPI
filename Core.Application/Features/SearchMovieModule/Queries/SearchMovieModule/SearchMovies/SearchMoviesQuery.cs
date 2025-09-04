@@ -11,8 +11,10 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
 {
     public class SearchMoviesQuery : IRequest<GenericApiResponse<MovieSearchModuleDto>>
     {
-        public required string Title { get; set; }
+        public string? Title { get; set; }
         public List<int>? Values { get; set; }
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 30;
     }
 
     public class SearchMoviesQueryHandler(IMovieRepository movieRepository, IGenreRepository genreRepository, IMapper mapper) : IRequestHandler<SearchMoviesQuery, GenericApiResponse<MovieSearchModuleDto>>
@@ -26,7 +28,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
             List<TmdbGenreResponseDto> genres = [];
             try
             {
-                var movies = await _movieRepository.SearchMovies(request.Title);
+                var movies = await _movieRepository.SearchMovies(request.Title, request.PageNumber, request.PageSize);
 
                 if (request.Values != null && request.Values.Count > 0)
                 {
