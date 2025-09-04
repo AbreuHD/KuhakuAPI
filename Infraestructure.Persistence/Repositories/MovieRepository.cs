@@ -67,21 +67,28 @@ namespace Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task<List<Movie>> SearchMovies(string Title)
+        public async Task<List<Movie>> SearchMovies(string title, int pageNumber, int pageSize)
         {
-            var searchKeywords = Title.ToLower().Split(' ');
-            var responseMovies = new List<Movie>();
-            foreach (var keyword in searchKeywords)
-            {
-                var moviesMatchingKeyword = await _dbContext.Set<Movie>()
-                    .Where(x => x != null && EF.Functions.Like(x.Title, $"%{keyword}%"))
-                    .Include(x => x.GenreMovie)
-                    .ToListAsync();
-                responseMovies.AddRange(moviesMatchingKeyword);
-            }
-            responseMovies = responseMovies.Distinct().ToList();
+            IQueryable<Movie> query = _dbContext.Set<Movie>()
+                .Include(x => x.GenreMovie)
+                .OrderByDescending(x => x.Release_date);
 
-            return responseMovies;
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                var searchKeywords = title.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var keyword in searchKeywords)
+                {
+                    query = query.Where(x => EF.Functions.Like(x.Title.ToLower(), $"%{keyword}%"));
+                }
+            }
+
+            var movies = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return movies;
         }
     }
 }

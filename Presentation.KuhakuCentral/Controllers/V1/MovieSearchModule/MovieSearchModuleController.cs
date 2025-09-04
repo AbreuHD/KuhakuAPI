@@ -1,6 +1,8 @@
-﻿using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovieInfo;
+﻿using Auth.Infraestructure.Identity.Middleware;
+using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovieInfo;
 using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovies;
 using KuhakuCentral.Controllers.General;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -17,12 +19,13 @@ namespace KuhakuCentral.Controllers.V1.MovieSearchModule
             Summary = "Movie List",
             Description = "Get All Movie List from Database"
             )]
-        public async Task<IActionResult> Search(string Title, List<int> Values)
+        public async Task<IActionResult> Search(int PageNumber, int PageSize, string? Title, List<int> Values)
         {
-            return Ok(await Mediator.Send(new SearchMoviesQuery { Title = Title, Values = Values }));
+            return Ok(await Mediator.Send(new SearchMoviesQuery { Title = Title, Values = Values, PageNumber = PageNumber, PageSize = PageSize }));
         }
 
         [HttpGet("Info")]
+        [MultipleSessionAuthorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

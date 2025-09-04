@@ -8,7 +8,7 @@ namespace Core.Application.Interface.Repositories
         Task<List<Movie>> Exist(List<Movie> movieList);
         Task<List<MovieMovieWeb>> GetId(List<MovieMovieWeb> movieList);
         Task<int> GetIdByTmdbId(int TmdbId);
-        Task<List<Movie>> SearchMovies(string Title);
+        Task<List<Movie>> SearchMovies(string Title, int PageNumber, int PageSize);
         Task<Movie> GetMovieInfo(int MovieId);
     }
 }
