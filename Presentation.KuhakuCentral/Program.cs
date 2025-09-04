@@ -88,7 +88,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Kuhaku API");
         options.DefaultModelRendering(ModelRendering.Model);
     });
-    app.UseCors("AllowAll");
+    
 }
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -116,5 +116,5 @@ app.MapHealthChecks("/healthz/db", new HealthCheckOptions
 {
     Predicate = check => check.Tags.Contains("db")
 });
-
+app.UseCors("AllowAll");
 app.Run();
