@@ -64,6 +64,12 @@ builder.Services.AddQuartzHostedService(options =>
     options.WaitForJobsToComplete = true;
 });
 
+builder.Services.AddCors(o => o.AddPolicy("AllowAll", p =>
+    p.AllowAnyOrigin()
+     .AllowAnyMethod()
+     .AllowAnyHeader()
+));
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -82,7 +88,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Kuhaku API");
         options.DefaultModelRendering(ModelRendering.Model);
     });
-
+    app.UseCors("AllowAll");
 }
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
