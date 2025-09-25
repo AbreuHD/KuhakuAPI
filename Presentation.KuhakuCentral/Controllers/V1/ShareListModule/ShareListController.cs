@@ -1,4 +1,5 @@
-﻿using Core.Application.Features.ShareListModule.Commands;
+﻿using Auth.Infraestructure.Identity.Middleware;
+using Core.Application.Features.ShareListModule.Commands;
 using Core.Application.Features.ShareListModule.Queries;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
     public class ShareListController : BaseApi
     {
         [HttpPost("CreateList")]
-        [Authorize]
+        [MultipleSessionAuthorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -21,7 +22,6 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
                     )]
         public async Task<IActionResult> CreateList([FromBody] CreateNewListCommand command)
         {
-            command.UserId = User.FindFirst("uid")!.Value;
             var response = await Mediator.Send(command);
             return StatusCode(response.Statuscode, response);
         }
@@ -37,14 +37,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
                     )]
         public async Task<IActionResult> LogedUserList()
         {
-            var USERID = User.FindFirst("uid")!.Value;
-
-            var response = await Mediator.Send(
-                new LogedUserQuery
-                {
-                    UserId = USERID
-                });
-
+            var response = await Mediator.Send(new LogedUserQuery());
             return StatusCode(response.Statuscode, response);
         }
 

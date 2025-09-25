@@ -8,7 +8,8 @@ namespace Core.Domain.Entities.UserThings
         public required string Name { get; set; }
         public string? Description { get; set; }
         public required string Img { get; set; }
-        public string? UserID { get; set; }
+        public required string UserID { get; set; }
+        public int? ProfileId { get; set; }
         public required bool IsPublic { get; set; }
 
         public ICollection<MovieListMovie>? MovieListMovie { get; set; }
