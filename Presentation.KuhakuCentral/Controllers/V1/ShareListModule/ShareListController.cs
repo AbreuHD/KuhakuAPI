@@ -1,9 +1,9 @@
-﻿using Auth.Infraestructure.Identity.Middleware;
-using Core.Application.Features.ShareListModule.Commands;
+﻿using Core.Application.Features.ShareListModule.Commands;
 using Core.Application.Features.ShareListModule.Queries;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shomei.Infraestructure.Identity.Middleware;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 

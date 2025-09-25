@@ -20,7 +20,7 @@ namespace Core.Application.Features.ShareListModule.Queries
         {
             var user = _httpContextAccessor.HttpContext?.User;
             var profileClaim = user?.FindFirst("ProfileId")?.Value;
-            
+
             var response = new GenericApiResponse<List<PreviewShareListDto>>
             {
                 Payload = [],

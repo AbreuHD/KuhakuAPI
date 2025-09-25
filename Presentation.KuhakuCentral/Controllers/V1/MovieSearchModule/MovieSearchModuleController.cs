@@ -1,9 +1,8 @@
-﻿using Auth.Infraestructure.Identity.Middleware;
-using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovieInfo;
+﻿using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovieInfo;
 using Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovies;
 using KuhakuCentral.Controllers.General;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shomei.Infraestructure.Identity.Middleware;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 
