@@ -3,6 +3,7 @@ using Core.Application.Features.ShareListModule.Queries;
 using KuhakuCentral.Controllers.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shomei.Infraestructure.Identity.Middleware;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 
@@ -11,7 +12,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
     public class ShareListController : BaseApi
     {
         [HttpPost("CreateList")]
-        [Authorize]
+        [MultipleSessionAuthorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -21,12 +22,11 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
                     )]
         public async Task<IActionResult> CreateList([FromBody] CreateNewListCommand command)
         {
-            command.UserId = User.FindFirst("uid")!.Value;
             var response = await Mediator.Send(command);
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpPost("LogedUserShareList")]
+        [HttpGet("LogedUserShareList")]
         [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -37,18 +37,11 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
                     )]
         public async Task<IActionResult> LogedUserList()
         {
-            var USERID = User.FindFirst("uid")!.Value;
-
-            var response = await Mediator.Send(
-                new LogedUserQuery
-                {
-                    UserId = USERID
-                });
-
+            var response = await Mediator.Send(new LogedUserQuery());
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpGet("SearchShareList")]
+        [HttpGet("list")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -56,9 +49,23 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
             Summary = "Search for Share Lists",
             Description = "Endpoint to Search for Share Lists and Home List Page"
             )]
-        public async Task<IActionResult> AllShareList(string? name)
+        public async Task<IActionResult> AllShareList(SearchShareListQuery request)
         {
-            var response = await Mediator.Send(new SearchShareListQuery { Name = name ?? string.Empty });
+            var response = await Mediator.Send(request);
+            return StatusCode(response.Statuscode, response);
+        }
+
+        [HttpGet("Info")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "info of a Share Lists",
+            Description = "Endpoint to get info for a Share Lists"
+            )]
+        public async Task<IActionResult> ShareListInfo(ShareListInfoQuery request)
+        {
+            var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 
@@ -90,24 +97,6 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
         {
             command.UserId = User.FindFirst("uid")!.Value;
             var response = await Mediator.Send(command);
-            return StatusCode(response.Statuscode, response);
-        }
-
-        [HttpGet("UserShareList")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerOperation(
-            Summary = "Search for User Share Lists by Id",
-            Description = "Endpoint to Search for User Share Lists"
-            )]
-        public async Task<IActionResult> UserShareList()
-        {
-            var request = new UserShareListQuery
-            {
-                User = User.FindFirst("uid")!.Value
-            };
-            var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 

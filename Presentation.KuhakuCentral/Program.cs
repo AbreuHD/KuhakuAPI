@@ -1,4 +1,3 @@
-using Auth.Infraestructure.Identity;
 using Core.Application;
 using Core.Application.Enums;
 using Infrastructure.Jobs;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Quartz;
 using Scalar.AspNetCore;
 using Serilog;
+using Shomei.Infraestructure.Identity;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -88,7 +88,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Kuhaku API");
         options.DefaultModelRendering(ModelRendering.Model);
     });
-    app.UseCors("AllowAll");
+
 }
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -116,5 +116,5 @@ app.MapHealthChecks("/healthz/db", new HealthCheckOptions
 {
     Predicate = check => check.Tags.Contains("db")
 });
-
+app.UseCors("AllowAll");
 app.Run();
