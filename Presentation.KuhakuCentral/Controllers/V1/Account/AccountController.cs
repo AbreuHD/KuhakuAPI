@@ -18,19 +18,21 @@ using Shomei.Infraestructure.Identity.Middleware;
 
 namespace KuhakuCentral.Controllers.V1.Account
 {
+    [Route("api/v1/[controller]")]
+    [ApiController]
     public class AccountController(IMediator mediator, ILogger<AccountController> logger) : BaseApi
     {
         public new IMediator Mediator { get; } = mediator;
         private readonly ILogger<AccountController> _logger = logger;
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthLoginQuery request)
         {
             var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterAccountRequestDto requestDto)
         {
             var request = new CreateAccountCommand(Roles.User.ToString(), VerificationMode.Otp, false)
@@ -41,17 +43,16 @@ namespace KuhakuCentral.Controllers.V1.Account
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpGet("ConfirmEmai")]
+        [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmailWithOtp([FromQuery] AuthEmailWithOtpCommand request)
         {
             var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpPost("ResentConfirmation")]
-        public async Task<IActionResult> ResentConfirmation([FromBody] SendValidationEmailAgainRequestDto requestDto)
+        [HttpPost("resend-confirmation")]
+        public async Task<IActionResult> ResendConfirmation([FromBody] SendValidationEmailAgainRequestDto requestDto)
         {
-
             var request = new SendValidationEmailAgainCommand(VerificationMode.Otp)
             {
                 Dto = requestDto,
@@ -60,71 +61,47 @@ namespace KuhakuCentral.Controllers.V1.Account
             return Ok(response);
         }
 
-        [HttpPut("ChangePassword")]
+        [HttpPut("password")]
         [MultipleSessionAuthorize]
-        public async Task<IActionResult> ChangePassword(ChangePasswordCommand request)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand request)
         {
             var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpPut("ChangeEmail")]
+        [HttpPost("email/request-change")]
         [Authorize]
-        public async Task<IActionResult> ChangeEmail(ChangeEmailCommand request)
+        public async Task<IActionResult> RequestEmailChangeOtp([FromBody] RequestEmailChangeOtpCommand request)
         {
             var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpPut("RequestEmailChangeOtp")]
+        [HttpPut("email/change-with-otp")]
         [Authorize]
-        public async Task<IActionResult> RequestEmailChangeOtp(RequestEmailChangeOtpCommand request)
+        public async Task<IActionResult> ChangeEmailWithOtp([FromBody] ChangeEmailWithOtpCommand request)
         {
             var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpPut("ChangeEmailWithOtp")]
+        [HttpPut("email")]
         [Authorize]
-        public async Task<IActionResult> ChangeEmailWithOtp(ChangeEmailWithOtpCommand request)
+        public async Task<IActionResult> ChangeEmail([FromBody] ChangeEmailCommand request)
         {
             var response = await Mediator.Send(request);
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpPut("GeneratePasswordResetOtp")]
-        [Authorize]
+        [HttpPost("password/reset-otp")]
+        [AllowAnonymous]
         public async Task<IActionResult> GeneratePasswordResetOtp([FromBody] string email)
         {
             var response = await Mediator.Send(new GeneratePasswordResetOtpCommand() { Email = email });
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpGet("ValidSession")]
-        [Authorize]
-        public async Task<IActionResult> ValidSession()
-        {
-            var response = new GenericApiResponse<bool>()
-            {
-                Message = "All ok",
-                Statuscode = StatusCodes.Status200OK,
-            };
-            return StatusCode(response.Statuscode, response);
-        }
-
-        [HttpGet("ValidProfileSession")]
-        [MultipleSessionAuthorize]
-        public async Task<IActionResult> ValidProfileSession()
-        {
-            var response = new GenericApiResponse<bool>()
-            {
-                Message = "All ok",
-                Statuscode = StatusCodes.Status200OK,
-            };
-            return StatusCode(response.Statuscode, response);
-        }
-
-        [HttpGet("GetInfo")]
+        [HttpGet("me")]
         [MultipleSessionAuthorize]
         public async Task<IActionResult> GetInfo()
         {

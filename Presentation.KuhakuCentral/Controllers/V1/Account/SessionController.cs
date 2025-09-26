@@ -1,26 +1,21 @@
 ﻿using KuhakuCentral.Controllers.General;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shomei.Infraestructure.Identity.DTOs.Generic;
 using Shomei.Infraestructure.Identity.Features.UserSessions.Commands;
 using Shomei.Infraestructure.Identity.Features.UserSessions.Queries;
 using Shomei.Infraestructure.Identity.Middleware;
 
 namespace KuhakuCentral.Controllers.V1.Account
 {
-    public class SessionController(IMediator mediator, ILogger<AccountController> logger) : BaseApi
+    [Route("api/v1/[controller]")]
+    [ApiController]
+    public class SessionController(IMediator mediator, ILogger<SessionController> logger) : BaseApi
     {
         public new IMediator Mediator { get; } = mediator;
-        private readonly ILogger<AccountController> _logger = logger;
 
-        [HttpDelete("LogoutFromAllSessions")]
-        [MultipleSessionAuthorize]
-        public async Task<IActionResult> LogoutFromAllSessions()
-        {
-            var response = await Mediator.Send(new LogoutAllSessionsCommand());
-            return StatusCode(response.Statuscode, response);
-        }
-
-        [HttpDelete("LogoutCurrentSession")]
+        [HttpDelete("current")]
         [MultipleSessionAuthorize]
         public async Task<IActionResult> LogoutCurrentSession()
         {
@@ -28,19 +23,50 @@ namespace KuhakuCentral.Controllers.V1.Account
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpDelete("LogoutSessionById")]
+        [HttpDelete("all")]
         [MultipleSessionAuthorize]
-        public async Task<IActionResult> LogoutSessionById(LogoutSessionByIdCommand request)
+        public async Task<IActionResult> LogoutFromAllSessions()
         {
-            var response = await Mediator.Send(request);
+            var response = await Mediator.Send(new LogoutAllSessionsCommand());
             return StatusCode(response.Statuscode, response);
         }
 
-        [HttpGet("GetAllUserSessions")]
+        [HttpDelete("{id:int}")]
+        [MultipleSessionAuthorize]
+        public async Task<IActionResult> LogoutSessionById([FromRoute] int id)
+        {
+            var response = await Mediator.Send(new LogoutSessionByIdCommand { Id = id });
+            return StatusCode(response.Statuscode, response);
+        }
+
+        [HttpGet]
         [MultipleSessionAuthorize]
         public async Task<IActionResult> GetAllUserSessions()
         {
             var response = await Mediator.Send(new GetAllUserSessionsQuery());
+            return StatusCode(response.Statuscode, response);
+        }
+        [HttpGet("valid")]
+        [Authorize]
+        public async Task<IActionResult> ValidSession()
+        {
+            var response = new GenericApiResponse<bool>()
+            {
+                Message = "All ok",
+                Statuscode = StatusCodes.Status200OK,
+            };
+            return StatusCode(response.Statuscode, response);
+        }
+
+        [HttpGet("valid-profile")]
+        [MultipleSessionAuthorize]
+        public async Task<IActionResult> ValidProfileSession()
+        {
+            var response = new GenericApiResponse<bool>()
+            {
+                Message = "All ok",
+                Statuscode = StatusCodes.Status200OK,
+            };
             return StatusCode(response.Statuscode, response);
         }
     }

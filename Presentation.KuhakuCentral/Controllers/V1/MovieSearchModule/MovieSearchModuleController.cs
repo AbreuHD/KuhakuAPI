@@ -8,33 +8,48 @@ using System.Net.Mime;
 
 namespace KuhakuCentral.Controllers.V1.MovieSearchModule
 {
+    [Route("api/v1/movies")]
+    [ApiController]
     public class MovieSearchModuleController : BaseApi
     {
-        [HttpGet("Search")]
+        [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
             Summary = "Movie List",
-            Description = "Get All Movie List from Database"
-            )]
-        public async Task<IActionResult> Search(int PageNumber, int PageSize, string? Title, List<int> Values)
+            Description = "Get a list of movies from the database with filters and pagination"
+        )]
+        public async Task<IActionResult> Search(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? title = null,
+            [FromQuery] List<int>? values = null)
         {
-            return Ok(await Mediator.Send(new SearchMoviesQuery { Title = Title, Values = Values, PageNumber = PageNumber, PageSize = PageSize }));
+            var response = await Mediator.Send(new SearchMoviesQuery
+            {
+                Title = title,
+                Values = values ?? [],
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            });
+
+            return StatusCode(response.Statuscode, response);
         }
 
-        [HttpGet("Info")]
+        [HttpGet("{movieId:int}")]
         [MultipleSessionAuthorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-        Summary = "MovieData",
-        Description = "Get All Movie Links from Database"
+            Summary = "Movie Data",
+            Description = "Get detailed movie info and links from the database"
         )]
-        public async Task<IActionResult> Info(int MovieId)
+        public async Task<IActionResult> Info([FromRoute] int movieId)
         {
-            return Ok(await Mediator.Send(new SearchMovieInfoQuery { MovieId = MovieId }));
+            var response = await Mediator.Send(new SearchMovieInfoQuery { MovieId = movieId });
+            return StatusCode(response.Statuscode, response);
         }
     }
 }
