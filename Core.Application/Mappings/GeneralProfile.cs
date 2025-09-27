@@ -62,13 +62,13 @@ namespace Core.Application.Mappings
                 .ReverseMap();
 
             CreateMap<ShareList, PreviewShareListDto>()
-            .ForMember(dest => dest.Movies,
-                       opt => opt.MapFrom(src => src.MovieListMovie != null
-                                                    ? src.MovieListMovie
-                                                          .Where(mlm => mlm.Movie != null)
-                                                          .Select(mlm => mlm.Movie)
-                                                          .ToList()
-                                                    : new List<Movie>()));
+                .ForMember(dest => dest.Movies,
+                           opt => opt.MapFrom(src => src.MovieListMovie != null
+                                ? src.MovieListMovie
+                                      .Select(mlm => mlm.Movie)
+                                      .OfType<Movie>()
+                                      .ToList()
+                                : new List<Movie>()));
         }
     }
 }
