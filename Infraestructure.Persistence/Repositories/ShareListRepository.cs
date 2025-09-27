@@ -67,11 +67,13 @@ namespace Infrastructure.Persistence.Repositories
         }
         public async Task<ShareList> GetByIdWithMoviesAsync(int id)
         {
-            return await _dbContext.Set<ShareList>()
-                .Include(sl => sl.MovieListMovie)
+            var shareList = await _dbContext.Set<ShareList>()
+                .Include(sl => sl.MovieListMovie!)
                     .ThenInclude(mlm => mlm.Movie)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(sl => sl.ID == id);
+
+            return shareList is null ? throw new KeyNotFoundException($"No ShareList found with ID {id}") : shareList;
         }
     }
 }

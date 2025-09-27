@@ -44,7 +44,7 @@ namespace Core.Application.Features.ShareListModule.Queries
                 var result = lists.Select(l =>
                 {
                     var dto = _mapper.Map<PreviewShareListDto>(l);
-                    dto.Username = (l.ProfileId.HasValue && profiles.ContainsKey(l.ProfileId.Value)) ? profiles[l.ProfileId.Value] : "Unknown";
+                    dto.Username = (l.ProfileId.HasValue && profiles.TryGetValue(l.ProfileId.Value, out string? value)) ? value : "Unknown";
                     return dto;
                 }).ToList();
 
@@ -60,7 +60,7 @@ namespace Core.Application.Features.ShareListModule.Queries
             {
                 return new GenericApiResponse<List<PreviewShareListDto>>
                 {
-                    Payload = new List<PreviewShareListDto>(),
+                    Payload = [],
                     Message = e.Message,
                     Success = false,
                     Statuscode = (int)HttpStatusCode.InternalServerError

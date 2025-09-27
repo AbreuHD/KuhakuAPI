@@ -37,9 +37,9 @@ namespace Core.Application.Features.ShareListModule.Queries
                 var user = _httpContextAccessor.HttpContext?.User;
                 var profileClaim = user?.FindFirst("ProfileId")?.Value;
 
-                int.TryParse(profileClaim, out int profileIdValue);
+                _ = int.TryParse(profileClaim, out int profileIdValue);
 
-                if (lists.IsPublic is false && lists.ProfileId != profileIdValue)
+                if (!lists.IsPublic && lists.ProfileId != profileIdValue)
                 {
                     response.Message = "List not found";
                     response.Success = false;

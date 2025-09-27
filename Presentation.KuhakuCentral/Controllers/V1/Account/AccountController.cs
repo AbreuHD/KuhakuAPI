@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shomei.Infraestructure.Identity.DTOs.Account;
-using Shomei.Infraestructure.Identity.DTOs.Generic;
 using Shomei.Infraestructure.Identity.Enums;
 using Shomei.Infraestructure.Identity.Features.AuthenticateEmail.Command.AuthEmailWithOtp;
 using Shomei.Infraestructure.Identity.Features.AuthenticateEmail.Command.GetDataFromJWT;
@@ -18,12 +17,9 @@ using Shomei.Infraestructure.Identity.Middleware;
 
 namespace KuhakuCentral.Controllers.V1.Account
 {
-    [Route("api/v1/[controller]")]
-    [ApiController]
-    public class AccountController(IMediator mediator, ILogger<AccountController> logger) : BaseApi
+    public class AccountController(IMediator mediator) : BaseApi
     {
         public new IMediator Mediator { get; } = mediator;
-        private readonly ILogger<AccountController> _logger = logger;
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthLoginQuery request)

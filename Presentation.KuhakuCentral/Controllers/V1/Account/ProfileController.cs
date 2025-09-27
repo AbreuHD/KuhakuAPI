@@ -9,8 +9,6 @@ using Shomei.Infraestructure.Identity.Middleware;
 
 namespace KuhakuCentral.Controllers.V1.Account
 {
-    [Route("api/v1/[controller]")]
-    [ApiController]
     public class ProfileController(IMediator mediator) : BaseApi
     {
         public new IMediator Mediator { get; } = mediator;

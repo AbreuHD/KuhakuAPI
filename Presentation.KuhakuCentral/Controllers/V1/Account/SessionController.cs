@@ -9,9 +9,7 @@ using Shomei.Infraestructure.Identity.Middleware;
 
 namespace KuhakuCentral.Controllers.V1.Account
 {
-    [Route("api/v1/[controller]")]
-    [ApiController]
-    public class SessionController(IMediator mediator, ILogger<SessionController> logger) : BaseApi
+    public class SessionController(IMediator mediator) : BaseApi
     {
         public new IMediator Mediator { get; } = mediator;
 
@@ -48,7 +46,7 @@ namespace KuhakuCentral.Controllers.V1.Account
         }
         [HttpGet("valid")]
         [Authorize]
-        public async Task<IActionResult> ValidSession()
+        public IActionResult ValidSession()
         {
             var response = new GenericApiResponse<bool>()
             {
@@ -60,11 +58,11 @@ namespace KuhakuCentral.Controllers.V1.Account
 
         [HttpGet("valid-profile")]
         [MultipleSessionAuthorize]
-        public async Task<IActionResult> ValidProfileSession()
+        public IActionResult ValidProfileSession()
         {
             var response = new GenericApiResponse<bool>()
             {
-                Message = "All ok",
+                Message = "Profile session is valid",
                 Statuscode = StatusCodes.Status200OK,
             };
             return StatusCode(response.Statuscode, response);
