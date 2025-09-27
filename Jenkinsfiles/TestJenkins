@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'Africa' }
     environment {
-        VERSION = "0.5.5"
+        VERSION = "0.5.6"
         FTP_SERVER = credentials('abreu_fpt_host')
         NUGET_SOURCE = credentials('private_nuget_uri')
         SONARQUBE_EXCLUDE_FILES = "**/*.xml,**/*.json,**/*.html,**/*.css,**/*.js,**/Program.cs,**/Startup.cs,**/Migrations/**"

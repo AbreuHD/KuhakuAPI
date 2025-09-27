@@ -8,7 +8,6 @@ using System.Net.Mime;
 
 namespace KuhakuCentral.Controllers.V1.MovieSearchModule
 {
-    [Route("api/v1/movies")]
     [ApiController]
     public class MovieSearchModuleController : BaseApi
     {
