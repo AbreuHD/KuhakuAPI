@@ -8,16 +8,15 @@ namespace Core.Application.Features.ShareListModule.Commands
 {
     public class CreateNewListCommand : IRequest<GenericApiResponse<bool>>
     {
-        public required string UserId { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
         public required string Img { get; set; }
         public required bool IsPublic { get; set; }
     }
-    public class CreateNewListCommandHandler(IShareListRepository shareListRepository) : IRequestHandler<CreateNewListCommand, GenericApiResponse<bool>>
+    public class CreateNewListCommandHandler(IShareListRepository shareListRepository, IHttpContextAccessor httpContextAccessor) : IRequestHandler<CreateNewListCommand, GenericApiResponse<bool>>
     {
         private readonly IShareListRepository _shareListRepository = shareListRepository;
-
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         public async Task<GenericApiResponse<bool>> Handle(CreateNewListCommand request, CancellationToken cancellationToken)
         {
             var response = new GenericApiResponse<bool>
@@ -29,9 +28,20 @@ namespace Core.Application.Features.ShareListModule.Commands
             };
             try
             {
+                var httpContext = _httpContextAccessor.HttpContext;
+                var user = httpContext?.User;
+                var profileClaim = user?.FindFirst("ProfileId")?.Value;
+
+                int? profileId = null;
+                if (int.TryParse(profileClaim, out var parsedId))
+                {
+                    profileId = parsedId;
+                }
+
                 var newList = new Domain.Entities.UserThings.ShareList
                 {
-                    UserID = request.UserId,
+                    ProfileId = profileId,
+                    UserID = user!.FindFirst("uid")!.Value,
                     Name = request.Name,
                     Description = request.Description ?? string.Empty,
                     Img = request.Img,

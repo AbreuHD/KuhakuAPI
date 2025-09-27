@@ -9,6 +9,7 @@ using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Core.Domain.Entities.UserThings;
 using Core.Domain.Entities.WebScraping;
+using Microsoft.FSharp.Collections;
 
 namespace Core.Application.Mappings
 {
@@ -60,8 +61,14 @@ namespace Core.Application.Mappings
             CreateMap<Genre, TmdbGenreResponseDto>()
                 .ReverseMap();
 
-            CreateMap<PreviewShareListDto, ShareList>()
-                .ReverseMap();
+            CreateMap<ShareList, PreviewShareListDto>()
+                .ForMember(dest => dest.Movies,
+                           opt => opt.MapFrom(src => src.MovieListMovie != null
+                                ? src.MovieListMovie
+                                      .Select(mlm => mlm.Movie)
+                                      .OfType<Movie>()
+                                      .ToList()
+                                : new List<Movie>()));
         }
     }
 }

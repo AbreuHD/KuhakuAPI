@@ -37,27 +37,43 @@ namespace Infrastructure.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<ShareList>> SearchShareList(string? Name)
+        public async Task<List<ShareList>> SearchShareList(string? name, int pageNumber = 1, int pageSize = 10)
         {
-            var responseList = new List<ShareList>();
-            if (!string.IsNullOrEmpty(Name))
+            if (pageNumber < 1) pageNumber = 1;
+            if (pageSize < 1) pageSize = 10;
+
+            IQueryable<ShareList> query = _dbContext.Set<ShareList>()
+                .Where(x => x.IsPublic)
+                .OrderByDescending(x => x.Created);
+
+            if (!string.IsNullOrWhiteSpace(name))
             {
-                var searchKeywords = Name.ToLower().Split(' ');
+                var searchKeywords = name
+                    .ToLowerInvariant()
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
                 foreach (var keyword in searchKeywords)
                 {
-                    var listMatchingKeyword = await _dbContext.Set<ShareList>()
-                        .Where(x => x.Name.ToLower().Contains(keyword) && x.IsPublic)
-                        .ToListAsync();
-                    responseList.AddRange(listMatchingKeyword);
+                    var k = keyword;
+                    query = query.Where(x => EF.Functions.Like(x.Name.ToLower(), $"%{k}%"));
                 }
-                responseList = responseList.Distinct().ToList();
-            }
-            else
-            {
-                responseList = await _dbContext.Set<ShareList>().Where(x => x.IsPublic).ToListAsync();
             }
 
-            return responseList;
+            return await query
+                .AsNoTracking()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+        public async Task<ShareList> GetByIdWithMoviesAsync(int id)
+        {
+            var shareList = await _dbContext.Set<ShareList>()
+                .Include(sl => sl.MovieListMovie!)
+                    .ThenInclude(mlm => mlm.Movie)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(sl => sl.ID == id);
+
+            return shareList is null ? throw new KeyNotFoundException($"No ShareList found with ID {id}") : shareList;
         }
     }
 }
