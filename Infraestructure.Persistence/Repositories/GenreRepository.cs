@@ -23,5 +23,11 @@ namespace Infrastructure.Persistence.Repositories
         {
             return (await _dbContext.Set<Genre>().Where(x => x.GenreID == TmdbId).FirstOrDefaultAsync()).ID;
         }
+        public async Task<List<Genre>> GetAllByIdsAsync(IEnumerable<int> ids)
+        {
+            return await _dbContext.Set<Genre>()
+                .Where(g => ids.Contains(g.ID))
+                .ToListAsync();
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace Core.Application.Interface.Repositories
     {
         Task<bool> Exist(int TmdbId);
         Task<int> GetIdByTmdbId(int TmdbId);
+        Task<List<Genre>> GetAllByIdsAsync(IEnumerable<int> ids);
     }
 }

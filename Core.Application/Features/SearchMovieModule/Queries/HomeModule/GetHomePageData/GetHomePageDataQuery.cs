@@ -7,6 +7,7 @@ using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Movie;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHomePageData
 {
@@ -14,18 +15,10 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
     {
         public bool KidMode { get; set; } = false;
     }
-    public class GetHomePageDataQueryHandler : IRequestHandler<GetHomePageDataQuery, GenericApiResponse<List<HomeDto>>>
+    public class GetHomePageDataQueryHandler(IMovieRepository movieRepository, IMapper mapper) : IRequestHandler<GetHomePageDataQuery, GenericApiResponse<List<HomeDto>>>
     {
-        private readonly IMovieRepository _movieRepository;
-        private readonly IGenreRepository _genreRepository;
-        private readonly IMapper _mapper;
-
-        public GetHomePageDataQueryHandler(IMovieRepository movieRepository, IGenreRepository genre, IMapper mapper)
-        {
-            _movieRepository = movieRepository;
-            _genreRepository = genre;
-            _mapper = mapper;
-        }
+        private readonly IMovieRepository _movieRepository = movieRepository;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<GenericApiResponse<List<HomeDto>>> Handle(GetHomePageDataQuery request, CancellationToken cancellationToken)
         {
@@ -36,33 +29,18 @@ namespace Core.Application.Features.SearchMovieModule.Queries.HomeModule.GetHome
                 Message = "Successfully retrieved data",
                 Payload = []
             };
+
             try
             {
-                var genres = await _genreRepository.GetAllWithIncludes(["GenreMovie"]);
+                var genreMovies = await _movieRepository.GetMoviesByGenresAsync(request.KidMode, 11);
 
-                foreach (var genre in genres)
+                foreach (var (genre, movies) in genreMovies)
                 {
-                    var selectedMovies = new List<Movie>();
-                    foreach (var x in genre.GenreMovie ?? [])
+                    response.Payload.Add(new HomeDto
                     {
-                        var movieToAdd = await _movieRepository.GetByIdAsync(x.MovieID);
-
-                        if (request.KidMode && movieToAdd.Adult is false || !request.KidMode)
-                        {
-                            selectedMovies.Add(movieToAdd);
-                        }
-
-                        if (selectedMovies.Count == 6) break;
-                    }
-
-                    if (genre.GenreMovie?.Count is not 0)
-                    {
-                        response.Payload.Add(new HomeDto
-                        {
-                            Genre = _mapper.Map<TmdbGenreResponseDto>(genre),
-                            Movies = _mapper.Map<List<PreviewSearchMovieDto>>(selectedMovies),
-                        });
-                    }
+                        Genre = _mapper.Map<TmdbGenreResponseDto>(genre),
+                        Movies = _mapper.Map<List<PreviewSearchMovieDto>>(movies),
+                    });
                 }
             }
             catch (Exception ex)

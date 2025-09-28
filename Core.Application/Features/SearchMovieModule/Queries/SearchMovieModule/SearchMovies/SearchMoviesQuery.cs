@@ -5,6 +5,7 @@ using Core.Application.DTOs.Movies;
 using Core.Application.Interface.Repositories;
 using Core.Domain.Entities.Relations;
 using MediatR;
+using System.Diagnostics;
 using System.Net;
 
 namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.SearchMovies
@@ -25,39 +26,24 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
 
         public async Task<GenericApiResponse<MovieSearchModuleDto>> Handle(SearchMoviesQuery request, CancellationToken cancellationToken)
         {
-            List<TmdbGenreResponseDto> genres = [];
             try
             {
-                var movies = await _movieRepository.SearchMovies(request.Title, request.PageNumber, request.PageSize);
+                var movies = await _movieRepository.SearchMovies(request.Title, request.Values, request.PageNumber, request.PageSize);
 
-                if (request.Values != null && request.Values.Count > 0)
-                {
-                    foreach (var genreFilter in request.Values)
-                    {
-                        movies = movies.FindAll(x => x.GenreMovie != null && x.GenreMovie.Any(m => m.GenreID == genreFilter));
-                    }
-                }
+                var genreIds = movies
+                    .SelectMany(m => m.GenreMovie ?? Enumerable.Empty<GenreMovie>())
+                    .Select(gm => gm.GenreID)
+                    .Distinct()
+                    .ToList();
 
-                var genreIds = movies.SelectMany(movie => movie.GenreMovie ?? Enumerable.Empty<GenreMovie>())
-                                     .Select(genre => genre.GenreID)
-                                     .Distinct();
-
-                foreach (var genreId in genreIds)
-                {
-                    var requestGenre = await _genreRepository.GetByIdAsync(genreId);
-                    genres.Add(new TmdbGenreResponseDto
-                    {
-                        Id = requestGenre.ID,
-                        Name = requestGenre.Name
-                    });
-                }
+                var genres = await _genreRepository.GetAllByIdsAsync(genreIds);
 
                 return new GenericApiResponse<MovieSearchModuleDto>
                 {
                     Payload = new MovieSearchModuleDto
                     {
                         Movies = _mapper.Map<List<PreviewSearchMovieDto>>(movies),
-                        Genres = genres
+                        Genres = _mapper.Map<List<TmdbGenreResponseDto>>(genres)
                     },
                     Message = $"{movies.Count} Movies found",
                     Success = true,
@@ -70,7 +56,7 @@ namespace Core.Application.Features.SearchMovieModule.Queries.SearchMovieModule.
                 {
                     Payload = new MovieSearchModuleDto
                     {
-                        Movies = new List<PreviewSearchMovieDto>()
+                        Movies = []
                     },
                     Message = e.Message,
                     Success = false,
