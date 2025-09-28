@@ -28,6 +28,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
 
         [HttpGet("LogedUserShareList")]
         [Authorize]
+        [MultipleSessionAuthorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -71,6 +72,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
 
         [HttpPut("EditShareList")]
         [Consumes(MediaTypeNames.Application.Json)]
+        [MultipleSessionAuthorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
@@ -87,6 +89,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
         [HttpDelete("DelShareList")]
         [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
+        [MultipleSessionAuthorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
@@ -103,6 +106,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
         [HttpPost("AddItemToShareList")]
         [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
+        [MultipleSessionAuthorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
@@ -118,6 +122,7 @@ namespace KuhakuCentral.Controllers.V1.ShareListModule
 
         [HttpPost("DelItemFromShareList")]
         [Authorize]
+        [MultipleSessionAuthorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
