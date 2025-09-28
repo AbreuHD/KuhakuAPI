@@ -8,7 +8,6 @@ using System.Net.Mime;
 
 namespace KuhakuCentral.Controllers.V1.MovieSearchModule
 {
-    [Route("api/v1/movies")]
     [ApiController]
     public class MovieSearchModuleController : BaseApi
     {
@@ -22,7 +21,7 @@ namespace KuhakuCentral.Controllers.V1.MovieSearchModule
         )]
         public async Task<IActionResult> Search(
             [FromQuery] int pageNumber = 1,
-            [FromQuery] int pageSize = 10,
+            [FromQuery] int pageSize = 30,
             [FromQuery] string? title = null,
             [FromQuery] List<int>? values = null)
         {

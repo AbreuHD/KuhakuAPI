@@ -3,6 +3,7 @@ using Core.Domain.Entities.Movie;
 using Core.Domain.Entities.Relations;
 using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace Infrastructure.Persistence.Repositories
 {
@@ -67,28 +68,90 @@ namespace Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task<List<Movie>> SearchMovies(string title, int pageNumber, int pageSize)
+        public async Task<List<Movie>> SearchMovies(string? title, List<int>? genreFilters, int pageNumber, int pageSize)
         {
-            IQueryable<Movie> query = _dbContext.Set<Movie>()
-                .Include(x => x.GenreMovie)
-                .OrderByDescending(x => x.Release_date);
+            var keywords = string.IsNullOrWhiteSpace(title)
+                ? []
+                : title!.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            if (!string.IsNullOrWhiteSpace(title))
+            IQueryable<Movie> baseQuery = _dbContext.Set<Movie>();
+
+            if (keywords.Length > 0)
             {
-                var searchKeywords = title.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var keyword in searchKeywords)
+                foreach (var k in keywords)
                 {
-                    query = query.Where(x => EF.Functions.Like(x.Title.ToLower(), $"%{keyword}%"));
+                    var word = k.Trim().ToLower();
+                    baseQuery = baseQuery.Where(m => EF.Functions.Like(m.Title.ToLower(), $"%{word}%"));
                 }
             }
 
-            var movies = await query
+            if (genreFilters == null || genreFilters.Count == 0)
+            {
+                return await baseQuery
+                    .OrderByDescending(m => m.Release_date)
+                    .Include(m => m.GenreMovie)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+            }
+
+            var filteredIdsQuery =
+                from m in baseQuery
+                join gm in _dbContext.Set<GenreMovie>() on m.ID equals gm.MovieID
+                where genreFilters.Contains(gm.GenreID)
+                group gm by new
+                {
+                    m.ID,
+                    m.Release_date
+                } into g
+                where g.Select(x => x.GenreID).Distinct().Count() == genreFilters.Count
+                orderby g.Key.Release_date descending
+                select g.Key.ID;
+
+            var pageIds = await filteredIdsQuery
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            return movies;
+            if (pageIds.Count == 0)
+                return [];
+
+            var result = await _dbContext.Set<Movie>()
+                .Where(m => pageIds.Contains(m.ID))
+                .OrderByDescending(m => m.Release_date)
+                .Include(m => m.GenreMovie)
+                .ToListAsync();
+
+            return result;
+        }
+        public async Task<List<(Genre Genre, List<Movie> Movies)>> GetMoviesByGenresAsync(bool kidMode, int limitPerGenre = 6)
+        {
+            var genres = await _dbContext.Set<Genre>()
+                .Include(g => g.GenreMovie!)
+                    .ThenInclude(gm => gm.Movie)
+                .ToListAsync();
+
+            var result = new List<(Genre Genre, List<Movie> Movies)>();
+
+            foreach (var genre in genres)
+            {
+                if (genre.GenreMovie is null || genre.GenreMovie.Count == 0)
+                    continue;
+
+                var movies = genre.GenreMovie
+                    .Select(gm => gm.Movie)
+                    .Where(m => m != null &&
+                                ((kidMode && m.Adult == false) || !kidMode))
+                    .Take(limitPerGenre)
+                    .ToList();
+
+                if (movies.Count > 0)
+                {
+                    result.Add((genre, movies!));
+                }
+            }
+
+            return result;
         }
     }
 }
